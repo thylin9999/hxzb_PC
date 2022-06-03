@@ -1,18 +1,48 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
-import { stadicRoutes } from './router.config'
-
-// 想通过路由跳转 报错的问题
-const originalPush = VueRouter.prototype.push
-
-VueRouter.prototype.push = function push (location) {
-    return originalPush.call(this, location).catch(err => err)
-}
-
+import BasicLayout from '@/views/Layout/BasicLayout'
 Vue.use(VueRouter)
+
+const routes = [
+    {
+        path: '/',
+        component: BasicLayout,
+        redirect: '/home',
+        children: [
+            {
+                path: '/home',
+                name: 'Home',
+                component: () => import(/* webpackChunkName: "Home" */ '../views/Home.vue'),
+                meta: {
+                }
+            },
+            {
+                path: '/competition',
+                name: 'Competition',
+                component: () => import(/* webpackChunkName: "Home" */ '../views/Competition/Competition'),
+                meta: {
+                }
+            },
+            {
+                path: '/subscribe-list',
+                name: 'SubscribeList',
+                component: () => import(/* webpackChunkName: "Home" */ '../views/SubscribeList/SubscribeList'),
+                meta: {
+                }
+            },
+            {
+                path: '/personal-center',
+                name: 'PersonalCenter',
+                component: () => import(/* webpackChunkName: "Home" */ '../views/PersonalCenter/PersonalCenter'),
+                meta: {
+                }
+            }
+        ]
+    }
+]
+
 const router = new VueRouter({
-    routes: stadicRoutes
+    routes
 })
 
 export default router

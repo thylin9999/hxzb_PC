@@ -63,6 +63,7 @@ module.exports = {
             '/api/v1': { // 代理 所有  /api/v1 开头的 请求
                 // 这样写就可以了
                 target: process.env.VUE_PROXY_HOST,
+                // target: 'http://api.haibao18.cn',
                 changeOrigin: true // 跨域
                 // pathRewrite: {
                 //   '^/api/v1': '/api/v1'

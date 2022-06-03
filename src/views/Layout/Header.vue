@@ -1,98 +1,93 @@
 <template>
-    <div class=" header flex justify-between align-center">
-        <div class="logo">
-
+<div class="full-width">
+    <div class="wrap-1200 header flex justify-between align-center">
+        <div class="left-section flex align-center">
+            <div class="logo">
+                <img class="h-100" src="../../assets/images/common/logo.png" alt="">
+            </div>
+            <ul class="menus flex align-center">
+                <li
+                    class="pointer m-l-5 m-r-5"
+                    v-for="menu in menus"
+                    :key="menu.id"
+                    :class="{ 'is-active': currentId === menu.id}"
+                    @click="changeTab(menu)"
+                >
+                    <span class="font-16">{{ menu.text }}</span>
+                </li>
+            </ul>
         </div>
-        <div class="user-menu">
-          <span class="p-r-10 d-inline-block vertical-middle">
-            <svg-icon icon-class="admin" />
-          </span>
-          <span>{{ userName }}</span>
-        </div>
-        <div>
-            <span @click="changeTheme">修改主题</span>
-        </div>
-        <div>
-            <h3 @click="changeLang">修改语言</h3>
-        </div>
+        <user-infos />
     </div>
+</div>
 </template>
 <script>
-import { mapActions, mapState } from 'vuex'
-import { getLang, setLang, getItem, setItem } from '../../utils/cookie'
-
+import UserInfos from '@/views/User/UserInfos'
 export default {
     name: 'Header',
+    components: {
+        UserInfos
+    },
     data () {
         return {
-            options: [
+            menus: [
                 {
-                    text: 'admin'
+                    id: 1,
+                    text: '首页',
+                    name: 'Home'
                 },
                 {
-                    text: '切换语言',
-                    event: this.changeLang
+                    id: 2,
+                    text: '赛程',
+                    name: 'Competition'
                 },
                 {
-                    text: '切换皮肤',
-                    event: this.changeTheme
+                    id: 3,
+                    text: '订阅',
+                    name: 'SubscribeList'
                 },
                 {
-                    text: '退出',
-                    event: this.logout
+                    id: 4,
+                    text: '下载App',
+                    name: 'download'
                 }
-            ]
+            ],
+            currentId: 1
         }
     },
     computed: {
-        ...mapState('user', ['userName'])
     },
     methods: {
-        ...mapActions('user', ['logoutAction']),
-        logout () {
-            this.logoutAction()
-            this.$nextTick(() => {
-                this.$router.push({
-                    // 退出后进入 登录页
-                    name: 'login'
-                })
-            })
-        },
-        changeLang () {
-            const currentLang = getLang() === 'zh' ? 'en' : 'zh'
-            setLang(currentLang)
-            this.$i18n.locale = currentLang
-        },
-        changeTheme () {
-            const theme = getItem('theme') || 'default'
-            const currentTheme = theme === 'default' ? 'mauve' : 'default'
-            setItem('theme', currentTheme)
-            document.documentElement.className = `theme-${currentTheme}`
-        },
-        command (cb) {
-            cb()
+        changeTab (tab) {
+            this.currentId = tab.id
         }
     }
 }
 </script>
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
-svg {
-    width: 20px;
-    height: 20px;
+.header {
+    height: 80px;
+    .logo {
+        height: 60px;
+    }
+    .menus {
+        margin-left: 110px;
+        li {
+            padding: 5px 20px;
+            &.is-active {
+                border-radius: 15px;
+                color: $text-white;
+                background-color: $background-color1;
+            }
+        }
+    }
 }
-.header{
-    height: 60px;
-    background-color: $primary-color;
-}
-.logo{
-    min-width: 100px;
-    background-color: #fff;
-    height: 40px;
-    margin-left: 50px;
-}
-.user-menu{
-    width: 180px;
-    color: #fff;
+.is-dark {
+    .menus {
+        li {
+            color: $text-dartK;
+        }
+    }
 }
 </style>

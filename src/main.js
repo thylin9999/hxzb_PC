@@ -1,12 +1,11 @@
 import './mock'
+import './assets/fonts/font.css'
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
 import bootstrap from './utils/bootstrap'
-import './assets/fonts/font.scss'
 // 页面权限
-import './router/permission'
 // 清除默认样式
 import 'normalize.css/normalize.css'
 // 全局样式
