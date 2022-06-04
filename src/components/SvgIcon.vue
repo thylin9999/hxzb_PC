@@ -37,7 +37,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .svg-icon {
   width: 1.5em;
   height: 1.5em;

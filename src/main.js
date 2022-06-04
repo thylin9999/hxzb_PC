@@ -5,9 +5,12 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import bootstrap from './utils/bootstrap'
+import './utils/elements'
 // 页面权限
 // 清除默认样式
 import 'normalize.css/normalize.css'
+
+import 'element-ui/lib/theme-chalk/index.css'
 // 全局样式
 import './styles/index.scss'
 // svg icon

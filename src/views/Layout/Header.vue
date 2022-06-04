@@ -60,6 +60,9 @@ export default {
     methods: {
         changeTab (tab) {
             this.currentId = tab.id
+            this.$router.push({
+                name: tab.name
+            })
         }
     }
 }

@@ -1,21 +1,19 @@
 <template>
     <div class="h-100 basic-layout">
         <Header />
-        <div class="justify-between content-section d-flex h-100">
-            <router-view class="flex-1 overflow-y-auto"></router-view>
+        <div class="content-section overflow-y-auto">
+            <router-view class="content-router "></router-view>
+            <Footer />
         </div>
-        <Footer />
     </div>
 </template>
 <script>
-import LeftMenu from './LeftMenu.vue'
 import Header from './Header.vue'
 import Footer from '@/views/Layout/Footer'
 import { mapState } from 'vuex'
 export default {
     name: 'BasicLayout',
     components: {
-        LeftMenu,
         Header,
         Footer
     },
@@ -28,8 +26,11 @@ export default {
 @import '@/theme/default-vars.scss';
 .basic-layout {
     .content-section {
-        height: calc(100% - 285px);
+        height: calc(100% - 80px);
         background-color: $body-bg;
+        .content-router {
+            min-height: calc(100% - 205px);
+        }
     }
 }
 .flex-column {

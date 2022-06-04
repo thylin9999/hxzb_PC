@@ -79,6 +79,22 @@
   font-size: 20px;
 }
 
+
+.line-height-22{
+    line-height: 22px;
+}
+.line-height-20{
+    line-height: 20px;
+}
+.line-height-17{
+    line-height: 17px;
+}
+.font-500 {
+    font-weight: 500;
+}
+
+
+
 .font-medium {
     font-family: PingFang-SC-Medium;
 }
@@ -94,15 +110,35 @@
 .text-center {
     text-align: center;
 }
+.text-333 {
+    color: $text-333;
+}
+.text-gray {
+    color: $text-gray;
+}
 
 
+.overflow-hidden {
+    overflow: hidden;
+}
 .overflow-y-auto {
     overflow-y: auto;
 }
+
 
 .bg-center {
     background-position: center;
 }
 .bg-no-repeat {
     background-repeat: no-repeat;
+}
+
+.bg-gray2 {
+    background-color: $body-bg;
+}
+
+.icon-10.svg-icon {
+    font-size: 10px;
+    width: 10px;
+    height: 10px;
 }
