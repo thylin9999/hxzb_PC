@@ -66,6 +66,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
+.full-width {
+    background-color: transparent;
+}
 .header {
     height: 80px;
     .logo {
