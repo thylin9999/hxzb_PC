@@ -31,6 +31,13 @@ const routes = [
                 }
             },
             {
+                path: '/app-download',
+                name: 'DownloadApp',
+                component: () => import(/* webpackChunkName: "Home" */ '../views/DownloadApp'),
+                meta: {
+                }
+            },
+            {
                 path: '/personal-center',
                 name: 'PersonalCenter',
                 component: () => import(/* webpackChunkName: "Home" */ '../views/PersonalCenter/PersonalCenter'),

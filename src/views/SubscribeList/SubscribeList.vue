@@ -1,7 +1,7 @@
 <template>
-<div class="subscribe-page">
+<div class="subscribe-page p-t-20">
     <online-broadcast />
-    <not-subscribe-broadcast />
+    <not-subscribe-broadcast class="m-t-20" />
     <recommend-and-rank />
 </div>
 </template>

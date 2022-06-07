@@ -49,7 +49,7 @@ export default {
                 {
                     id: 4,
                     text: '下载App',
-                    name: 'download'
+                    name: 'DownloadApp'
                 }
             ],
             currentId: 1

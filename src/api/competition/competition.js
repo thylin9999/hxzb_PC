@@ -9,3 +9,10 @@ export function getCompetitions (type = 1) {
         }
     })
 }
+
+export function getOnlineBroadcast () {
+    return request({
+        method: 'get',
+        url: url.getOnlineBroadcast
+    })
+}
