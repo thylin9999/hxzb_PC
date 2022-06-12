@@ -1,9 +1,9 @@
 <template>
 <div class="user font-16 font-medium">
     <div v-if="!token">
-        <span class="pointer">登录</span>
+        <span class="pointer" @click="openLogin">登录</span>
         <span class="m-l-10 m-r-10">|</span>
-        <span class="pointer">注册</span>
+        <span class="pointer" @click="openRegister">注册</span>
     </div>
     <div v-else>
         <div class="user-logo"></div>
@@ -21,6 +21,14 @@ export default {
     },
     computed: {
         ...mapState('user', ['token'])
+    },
+    methods: {
+        openLogin () {
+            this.openLoginDialog()
+        },
+        openRegister () {
+            this.openLoginDialog()
+        }
     }
 }
 </script>

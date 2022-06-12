@@ -26,5 +26,5 @@ const userInfo = config => {
     })
 }
 
-Mock.mock(url.login, 'post', login)
+// Mock.mock(url.login, 'post', login)
 Mock.mock(/\/api\/v1\/user\/info/, 'get', userInfo)

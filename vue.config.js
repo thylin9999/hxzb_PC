@@ -65,14 +65,14 @@ module.exports = {
     },
     devServer: {
         proxy: {
-            '/api/v1': { // 代理 所有  /api/v1 开头的 请求
+            '/api': { // 代理 所有  /api 开头的 请求
                 // 这样写就可以了
-                target: process.env.VUE_PROXY_HOST,
+                target: 'http://api.wuhaicj.com',
                 // target: 'http://api.haibao18.cn',
-                changeOrigin: true // 跨域
-                // pathRewrite: {
-                //   '^/api/v1': '/api/v1'
-                // }
+                changeOrigin: true, // 跨域
+                pathRewrite: {
+                    '^/api': '/api'
+                }
             }
             // '/api/v2': { // 代理 所有  /api/v1 开头的 请求
             //     // 这样写就可以了

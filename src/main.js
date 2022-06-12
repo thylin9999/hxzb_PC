@@ -6,6 +6,8 @@ import router from './router'
 import store from './store'
 import bootstrap from './utils/bootstrap'
 import './utils/elements'
+import { modalMixin } from '@/mixins/modal'
+
 // 页面权限
 // 清除默认样式
 import 'normalize.css/normalize.css'
@@ -21,7 +23,8 @@ import vueComTestAlvin from 'vue-com-test-alvin'
 
 import { i18n } from './utils/lang/index'
 Vue.use(vueComTestAlvin)
-
+// 全局mixin
+Vue.mixin(modalMixin)
 Vue.config.productionTip = false
 
 new Vue({

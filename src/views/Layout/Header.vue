@@ -34,28 +34,39 @@ export default {
                 {
                     id: 1,
                     text: '首页',
-                    name: 'Home'
+                    name: 'Home',
+                    sub: 'Home'
                 },
                 {
                     id: 2,
                     text: '赛程',
-                    name: 'Competition'
+                    name: 'Competition',
+                    sub: 'Competition'
                 },
                 {
                     id: 3,
                     text: '订阅',
-                    name: 'SubscribeList'
+                    name: 'SubscribeList',
+                    sub: 'SubscribeList'
                 },
                 {
                     id: 4,
                     text: '下载App',
-                    name: 'DownloadApp'
+                    name: 'DownloadApp',
+                    sub: 'DownloadApp'
                 }
             ],
             currentId: 1
         }
     },
-    computed: {
+    watch: {
+        '$route': {
+            handler () {
+                this.currentId = this.$route.meta.subId
+            },
+            immediate: true,
+            deep: true
+        }
     },
     methods: {
         changeTab (tab) {

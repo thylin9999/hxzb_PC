@@ -12,11 +12,14 @@
                 </div>
                 <ul class="right-subs flex-1 flex justify-between">
                     <li
-                        class="sub-item flex flex-column align-center"
-                        v-for="item in subs"
+                        class="sub-item flex flex-column align-center pointer"
+                        v-for="item in descriptions"
                         :key="item.id"
+                        @click="goToDescription(item)"
                     >
-                        <div class="icon"></div>
+                        <div class="icon">
+                            <svg-icon class="w-100 h-100" :icon-class="item.icon"></svg-icon>
+                        </div>
                         <span class="font-12 m-t-15">{{ item.text }}</span>
                     </li>
                 </ul>
@@ -39,37 +42,27 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
     name: 'Footer',
     data () {
         return {
-            subs: [
-                {
-                    id: 1,
-                    text: '全球赛事'
-                },
-                {
-                    id: 2,
-                    text: '高清直播'
-                },
-                {
-                    id: 3,
-                    text: '海量数据'
-                },
-                {
-                    id: 4,
-                    text: '用户协议'
-                },
-                {
-                    id: 5,
-                    text: '隐私正常'
-                },
-                {
-                    id: 6,
-                    text: '免责声明'
-                }
 
-            ]
+        }
+    },
+    computed: {
+        ...mapState('commonData', ['descriptions'])
+    },
+    methods: {
+        goToDescription (item) {
+            if (item.type) {
+                this.$router.push({
+                    name: item.type,
+                    params: {
+                        id: item.id
+                    }
+                })
+            }
         }
     }
 }
@@ -94,8 +87,8 @@ export default {
         .icon {
             width: 45px;
             height: 45px;
-            border-radius: 50%;
-            background-color: $background-gray;
+            //border-radius: 50%;
+            //background-color: $background-gray;
         }
     }
     .version-info{
@@ -114,6 +107,14 @@ export default {
             width: 125px;
             height: 125px;
             background-color: #eee;
+        }
+    }
+}
+::v-deep {
+    .right-subs {
+        .icon .svg-icon {
+            width: 45px;
+            height: 45px;
         }
     }
 }

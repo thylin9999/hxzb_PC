@@ -10,12 +10,12 @@ export function getUserInfo (id) {
     })
 }
 
-export function login ({ username = 'admin', password = '000000' }) {
+export function login ({ account = 'admin', password = '000000' }) {
     return request({
         method: 'POST',
         url: url.login,
         data: {
-            username,
+            account,
             password
         }
     })

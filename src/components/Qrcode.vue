@@ -1,6 +1,6 @@
 <template>
-<div class="qrcode ">
-    <div class="code"></div>
+<div class="qrcode w-100 h-100">
+    <div class="code w-100 h-100"></div>
 </div>
 </template>
 
@@ -16,8 +16,6 @@ export default {
     padding: 3px;
     background-color: $text-white;
     .code {
-        width: 75px;
-        height: 75px;
         background-color: #eee;
     }
 }

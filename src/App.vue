@@ -1,12 +1,16 @@
 <template>
-  <div id="app">
+  <div id="app" :class="{'overflow-hidden': showDialog }">
     <router-view/>
   </div>
 </template>
 <script >
+import { mapState } from 'vuex'
 export default {
 
-    name: 'App'
+    name: 'App',
+    computed: {
+        ...mapState('modal', ['showDialog'])
+    }
 
 }
 </script>
