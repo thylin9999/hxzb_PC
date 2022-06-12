@@ -57,6 +57,11 @@ module.exports = {
         config.module
             .rule('images')
             .test(/\.(png|jpe?g|gif|svg)(\?.*)?$/)
+        config.plugin('html')
+            .tap((args) => {
+                args[0].title = process.env.VUE_APP_APP_NAME
+                return args
+            })
     },
     devServer: {
         proxy: {
