@@ -1,6 +1,7 @@
 import { getUserInfo, login } from '../../api/user'
-import { setToken, removeToken } from '../../utils/cookie'
-import { statusCode } from '../../utils/statusCode'
+import { setToken, removeToken, setItem } from '@/utils/cookie'
+import { statusCode } from '@/utils/statusCode'
+
 const state = {
     age: null,
     userName: null,
@@ -21,9 +22,22 @@ const actions = {
     async login ({ state, dispatch, commit }, payload) {
         try {
             const { data } = await login(payload)
+            // data.data
+            // "account": "13222222222",
+            //     "level": 1,
+            //     "member_id": 1000001,
+            //     "nickname": "海牛会员1",
+            //     "birth": null,
+            //     "avatar": null,
+            //     "sign": null
             if (data.code === statusCode.success) {
-                setToken(data.data)
-                commit('SET', { token: data.data })
+                setToken(data.token)
+                const params = {
+                    ...data.data, token: data.token
+                }
+                setItem('userInfo', params)
+                commit('SET', params)
+
                 return {
                     code: data.code
                 }

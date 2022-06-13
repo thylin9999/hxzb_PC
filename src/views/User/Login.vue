@@ -75,6 +75,8 @@ import { isRequire, phone } from '@/utils/validator'
 import { omit, isEmpty } from '../../utils/lodashUtil'
 import { statusCode } from '@/utils/statusCode'
 import { Message } from '../../utils/messageBox'
+import { register } from '@/api/user'
+
 export default {
     name: 'Login',
     components: {
@@ -130,7 +132,7 @@ export default {
         },
         showCode () {
             console.log(process.env.VUE_APP_NEED_CODE, 'VUE_APP_NEED_CODE')
-            return true
+            return false
         },
         style () {
             return {
@@ -140,17 +142,38 @@ export default {
     },
     methods: {
         ...mapActions('user', ['login']),
+        initForm () {
+            Object.keys(this.form).forEach(key => {
+                this.form[key].value = ''
+                this.errorInfo[key] = {}
+            })
+        },
         async submit () {
             const isValidate = this.validate()
-            console.log(isValidate, 'asd')
             if (isValidate) {
-                const res = await this.login({
+                const request = this.isRegister ? register : this.login
+                const params = {
                     account: this.form.account.value,
                     password: this.form.password.value
-                })
+                }
+                const result = await request(params)
+                const res = this.isRegister ? result.data : result
+                console.log(res, 'res')
                 if (res.code === statusCode.success) {
                     // 登录成功
-                    this.$router.push({ path: '/' })
+                    if (this.isRegister) {
+                        this.initForm()
+                        this.form.account.value = params.account
+                        this.changeType(2)
+                        Message({
+                            message: '注册成功',
+                            type: 'success'
+                        })
+                    } else {
+                        // 这里要保存用户的信息
+                        this.closeLoginDialog()
+                        this.$router.push({ path: '/' })
+                    }
                 } else {
                     Message({
                         message: res.msg,

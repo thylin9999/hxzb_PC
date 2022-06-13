@@ -30,7 +30,7 @@ export default {
 .basic-layout {
     .content-section {
         min-height: calc(100% - 285px);
-        background-color: $body-bg;
+        //background-color: $body-bg;
     }
 }
 .flex-column {
