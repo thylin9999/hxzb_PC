@@ -3,7 +3,14 @@
       <div class="video-box p-relative">
           <div class="bg-box bg-center bg-no-repeat p-absolute w-100"></div>
           <div class="video wrap-1200">
-              <img class="w-100 h-100" src="../assets/images/home/player-enter.gif" alt="">
+              <div class="video_view">
+                  <VideoHome></VideoHome>
+              </div>
+              <div class="videoList">
+                  <div class="box1 item" v-for="item in [1,2,3,4,5,6]" :key="item">
+                      <img class="item_img" src="https://cdn.podapi.com/image/live/20220511/74fe6e768e027c7e8152fdc9156fb6d8?imageView2/2/w/600/h/600" alt="">
+                  </div>
+              </div>
           </div>
       </div>
       <div class="wrap-1200">
@@ -43,11 +50,13 @@
 
 <script>
 // @ is an alias to /src
+import VideoHome from '@/components/VideoHome'
 import Qrcode from '@/components/Qrcode'
 import RecommendAndRank from '@/components/RecommendAndRank'
 export default {
     name: 'Home',
     components: {
+        VideoHome,
         Qrcode,
         RecommendAndRank
     },
@@ -99,6 +108,7 @@ export default {
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
 .video-box{
+    padding-bottom: 105px;
     .bg-box {
         top: -80px;
         height: 755px;
@@ -107,9 +117,38 @@ export default {
         z-index: -1;
     }
     .video {
-        height: 675px;
-        border: 1px solid #eee;
+        height: 570px;
+        border: 1px solid #ccc;
         z-index: 2;
+        display: flex;
+        .video_view{
+          width: 1020px;
+          height: 570px;
+        }
+        .videoList{
+            width: 176px;
+            height: 570px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: space-around;
+          .item{
+            border-radius: 5px;
+            width: 160px;
+            height: 84px;
+            border: none;
+            .item_img{
+              width: 100%;
+              height: 100%;
+            }
+          }
+          .item:nth-child(1){
+            border: 2px solid #d2ac84;
+          }
+          .item:hover{
+            border: 2px solid #d2ac84;
+          }
+        }
     }
 }
 .announces {
