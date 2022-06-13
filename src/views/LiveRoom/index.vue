@@ -43,6 +43,11 @@ export default {
     components: {
         RecommendAndRank,
         VideoHome
+    },
+    mounted () {
+        this.$router.afterEach((to, from, next) => {
+            window.scrollTo(0, 0)
+        })
     }
 }
 </script>

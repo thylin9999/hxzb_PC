@@ -5,7 +5,7 @@
             backgroundImage: `url(${competitionInfo.img})`
         }"
     >
-        <div class="mask w-100 h-100">
+        <div class="mask w-100 h-100" @click="goLiveRoom">
 
         </div>
     </div>
@@ -45,6 +45,16 @@ export default {
         },
         team2 () {
             return this.competitionInfo.team2
+        }
+    },
+    methods: {
+        goLiveRoom () {
+            // this.$router.push("/liveRoom")
+            const { href } = this.$router.resolve({
+                path: '/liveRoom',
+                query: { room_id: 12345 }
+            })
+            window.open(href, '_blank')
         }
     }
 }
