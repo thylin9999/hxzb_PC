@@ -1,7 +1,7 @@
 <template>
     <div class="h-100 basic-layout">
         <Header />
-        <div class="content-section">
+        <div class="content-section" :class="{'is-not-home': !isHome}">
             <router-view class="content-router "></router-view>
         </div>
         <Footer />
@@ -22,6 +22,11 @@ export default {
         Footer,
         Login
     },
+    data () {
+        return {
+            isHome: false
+        }
+    },
     computed: {
         ...mapState('user', ['token', 'userName'])
     },
@@ -30,6 +35,7 @@ export default {
         if (userInfo) {
             this.SET(JSON.parse(userInfo))
         }
+        this.isHome = this.$route.meta.subId === 1
     },
     methods: {
         ...mapMutations('user', ['SET'])
@@ -41,7 +47,9 @@ export default {
 .basic-layout {
     .content-section {
         min-height: calc(100% - 285px);
-        //background-color: $body-bg;
+        &.is-not-home {
+            background-color: $background-gray2;
+        }
     }
 }
 .flex-column {
