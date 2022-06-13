@@ -5,8 +5,8 @@
         <span class="m-l-10 m-r-10">|</span>
         <span class="pointer" @click="openRegister">注册</span>
     </div>
-    <div v-else>
-        <div class="user-logo"></div>
+    <div class="flex justify-between align-center" @click="goToUserCenter" v-else>
+        <div class="user-logo bg-center bg-no-repeat"></div>
         <span>{{nickname}}</span>
     </div>
 </div>
@@ -28,11 +28,22 @@ export default {
         },
         openRegister () {
             this.openLoginDialog()
+        },
+        goToUserCenter () {
+            this.$router.push({
+                name: 'PersonalCenter'
+            })
         }
     }
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.user-logo {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-image: url('../../assets/images/user.png');
+    background-size: contain;
+}
 </style>
