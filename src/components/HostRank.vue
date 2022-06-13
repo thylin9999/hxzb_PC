@@ -9,7 +9,7 @@
                 class="flex align-center p-t-25 p-b-25"
             >
                 <span
-                    class="rank-num d-inline-block text-center font-16 font-regular"
+                    class="rank-num d-inline-block bg-center bg-no-repeat text-center font-16 font-regular"
                     :class="{'show-flag': index <= 2 }">{{ index + 1}}</span>
                 <host-icon
                     class="m-l-10 m-r-5"
@@ -17,7 +17,10 @@
                 />
                 <div class="host flex flex-column font-16 font-regular m-r-15">
                     <span class="text-333 line-height-22">{{ host.name }}</span>
-                    <span class="font-12 text-gray line-height-17">{{ host.subscribe }}</span>
+                    <div class="flex align-center">
+                        <span class="star d-inline-block bg-no-repeat bg-center"></span>
+                        <span class="font-12 m-l-5 text-gray line-height-17">{{ host.subscribe }}</span>
+                    </div>
                 </div>
                 <subscribe-button
                     :is-subscribe="host.isSubscribe"
@@ -66,11 +69,27 @@ export default {
     max-height: 400px;
     .rank-num {
         color: $text-333;
-        width: 20px;
-        line-height: 20px;
+        width: 22px;
+        line-height: 23px;
         &.show-flag {
-            background-color: $background-color1;
+            background-image: url('../assets/images/common/flag.png');
+            background-size: contain;
             color: $text-white;
+        }
+    }
+    .host {
+        .star {
+            width: 10px;
+            height: 10px;
+            background-image: url('../assets/images/common/empty-start.png');
+            background-size: contain;
+        }
+    }
+}
+::v-deep {
+    .list {
+        .subscribe {
+            line-height: 26px;
         }
     }
 }
