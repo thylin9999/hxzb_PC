@@ -22,22 +22,13 @@ const actions = {
     async login ({ state, dispatch, commit }, payload) {
         try {
             const { data } = await login(payload)
-            // data.data
-            // "account": "13222222222",
-            //     "level": 1,
-            //     "member_id": 1000001,
-            //     "nickname": "海牛会员1",
-            //     "birth": null,
-            //     "avatar": null,
-            //     "sign": null
             if (data.code === statusCode.success) {
                 setToken(data.token)
                 const params = {
                     ...data.data, token: data.token
                 }
-                setItem('userInfo', params)
+                setItem('userInfo', JSON.stringify(params))
                 commit('SET', params)
-
                 return {
                     code: data.code
                 }
@@ -64,6 +55,7 @@ const mutations = {
             const value = item[1]
             state[key] = value
         })
+        console.log(state, 'state')
     }
 }
 

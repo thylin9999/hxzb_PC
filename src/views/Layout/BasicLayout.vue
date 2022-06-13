@@ -12,7 +12,9 @@
 import Header from './Header.vue'
 import Footer from '@/views/Layout/Footer'
 import Login from '@/views/User/Login'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
+import { getItem } from '@/utils/cookie'
+
 export default {
     name: 'BasicLayout',
     components: {
@@ -22,6 +24,15 @@ export default {
     },
     computed: {
         ...mapState('user', ['token', 'userName'])
+    },
+    created () {
+        const userInfo = getItem('userInfo')
+        if (userInfo) {
+            this.SET(JSON.parse(userInfo))
+        }
+    },
+    methods: {
+        ...mapMutations('user', ['SET'])
     }
 }
 </script>

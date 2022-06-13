@@ -7,7 +7,7 @@
     </div>
     <div v-else>
         <div class="user-logo"></div>
-        <span>用户名</span>
+        <span>{{nickname}}</span>
     </div>
 </div>
 </template>
@@ -20,7 +20,7 @@ export default {
         return {}
     },
     computed: {
-        ...mapState('user', ['token'])
+        ...mapState('user', ['token', 'nickname'])
     },
     methods: {
         openLogin () {
