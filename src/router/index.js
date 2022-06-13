@@ -63,6 +63,13 @@ const routes = [
                 component: () => import(/* webpackChunkName: "Home" */ '../views/PersonalCenter/PersonalCenter'),
                 meta: {
                 }
+            },
+            {
+                path: '/liveRoom',
+                name: 'LiveRoom',
+                component: () => import(/* webpackChunkName: "Home" */ '../views/LiveRoom'),
+                meta: {
+                }
             }
         ]
     }
