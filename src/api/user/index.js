@@ -20,3 +20,13 @@ export function login ({ account = 'admin', password = '000000' }) {
         }
     })
 }
+export function register ({ account = 'admin', password = '000000' }) {
+    return request({
+        method: 'POST',
+        url: url.register,
+        data: {
+            account,
+            password
+        }
+    })
+}

@@ -66,6 +66,7 @@ export default {
         isSendCode () {
             if (this.isSendCode) {
                 this.timer = setInterval(() => {
+                    console.log('11111')
                     if (this.leftTime <= 0) {
                         clearInterval(this.timer)
                     } else {
