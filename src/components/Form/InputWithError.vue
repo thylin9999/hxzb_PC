@@ -1,10 +1,10 @@
 <template>
-<div class="row flex p-relative">
+<div class="row row-inner flex p-relative">
     <div v-if="showLabel" class="label">
-        <span></span>
+        <span>{{ label }}</span>
     </div>
     <div class="input-section flex align-center flex-1 p-l-15">
-        <svg-icon class="icon-14" :icon-class="icon"></svg-icon>
+        <svg-icon class="icon-14" v-if="icon" :icon-class="icon"></svg-icon>
         <el-input
             class="input  flex-1"
             :type="inputType"

@@ -35,7 +35,9 @@
 .align-center {
   align-items: center;
 }
-
+.align-end {
+    align-items: end
+}
 // display
 .d-flex{
   display: flex;
@@ -151,4 +153,16 @@
     font-size: 14px;
     width: 14px;
     height: 14px;
+}
+.icon-23 {
+    font-size: 23px;
+    width: 23px;
+    height: 23px;
+}
+
+
+// opacity
+
+.opacity-0 {
+    opacity: 0;
 }

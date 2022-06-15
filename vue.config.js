@@ -73,6 +73,14 @@ module.exports = {
                 pathRewrite: {
                     '^/api': '/api'
                 }
+            },
+            '/common': {
+                target: 'http://api.wuhaicj.com',
+                // target: 'http://api.haibao18.cn',
+                changeOrigin: true, // 跨域
+                pathRewrite: {
+                    '^/common': '/common'
+                }
             }
             // '/api/v2': { // 代理 所有  /api/v1 开头的 请求
             //     // 这样写就可以了

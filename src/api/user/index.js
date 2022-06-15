@@ -30,3 +30,16 @@ export function register ({ account = 'admin', password = '000000' }) {
         }
     })
 }
+
+export function editUserInfo ({ nickname, signature, birthday, sex }) {
+    return request({
+        method: 'post',
+        url: url.editUserInfo,
+        data: {
+            nickname,
+            sig: signature,
+            birth: birthday,
+            sex
+        }
+    })
+}
