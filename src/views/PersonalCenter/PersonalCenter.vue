@@ -30,13 +30,16 @@ import PersonHeader from '@/views/PersonalCenter/PersonHeader'
 import BasicInfo from '@/views/PersonalCenter/Components/BasicInfo'
 import editAvatar from '@/views/PersonalCenter/Components/editAvatar'
 import UpdatePassword from '@/views/PersonalCenter/Components/UpdatePassword'
+import Feedback from '@/views/PersonalCenter/Components/Feedback'
+import { mapState } from 'vuex'
 export default {
     name: 'PersonalCenter',
     components: {
         PersonHeader,
         BasicInfo,
         editAvatar,
-        UpdatePassword
+        UpdatePassword,
+        Feedback
     },
     data () {
         return {
@@ -66,7 +69,8 @@ export default {
                     id: 4,
                     name: 'feedback',
                     text: '意见反馈',
-                    icon: 'message'
+                    icon: 'message',
+                    com: 'Feedback'
                 },
                 {
                     id: 5,
@@ -76,18 +80,26 @@ export default {
                 }
             ],
             currentMenu: {
-                id: 2,
-                name: 'atar',
-                text: '修改图像',
-                icon: 'atar',
-                com: 'editAvatar'
+                id: 3,
+                name: 'updatePassword',
+                text: '修改密码',
+                icon: 'lock1',
+                com: 'updatePassword'
             }
         }
     },
     computed: {
+        ...mapState('user', ['token']),
         comName () {
             console.log(this.currentMenu)
             return this.currentMenu.com
+        }
+    },
+    watch: {
+        token () {
+            if (!this.token) {
+                this.$router.push('/')
+            }
         }
     },
     created () {

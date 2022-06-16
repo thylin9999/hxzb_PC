@@ -25,3 +25,6 @@ export function getItem (key) {
 export function setItem (key, value) {
     return window.localStorage.setItem(key, value)
 }
+export function removeSessionStorageItem (key) {
+    return window.localStorage.removeItem(key)
+}

@@ -5,12 +5,12 @@
             backgroundImage: `url(${competitionInfo.img})`
         }"
     >
-        <div class="mask w-100 h-100" @click="goLiveRoom">
+        <div class="mask w-100 h-100 pointer" :style="maskBg" @click="goLiveRoom">
 
         </div>
     </div>
     <div class="competition-info p-l-10 p-r-10 font-regular">
-        <div class="battle-info m-t-10 font-16 text-333 flex justify-between align-center font-regular">
+        <div class="battle-info p-t-10 font-16 text-333 flex justify-between align-center font-regular">
             <span>{{ team1.name }}</span>
             <span>VS</span>
             <span>{{ team2.name }}</span>
@@ -45,6 +45,11 @@ export default {
         },
         team2 () {
             return this.competitionInfo.team2
+        },
+        maskBg () {
+            return {
+                backgroundImage: `url(${process.env.VUE_APP_START_BUTTON})`
+            }
         }
     },
     methods: {
@@ -65,8 +70,8 @@ export default {
 .card {
     width: 220px;
     .competition-info {
-        background-color: $background-gray1;
         border: 1px solid $border-color1;
+        border-top: none;
         .battle-info {
             line-height: 24px;
         }
@@ -79,6 +84,9 @@ export default {
         .mask {
             background-color: rgba(0,0,0,.7);
             display: none;
+            background-size: auto;
+            background-position: center;
+            background-repeat: no-repeat;
         }
     }
     &:hover {

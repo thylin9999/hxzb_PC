@@ -1,21 +1,38 @@
 <template>
-<div class="user font-16 font-medium">
+<div class="user font-16 font-medium" :class="{'light-background': isLightHeader}">
     <div v-if="!token">
         <span class="pointer" @click="openLogin">登录</span>
         <span class="m-l-10 m-r-10">|</span>
         <span class="pointer" @click="openRegister">注册</span>
     </div>
-    <div class="flex justify-between align-center" @click="goToUserCenter" v-else>
-        <div class="user-logo bg-center bg-no-repeat"></div>
-        <span>{{nickname}}</span>
+    <div v-else >
+        <el-dropdown trigger="click" @command="handleCommand">
+          <span class="el-dropdown-link flex align-center">
+            <span class="flex align-center">
+                <div class="user-logo bg-center bg-no-repeat"></div>
+                <span class="m-l-10" :class="{'text-white': isLightHeader}">{{nickname}}</span>
+            </span>
+            <i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+            <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="userCenter">个人中心</el-dropdown-item>
+                <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+        </el-dropdown>
     </div>
 </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
     name: 'UserInfos',
+    props: {
+        isLightHeader: {
+            type: Boolean,
+            default: false
+        }
+    },
     data () {
         return {}
     },
@@ -23,6 +40,7 @@ export default {
         ...mapState('user', ['token', 'nickname'])
     },
     methods: {
+        ...mapActions('user', ['logoutAction']),
         openLogin () {
             this.openLoginDialog()
         },
@@ -33,17 +51,28 @@ export default {
             this.$router.push({
                 name: 'PersonalCenter'
             })
+        },
+        handleCommand (command) {
+            if (command === 'userCenter') {
+                this.goToUserCenter()
+            } else {
+                this.logoutAction()
+            }
         }
     }
 }
 </script>
 
 <style lang="scss" scoped>
+@import '@/theme/default-vars.scss';
 .user-logo {
     width: 35px;
     height: 35px;
     border-radius: 50%;
     background-image: url('../../assets/images/user.png');
     background-size: contain;
+}
+.light-background {
+    color: $text-white;
 }
 </style>

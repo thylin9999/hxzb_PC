@@ -3,7 +3,7 @@
     <div v-if="showLabel" class="label">
         <span>{{ label }}</span>
     </div>
-    <div class="input-section flex align-center flex-1 p-l-15">
+    <div class="input-section flex align-center flex-1" :class="{'p-l-15': !!icon}">
         <svg-icon class="icon-14" v-if="icon" :icon-class="icon"></svg-icon>
         <el-input
             class="input  flex-1"

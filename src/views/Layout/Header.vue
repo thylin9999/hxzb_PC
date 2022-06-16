@@ -5,7 +5,7 @@
             <div class="logo">
                 <img class="h-100" src="../../assets/images/common/logo.png" alt="">
             </div>
-            <ul class="menus flex align-center">
+            <ul class="menus flex align-center" :class="{'light-header': isLightHeader}">
                 <li
                     class="pointer m-l-5 m-r-5"
                     v-for="menu in menus"
@@ -17,7 +17,7 @@
                 </li>
             </ul>
         </div>
-        <user-infos />
+        <user-infos :is-light-header="isLightHeader"/>
     </div>
 </div>
 </template>
@@ -59,6 +59,11 @@ export default {
             currentId: 1
         }
     },
+    computed: {
+        isLightHeader () {
+            return this.currentId === 1
+        }
+    },
     watch: {
         '$route': {
             handler () {
@@ -96,6 +101,11 @@ export default {
                 border-radius: 15px;
                 color: $text-white;
                 background-color: $background-color1;
+            }
+        }
+        &.light-header {
+            li {
+                color: $text-white;
             }
         }
     }

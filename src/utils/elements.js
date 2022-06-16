@@ -7,7 +7,10 @@ import {
     Input,
     RadioGroup,
     Radio,
-    Image
+    Image,
+    Dropdown,
+    DropdownItem,
+    DropdownMenu
 } from 'element-ui'
 
 Vue.use(Pagination)
@@ -18,3 +21,6 @@ Vue.use(Input)
 Vue.use(RadioGroup)
 Vue.use(Radio)
 Vue.use(Image)
+Vue.use(Dropdown)
+Vue.use(DropdownMenu)
+Vue.use(DropdownItem)

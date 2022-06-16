@@ -1,9 +1,11 @@
 <template>
 <div class="edit-avatar">
     <HeaderTitle title="修改头像" />
-    <div class="upload-div flex">
-        <div class="preview m-r-10" v-if="url">
+    <div class="upload-div flex p-l-30">
+        <div class="preview m-r-10" >
+            <div class="template-img bg-center bg-no-repeat w-100 h-100" v-if="!url"></div>
             <el-image
+                v-else
                 class="w-100 h-100"
                 :src="url"
                 fit="contain"></el-image>
@@ -12,9 +14,9 @@
             <upload-with-tip @changeFile="changeFile"/>
         </div>
     </div>
-    <div class="buttons m-t-30">
-        <ConfirmButton title="保存"/>
-        <CancelButton class="m-l-15" title="取消"/>
+    <div class="buttons m-t-30 p-l-30">
+        <ConfirmButton @click.native="submit" title="保存"/>
+        <CancelButton @click.native="cancel" class="m-l-15" title="取消"/>
     </div>
 </div>
 </template>
@@ -26,7 +28,7 @@ import ConfirmButton from '@/components/ConfirmButton'
 import CancelButton from '@/components/CancelButton'
 import { uploadImage } from '@/api/Common'
 import { statusCode } from '@/utils/statusCode'
-
+import { Message } from 'element-ui'
 export default {
     name: 'editAvatar',
     components: {
@@ -51,16 +53,22 @@ export default {
             if (data.code === statusCode.success) {
                 this.url = data.url
             }
+        },
+        cancel () {
+            this.$router.push('/')
+        },
+        submit () {
+            if (this.url) {
+
+            } else {
+                Message.error('请先上传头像再保存！')
+            }
         }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-.edit-avatar {
-    margin-left: 50px;
-    margin-top: 30px;
-}
 .upload-div{
 
     height: 100px;
@@ -72,5 +80,9 @@ export default {
 .upload-button {
     width: 200px;
     vertical-align: bottom;
+}
+.template-img{
+    background-image: url('../../../assets/images/common/logo.png');
+    background-size: contain;
 }
 </style>

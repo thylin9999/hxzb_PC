@@ -1,5 +1,5 @@
 import { getUserInfo, login } from '../../api/user'
-import { setToken, removeToken, setItem } from '@/utils/cookie'
+import { setToken, removeToken, setItem, removeSessionStorageItem } from '@/utils/cookie'
 import { statusCode } from '@/utils/statusCode'
 
 const state = {
@@ -43,6 +43,7 @@ const actions = {
         // 菜单等 路由信息也应该删除。。。
         // 去除token
         removeToken()
+        removeSessionStorageItem('userInfo')
         // 删除用户信息
         commit('SET', { token: null, userName: null, age: null })
     }

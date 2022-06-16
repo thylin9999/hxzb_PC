@@ -62,7 +62,9 @@
   cursor: pointer;
 }
 
-
+.not-allowed {
+    cursor: not-allowed;
+}
 //
 .font-12 {
   font-size: 12px;
@@ -165,4 +167,9 @@
 
 .opacity-0 {
     opacity: 0;
+}
+
+
+.el-dropdown-menu.el-popper {
+    top: 50px!important;
 }

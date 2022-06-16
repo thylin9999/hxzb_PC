@@ -13,38 +13,41 @@
               </div>
           </div>
       </div>
-      <div class="wrap-1200">
-          <div class="announces m-t-25 flex justify-between align-center">
-              <div class="announce-image h-100 bg-center bg-no-repeat">
-
-              </div>
-              <div class="news p-15 h-100">
-                  <div class="">
-                      <span class="font-14 font-medium">公告</span>
+      <div class="bg-gray2">
+          <div class="wrap-1200">
+              <div class="announces m-t-25 flex justify-between align-center">
+                  <div class="announce-image h-100 bg-center bg-no-repeat">
                   </div>
-                  <ul class="news-list">
-                      <li
-                          class="font-12  flex justify-between align-center"
-                        v-for="item in news"
-                        :key="item.id"
-                      >
-                          <span class="text-333">{{ item.title }}</span>
-                          <span class="text-gray">{{ item.time }}</span>
-                      </li>
-                  </ul>
-              </div>
-              <div class="download-image h-100 flex align-center">
-                  <div class="flex flex-column align-center m-l-25 ">
-                      <qrcode />
-                      <div class="font-medium m-t-15 flex flex-column text-white align-center">
-                          <span class="font-20">下载APP</span>
-                          <span class="font-regular font-12 m-t-10">更多比赛直播</span>
+                  <div class="news p-15 h-100">
+                      <div class="">
+                          <span class="font-14 font-medium">公告</span>
+                      </div>
+                      <ul class="news-list">
+                          <li
+                              class="font-12  flex justify-between align-center"
+                              v-for="item in news"
+                              :key="item.id"
+                          >
+                              <span class="text-333">{{ item.title }}</span>
+                              <span class="text-gray">{{ item.time }}</span>
+                          </li>
+                      </ul>
+                  </div>
+                  <div class="download-image h-100 flex align-center">
+                      <div class="flex flex-column align-center m-l-25 ">
+                          <div class="code-box">
+                              <qrcode />
+                          </div>
+                          <div class="font-medium m-t-15 flex flex-column text-white align-center">
+                              <span class="font-20">下载APP</span>
+                              <span class="font-regular font-12 m-t-10">更多比赛直播</span>
+                          </div>
                       </div>
                   </div>
               </div>
           </div>
+          <recommend-and-rank />
       </div>
-      <recommend-and-rank />
   </div>
 </template>
 
@@ -171,6 +174,10 @@ export default {
     .download-image {
         width: 240px;
         background-color: $background-color1;
+        .code-box {
+            width: 80px;
+            height: 80px;
+        }
     }
     .recommends {
         background-color: $background-color1;
