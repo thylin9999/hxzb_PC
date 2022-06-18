@@ -8,4 +8,4 @@ const uploadImg = config => {
         url: 'https://img.tukuppt.com/bg_grid/00/17/55/YHW2Tc1TTY.jpg!/fh/350'
     }
 }
-Mock.mock(url.uploadImage, 'post', uploadImg)
+// Mock.mock(url.uploadImage, 'post', uploadImg)

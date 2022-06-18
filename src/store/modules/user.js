@@ -4,7 +4,7 @@ import { statusCode } from '@/utils/statusCode'
 
 const state = {
     age: null,
-    userName: null,
+    nickname: null,
     token: null // token
 }
 
@@ -22,6 +22,7 @@ const actions = {
     async login ({ state, dispatch, commit }, payload) {
         try {
             const { data } = await login(payload)
+            console.log(data, 'data1111')
             if (data.code === statusCode.success) {
                 setToken(data.token)
                 const params = {
@@ -56,7 +57,6 @@ const mutations = {
             const value = item[1]
             state[key] = value
         })
-        console.log(state, 'state')
     }
 }
 

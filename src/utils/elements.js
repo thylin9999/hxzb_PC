@@ -10,7 +10,11 @@ import {
     Image,
     Dropdown,
     DropdownItem,
-    DropdownMenu
+    DropdownMenu,
+    Select,
+    Option,
+    Upload,
+    Loading
 } from 'element-ui'
 
 Vue.use(Pagination)
@@ -24,3 +28,7 @@ Vue.use(Image)
 Vue.use(Dropdown)
 Vue.use(DropdownMenu)
 Vue.use(DropdownItem)
+Vue.use(Select)
+Vue.use(Option)
+Vue.use(Upload)
+Vue.use(Loading)

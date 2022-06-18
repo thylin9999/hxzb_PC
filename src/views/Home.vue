@@ -105,7 +105,6 @@ export default {
             competitions: []
         }
     }
-
 }
 </script>
 <style lang="scss" scoped>

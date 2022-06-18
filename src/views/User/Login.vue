@@ -1,6 +1,9 @@
 <template>
-    <modal>
-        <div class="box w-100 flex align-center bg-white" :style="style">
+    <modal >
+        <div
+            v-loading.body="isLoading"
+            element-loading-background="rgba(0, 0, 0, 0.8)"
+            class="box w-100 flex align-center bg-white" :style="style">
             <div class="left-section h-100  flex flex-column justify-center align-center">
                 <span class="font-14 font-regular"> 扫码下载app</span>
                 <div class="qrcode-box m-t-15 m-b-20">
@@ -123,7 +126,8 @@ export default {
                 password: {}
             },
             isSend: false,
-            isResetPassword: false
+            isResetPassword: false,
+            isLoading: false
         }
     },
     computed: {
@@ -151,6 +155,7 @@ export default {
         async submit () {
             const isValidate = this.validate()
             if (isValidate) {
+                this.isLoading = true
                 const request = this.isRegister ? register : this.login
                 const params = {
                     account: this.form.account.value,
@@ -158,8 +163,8 @@ export default {
                 }
                 const result = await request(params)
                 const res = this.isRegister ? result.data : result
-                console.log(res, 'res')
                 if (res.code === statusCode.success) {
+                    this.isLoading = false
                     // 登录成功
                     if (this.isRegister) {
                         this.initForm()
@@ -172,6 +177,7 @@ export default {
                     } else {
                         // 这里要保存用户的信息
                         this.closeLoginDialog()
+                        this.initForm()
                         this.$router.push({ path: '/' })
                     }
                 } else {

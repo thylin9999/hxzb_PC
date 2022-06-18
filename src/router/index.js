@@ -58,11 +58,12 @@ const routes = [
                 }
             },
             {
-                path: '/personal-center',
+                path: '/personal-center/:tabId?',
                 name: 'PersonalCenter',
                 component: () => import(/* webpackChunkName: "Home" */ '../views/PersonalCenter/PersonalCenter'),
                 meta: {
-                }
+                },
+                props: true
             },
             {
                 path: '/liveRoom',

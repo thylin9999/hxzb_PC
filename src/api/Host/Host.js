@@ -7,3 +7,19 @@ export function getHosts () {
         url: url.getHosts
     })
 }
+
+export function startLive ({
+    matchId, liveType, title, liveCover, category
+}) {
+    return request({
+        method: 'post',
+        url: url.startLive,
+        data: {
+            leagueType: category, // 赛事类型
+            live_cover: liveCover,
+            roomTitle: title,
+            type: liveType, // 分类
+            match_id: matchId
+        }
+    })
+}

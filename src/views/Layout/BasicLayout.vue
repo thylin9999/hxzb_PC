@@ -28,7 +28,7 @@ export default {
         }
     },
     computed: {
-        ...mapState('user', ['token', 'userName'])
+        ...mapState('user', ['token'])
     },
     created () {
         const userInfo = getItem('userInfo')

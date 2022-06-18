@@ -4,7 +4,7 @@
        <person-header />
    </div>
     <div class="content w-100 flex justify-between m-t-15">
-        <div class="left-section bg-white h-100">
+        <div class="left-section bg-white">
             <ul class="flex flex-column justify-center align-center p-t-30">
                 <li
                     class="menu-item font-18 flex pointer align-center m-b-30 justify-center w-100"
@@ -31,15 +31,18 @@ import BasicInfo from '@/views/PersonalCenter/Components/BasicInfo'
 import editAvatar from '@/views/PersonalCenter/Components/editAvatar'
 import UpdatePassword from '@/views/PersonalCenter/Components/UpdatePassword'
 import Feedback from '@/views/PersonalCenter/Components/Feedback'
+import OpenLiveBroadCast from '@/views/PersonalCenter/Components/OpenLiveBroadCast'
 import { mapState } from 'vuex'
 export default {
     name: 'PersonalCenter',
+    props: ['tabId'],
     components: {
         PersonHeader,
         BasicInfo,
         editAvatar,
         UpdatePassword,
-        Feedback
+        Feedback,
+        OpenLiveBroadCast
     },
     data () {
         return {
@@ -77,21 +80,21 @@ export default {
                     name: 'notify',
                     text: '消息通知',
                     icon: 'message1'
+                },
+                {
+                    id: 6,
+                    name: 'notify',
+                    text: '直播管理',
+                    icon: 'message1',
+                    com: 'OpenLiveBroadCast'
                 }
             ],
-            currentMenu: {
-                id: 3,
-                name: 'updatePassword',
-                text: '修改密码',
-                icon: 'lock1',
-                com: 'updatePassword'
-            }
+            currentMenu: {}
         }
     },
     computed: {
         ...mapState('user', ['token']),
         comName () {
-            console.log(this.currentMenu)
             return this.currentMenu.com
         }
     },
@@ -103,8 +106,7 @@ export default {
         }
     },
     created () {
-        this.currentMenu = this.menus.find(x => x.id === 2)
-        console.log(this.currentMenu, 'currentMenu')
+        this.currentMenu = this.menus.find(x => x.id === this.tabId * 1)
     },
     methods: {
         selectMenu (menu) {
@@ -120,7 +122,7 @@ export default {
     background-color: $background-gray2;
 }
 .content {
-    height: 600px;
+    min-height: 600px;
     padding-bottom: 50px;
 }
 .left-section {

@@ -5,7 +5,8 @@
         <span class="m-l-10 m-r-10">|</span>
         <span class="pointer" @click="openRegister">注册</span>
     </div>
-    <div v-else >
+    <div v-else class="flex align-center">
+        <span class="m-r-15 pointer" @click="openLiveCast">开播</span>
         <el-dropdown trigger="click" @command="handleCommand">
           <span class="el-dropdown-link flex align-center">
             <span class="flex align-center">
@@ -49,7 +50,10 @@ export default {
         },
         goToUserCenter () {
             this.$router.push({
-                name: 'PersonalCenter'
+                name: 'PersonalCenter',
+                params: {
+                    tabId: 1
+                }
             })
         },
         handleCommand (command) {
@@ -58,6 +62,14 @@ export default {
             } else {
                 this.logoutAction()
             }
+        },
+        openLiveCast () {
+            this.$router.push({
+                name: 'PersonalCenter',
+                params: {
+                    tabId: 6
+                }
+            })
         }
     }
 }

@@ -1,7 +1,7 @@
 <template>
 <div class="wrap-1200 p-t-15 p-l-15 bg-white">
     <tab-title title="暂未开通" />
-    <div class="list">
+    <div class="list" v-loading="isLoading">
         <div v-if="tableData.length" class="host-list">
             <ul v-if="tableData.length" class="w-100 flex flex-wrap">
                 <li
@@ -33,7 +33,8 @@ export default {
     },
     data () {
         return {
-            tableData: []
+            tableData: [],
+            isLoading: false
         }
     },
     created () {
@@ -41,9 +42,10 @@ export default {
     },
     methods: {
         async fetchData () {
-            // const { data } = await getHosts()
-            // this.tableData = data.data
-            // console.log(this.tableData, '111')
+            this.isLoading = true
+            const res = await getHosts()
+            this.isLoading = false
+            this.tableData = res.data
         }
     }
 }
