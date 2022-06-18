@@ -1,5 +1,5 @@
 const url = {
     getCompetitions: '/api/get-competition',
-    getOnlineBroadcast: '/api/get/online-broadcast'
+    getOnlineBroadcast: '/api/live/roomLists'
 }
 export default url

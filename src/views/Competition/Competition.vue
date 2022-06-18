@@ -77,10 +77,10 @@ export default {
             console.log(tab, 'tab')
         },
         async fetchData () {
-            const { data } = await getCompetitions()
-            this.competitions = data.data
-            this.pagination.total = data.page.total
-            this.pagination.currentPage = data.page.current
+            const { data, page } = await getCompetitions()
+            this.competitions = data
+            this.pagination.total = page.total
+            this.pagination.currentPage = page.current
         }
     }
 }

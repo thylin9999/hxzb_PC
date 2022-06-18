@@ -138,6 +138,12 @@
 .bg-no-repeat {
     background-repeat: no-repeat;
 }
+.bg-size-auto {
+    background-size: auto;
+}
+.bg-size-100 {
+    background-size: 100% 100%
+}
 
 .bg-gray2 {
     background-color: $body-bg;
@@ -169,7 +175,3 @@
     opacity: 0;
 }
 
-
-.el-dropdown-menu.el-popper {
-    top: 50px!important;
-}

@@ -42,8 +42,9 @@ export default {
     },
     methods: {
         async fetchData () {
-            const { data } = await getOnlineBroadcast()
-            this.tableData = data.data
+            const { data } = await getOnlineBroadcast({})
+            this.tableData = data.list
+            console.log(this.tableData, 'adf')
         }
     }
 }

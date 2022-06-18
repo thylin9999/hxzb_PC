@@ -56,7 +56,7 @@ export default {
     methods: {
         async getHost () {
             const { data } = await getHosts()
-            this.hosts = data.data
+            this.hosts = data
         }
     }
 }

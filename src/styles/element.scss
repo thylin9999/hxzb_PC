@@ -1,0 +1,16 @@
+.el-empty {
+  .el-empty__image {
+    height: 80px;
+    svg{
+      display: none!important;
+    }
+    background-image: url('../assets/images/common/empty.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}
+
+.el-dropdown-menu.el-popper {
+  top: 50px!important;
+}

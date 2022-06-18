@@ -17,6 +17,15 @@
 <script>
 export default {
     name: 'CompetitionTab',
+    props: {
+        castId: {
+            type: Number,
+            default: 1
+        }
+    },
+    created () {
+        this.currentId = this.castId
+    },
     data () {
         return {
             menus: [
@@ -39,6 +48,7 @@ export default {
     methods: {
         changeTab (menu) {
             this.currentId = menu.id
+            this.$emit('changeBroadcastType', this.currentId)
         }
     }
 }

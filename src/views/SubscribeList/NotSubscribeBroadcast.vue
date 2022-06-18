@@ -41,9 +41,9 @@ export default {
     },
     methods: {
         async fetchData () {
-            const { data } = await getHosts()
-            this.tableData = data.data
-            console.log(this.tableData, '111')
+            // const { data } = await getHosts()
+            // this.tableData = data.data
+            // console.log(this.tableData, '111')
         }
     }
 }

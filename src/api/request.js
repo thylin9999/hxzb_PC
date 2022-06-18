@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { statusCode } from '@/utils/statusCode'
 
 const instance = axios.create({
     timeout: 6000
@@ -16,7 +17,11 @@ instance.interceptors.request.use(config => {
 
 instance.interceptors.response.use(response => {
     // 响应拦截器
-    return response
+    if (response && response.data.code === statusCode.success) {
+        return response.data
+    } else {
+        return response
+    }
 }, errorHandle)
 
 export default instance

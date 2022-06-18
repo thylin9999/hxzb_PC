@@ -3,10 +3,14 @@
         <div class="host-recommend m-b-20">
             <div class="flex align-center ">
                 <tab-title title="直播推荐" />
-                <competition-tab class="m-l-30 p-l-10" />
+                <competition-tab
+                    class="m-l-30 p-l-10"
+                    :cast-id.sync="castId"
+                    @changeBroadcastType="changeBroadcastType"
+                />
             </div>
             <div class="competition-list p-15 m-t-15">
-                <ul class="w-100 flex flex-wrap">
+                <ul class="w-100 flex flex-wrap" v-if="competitions.length">
                     <li
                         class="m-l-5 m-r-5 p-t-15 p-b-15"
                         v-for="competition in competitions"
@@ -17,6 +21,10 @@
                         />
                     </li>
                 </ul>
+                <el-empty
+                    v-else
+                    :image-size="108"
+                    description="暂无数据" />
             </div>
         </div>
         <div class="host-rank">
@@ -41,16 +49,20 @@ export default {
     },
     data () {
         return {
-            competitions: []
+            competitions: [],
+            castId: 1
         }
     },
     created () {
         this.getCompetitions()
     },
     methods: {
+        changeBroadcastType () {
+            this.getCompetitions()
+        },
         async getCompetitions () {
             const { data } = await getCompetitions()
-            this.competitions = data.data
+            this.competitions = data
         }
     }
 }
