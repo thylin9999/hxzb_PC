@@ -1,5 +1,5 @@
 <template>
-    <div class="mask" v-if="showDialog" @click.prevent="closeLoginDialog">
+    <div class="mask" :key="modalUpdateKey" v-if="showDialog" @click.prevent="closeLoginDialog">
         <div  class="modal" @click.stop>
             <span class="close-button p-absolute" @click="closeLoginDialog">
                 <svg-icon class="icon-16" icon-class="safe"></svg-icon>

@@ -157,9 +157,12 @@ export default {
     },
     methods: {
         async getAddress () {
-            const res = await getOBSAddress()
-            console.log(res, 'ers')
-            this.obs = res.data
+            const { data } = await getOBSAddress()
+            if (data.code === statusCode.success) {
+                this.obs = data.data
+            } else {
+                Message.error(data.msg)
+            }
         },
         async submit () {
             const isValidate = this.validate()
@@ -192,7 +195,6 @@ export default {
             return res.every(x => x)
         },
         validateRow (key) {
-            console.log(key, 'key')
             this.form[key].validators.forEach(validator => {
                 const { message, type } = validator(this.form[key].value)
                 if (message) {

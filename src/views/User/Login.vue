@@ -162,9 +162,9 @@ export default {
                     password: this.form.password.value
                 }
                 const result = await request(params)
+                console.log(result, 'result')
                 const res = this.isRegister ? result.data : result
                 if (res.code === statusCode.success) {
-                    this.isLoading = false
                     // 登录成功
                     if (this.isRegister) {
                         this.initForm()
@@ -185,7 +185,10 @@ export default {
                         message: res.msg,
                         type: 'error'
                     })
+                    this.form.password.value = ''
+                    this.errorInfo.password = {}
                 }
+                this.isLoading = false
             }
         },
         validate () {
