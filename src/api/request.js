@@ -3,7 +3,8 @@ import { statusCode } from '@/utils/statusCode'
 import { removeToken, removeSessionStorageItem, getToken } from '@/utils/cookie'
 import url from './user/url'
 const instance = axios.create({
-    timeout: 6000
+    // timeout: 6000
+    // withCredentials: true
 })
 
 const errorHandle = (error) => {
@@ -13,9 +14,9 @@ const errorHandle = (error) => {
 
 instance.interceptors.request.use(config => {
     const token = getToken()
-    console.log(config, 'config')
-    if (token && config.url === '/common/upload/uploadImg') {
-        config.headers.Token = token
+    console.log(config, 'config', token)
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`
     }
     // 请求拦截器
     return config

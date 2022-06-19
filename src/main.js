@@ -1,4 +1,4 @@
-import './mock'
+// import './mock'
 import './assets/fonts/font.css'
 import Vue from 'vue'
 import App from './App.vue'

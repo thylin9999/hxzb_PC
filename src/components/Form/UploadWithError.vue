@@ -74,13 +74,14 @@ export default {
             const file = e.target.files[0]
             const formData = new FormData()
             formData.append('file', file)
-            const res = await uploadImage(formData)
-            this.fileUrl = res.url
+            const { data } = await uploadImage(formData)
+            // console.log(res, 'res')
+            this.fileUrl = data.url
             this.$emit('update:rowInfo', {
                 ...this.rowInfo,
-                value: res.url
+                value: data.url
             })
-            this.$emit('changeFile', res.url)
+            this.$emit('changeFile', data.url)
         },
         deletePic () {
             this.fileUrl = ''
