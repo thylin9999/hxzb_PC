@@ -59,9 +59,20 @@
                 <span
                     class="font-16 p-t-5 p-b-5 p-l-10 p-r-10 pointer"
                     @click="submit"
-                >获取直播流</span>
+                >主播开播</span>
             </div>
         </div>
+<!--        <div class="row-outer flex align-center p-l-30 m-b-20">-->
+<!--            <span class="label">-->
+
+<!--            </span>-->
+<!--            <div class="save-button font-medium font-16">-->
+<!--                <span-->
+<!--                    class="font-16 p-t-5 p-b-5 p-l-10 p-r-10 pointer"-->
+<!--                    @click="submit"-->
+<!--                >直播开播</span>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 </div>
 </template>
@@ -149,6 +160,7 @@ export default {
                     liveCover: this.form.liveCover.value,
                     category: this.category
                 })
+                Mess
                 console.log(data, 'data')
             }
         },
