@@ -90,7 +90,8 @@ import UploadWithError from '@/components/Form/UploadWithError'
 import { isRequire } from '@/utils/validator'
 import { isEmpty, omit } from '@/utils/lodashUtil'
 import { startLive, getOBSAddress } from '@/api/Host/Host'
-
+import { Message } from 'element-ui'
+import { statusCode } from '@/utils/statusCode'
 export default {
     name: 'OpenLiveBroadCast',
     components: {
@@ -162,19 +163,25 @@ export default {
         },
         async submit () {
             const isValidate = this.validate()
+            this.changeFile()
             const isCoverValidate = !!this.form.liveCover.value
-            if (isValidate && isCoverValidate && this.obs) {
-                const { data } = await startLive({
-                    matchId: this.form.match.value,
-                    liveType: this.liveType,
-                    title: this.form.title.value,
-                    liveCover: this.form.liveCover.value,
-                    category: this.category
-                })
+            if (!isValidate || !isCoverValidate) return
+            if (!this.obs) {
+                Message.error('请先获取推流地址，再点击开播！')
+            }
+            const { code, data } = await startLive({
+                matchId: this.form.match.value,
+                liveType: this.liveType,
+                title: this.form.title.value,
+                liveCover: this.form.liveCover.value,
+                category: this.category
+            })
+            if (code === statusCode.success) {
+                Message.success('开播成功')
                 console.log(data, 'data')
             }
         },
-        changeFile ({ fileName, url }) {
+        changeFile () {
             this.coverError = !this.form.liveCover.value
         },
         validate () {

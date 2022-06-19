@@ -6,7 +6,7 @@
         <div class=" flex align-center flex-1" >
             <div
                 v-if="rowInfo.value"
-                class="show-image"
+                class="show-image bg-no-repeat bg-center bg-size-100"
                 :style="{
                     backgroundImage: `url(${fileUrl})`
                 }"
