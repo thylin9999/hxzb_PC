@@ -51,6 +51,22 @@
             @changeFile="changeFile"
             :show-error="coverError"
         />
+        <div class="row-outer flex align-center p-l-30 m-b-20" v-if="!obs">
+            <span class="label">
+
+            </span>
+            <div class="save-button font-medium font-16" >
+                <span
+                    class="font-16 p-t-5 p-b-5 p-l-10 p-r-10 pointer"
+                    @click="getAddress"
+                >获取推流地址</span>
+
+            </div>
+        </div>
+        <div v-else class="font-medium font-16 obs p-b-25">
+            <div>OBS推流地址：{{obs.url }}</div>
+            <div>OBS串流秘钥：{{obs.key}}</div>
+        </div>
         <div class="row-outer flex align-center p-l-30 m-b-20">
             <span class="label">
 
@@ -59,20 +75,9 @@
                 <span
                     class="font-16 p-t-5 p-b-5 p-l-10 p-r-10 pointer"
                     @click="submit"
-                >主播开播</span>
+                >直播开播</span>
             </div>
         </div>
-<!--        <div class="row-outer flex align-center p-l-30 m-b-20">-->
-<!--            <span class="label">-->
-
-<!--            </span>-->
-<!--            <div class="save-button font-medium font-16">-->
-<!--                <span-->
-<!--                    class="font-16 p-t-5 p-b-5 p-l-10 p-r-10 pointer"-->
-<!--                    @click="submit"-->
-<!--                >直播开播</span>-->
-<!--            </div>-->
-<!--        </div>-->
     </div>
 </div>
 </template>
@@ -84,7 +89,7 @@ import SelectWithError from '@/components/Form/SelectWithError'
 import UploadWithError from '@/components/Form/UploadWithError'
 import { isRequire } from '@/utils/validator'
 import { isEmpty, omit } from '@/utils/lodashUtil'
-import { startLive } from '@/api/Host/Host'
+import { startLive, getOBSAddress } from '@/api/Host/Host'
 
 export default {
     name: 'OpenLiveBroadCast',
@@ -145,14 +150,19 @@ export default {
                     value: 3,
                     label: '比赛3'
                 }
-            ]
+            ],
+            obs: null
         }
     },
     methods: {
+        async getAddress () {
+            const { data } = await getOBSAddress()
+            this.obs = data
+        },
         async submit () {
             const isValidate = this.validate()
             const isCoverValidate = !!this.form.liveCover.value
-            if (isValidate && isCoverValidate) {
+            if (isValidate && isCoverValidate && this.obs) {
                 const { data } = await startLive({
                     matchId: this.form.match.value,
                     liveType: this.liveType,
@@ -160,7 +170,6 @@ export default {
                     liveCover: this.form.liveCover.value,
                     category: this.category
                 })
-                Mess
                 console.log(data, 'data')
             }
         },
@@ -207,6 +216,10 @@ export default {
         line-height: 40px;
         height: 40px;
     }
+}
+.obs {
+    margin-left: 155px;
+    line-height: 25px;
 }
 .save-button {
     span {

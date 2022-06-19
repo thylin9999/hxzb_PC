@@ -23,3 +23,10 @@ export function startLive ({
         }
     })
 }
+
+export function getOBSAddress () {
+    return request({
+        method: 'post',
+        url: url.getOBSAddress
+    })
+}
