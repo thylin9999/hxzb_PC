@@ -156,8 +156,9 @@ export default {
     },
     methods: {
         async getAddress () {
-            const { data } = await getOBSAddress()
-            this.obs = data
+            const res = await getOBSAddress()
+            console.log(res, 'ers')
+            this.obs = res.data
         },
         async submit () {
             const isValidate = this.validate()

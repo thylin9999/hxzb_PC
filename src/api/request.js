@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { statusCode } from '@/utils/statusCode'
 import { removeToken, removeSessionStorageItem, getToken } from '@/utils/cookie'
+import { Message } from 'element-ui'
+import Store from '../store/index'
 import url from './user/url'
 const instance = axios.create({
     // timeout: 6000
@@ -32,7 +34,8 @@ instance.interceptors.response.use(response => {
     if (response && response.data.code === statusCode.success && !whiteList.includes(requestUrl)) {
         return response.data
     } else if (response.data.code === statusCode.isExpired) {
-        this.$store.dispatch('user/logoutAction')
+        Message.error(response.data.msg)
+        Store.dispatch('user/logoutAction')
         removeSessionStorageItem('userInfo')
         removeToken()
         this.$router.push('/')
