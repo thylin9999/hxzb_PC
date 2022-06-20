@@ -14,6 +14,7 @@
           </div>
       </div>
       <div class="bg-gray2">
+          <match-list class="p-t-30"/>
           <div class="wrap-1200">
               <div class="announces m-t-25 flex justify-between align-center">
                   <div class="announce-image h-100 bg-center bg-no-repeat">
@@ -56,12 +57,14 @@
 import VideoHome from '@/components/VideoHome'
 import Qrcode from '@/components/Qrcode'
 import RecommendAndRank from '@/components/RecommendAndRank'
+import MatchList from '@/views/Competition/MatchList'
 export default {
     name: 'Home',
     components: {
         VideoHome,
         Qrcode,
-        RecommendAndRank
+        RecommendAndRank,
+        MatchList
     },
     data () {
         return {
@@ -110,7 +113,7 @@ export default {
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
 .video-box{
-    padding-bottom: 105px;
+    //padding-bottom: 105px;
     .bg-box {
         top: -80px;
         height: 755px;
@@ -167,6 +170,19 @@ export default {
             li {
                 line-height: 17px;
                 margin-top: 12px;
+            }
+            li span:first-child {
+                &:before {
+                    line-height: 17px;
+                    vertical-align: middle;
+                    margin-right: 5px;
+                    content: '';
+                    display: inline-block;
+                    border-radius: 50%;
+                    width: 5px;
+                    height: 5px;
+                    background-color: $text-gray;
+                }
             }
         }
     }

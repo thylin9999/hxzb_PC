@@ -20,3 +20,14 @@ export function getOnlineBroadcast ({ pageNumber = 1, pageSize = 20 }) {
         }
     })
 }
+
+export function getBookedMatches ({ pageNumber = 1, pageSize = 20 }) {
+    return request({
+        method: 'post',
+        url: url.getBookedMatches,
+        data: {
+            pageNum: pageNumber,
+            pageSize
+        }
+    })
+}

@@ -22,7 +22,6 @@ const actions = {
     async login ({ state, dispatch, commit }, payload) {
         try {
             const { data } = await login(payload)
-            console.log(data, 'data1111')
             if (data.code === statusCode.success) {
                 setToken(data.token)
                 const params = {

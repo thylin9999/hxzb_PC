@@ -30,13 +30,27 @@ export default {
     computed: {
         ...mapState('user', ['token'])
     },
-    created () {
-        const userInfo = getItem('userInfo')
-        if (userInfo) {
-            this.SET(JSON.parse(userInfo))
-        }
-        this.isHome = this.$route.meta.subId === 1
+    watch: {
+        '$route': {
+            handler () {
+                const userInfo = getItem('userInfo')
+                if (userInfo) {
+                    this.SET(JSON.parse(userInfo))
+                }
+                this.isHome = this.$route.meta.subId === 1
+            }
+        },
+        deep: true,
+        immediate: true
     },
+    // created () {
+    //     const userInfo = getItem('userInfo')
+    //     if (userInfo) {
+    //         this.SET(JSON.parse(userInfo))
+    //     }
+    //     this.isHome = this.$route.meta.subId === 1
+    //     console.log(this.isHome, this.$route, '12222222')
+    // },
     methods: {
         ...mapMutations('user', ['SET'])
     }

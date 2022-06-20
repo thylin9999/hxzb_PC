@@ -5,10 +5,11 @@ import { Message } from 'element-ui'
 import Store from '../store/index'
 import url from './user/url'
 const instance = axios.create({
-    // timeout: 6000
-    // withCredentials: true
+    timeout: 6000,
+    baseURL: process.env.NODE_ENV === 'production' ? process.env.VUE_APP_BASE_URL : ''
 })
 
+console.log(process.env.mode, process.env, 'asdya')
 const errorHandle = (error) => {
     console.log(error, '出错了')
     return Promise.reject(error)
@@ -16,7 +17,6 @@ const errorHandle = (error) => {
 
 instance.interceptors.request.use(config => {
     const token = getToken()
-    console.log(config, 'config', token)
     if (token) {
         config.headers.Authorization = `Bearer ${token}`
     }

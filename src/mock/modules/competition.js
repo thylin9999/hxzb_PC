@@ -55,6 +55,31 @@ const getOnlineBroadcast = config => {
     })
 }
 
+const getBookedMatches = config => {
+    return Mock.mock({
+        code: statusCode.success,
+        'data|5': [
+            {
+                id: '@id',
+                name: '@cname',
+                'status|1': [0, 1], // 0 未开始，1 进行中
+                time: '@time',
+                team1: {
+                    icon: '',
+                    loop: '中甲第3轮',
+                    'score|0-10': 2
+                },
+                team2: {
+                    icon: '',
+                    loop: '中甲第3轮',
+                    'score|0-10': 2
+                }
+            }
+        ]
+    })
+}
+
 Mock.mock(/\/api\/get-competition/, 'post', getCompetitions)
 
 // Mock.mock(url.getOnlineBroadcast, 'get', getOnlineBroadcast)
+Mock.mock(url.getBookedMatches, 'post', getBookedMatches)
