@@ -1,7 +1,7 @@
 <template>
 <div class="edit-avatar">
     <HeaderTitle title="修改头像" />
-    <div class="upload-div flex p-l-30">
+    <div class="upload-div flex p-l-30 p-t-10">
         <div class="preview m-r-10" >
             <div class="template-img bg-center bg-no-repeat w-100 h-100" v-if="!url"></div>
             <el-image
@@ -82,7 +82,7 @@ export default {
     vertical-align: bottom;
 }
 .template-img{
-    background-image: url('../../../assets/images/common/logo.png');
+    background-image: url('../../../assets/images/common/avart.png');
     background-size: contain;
 }
 </style>

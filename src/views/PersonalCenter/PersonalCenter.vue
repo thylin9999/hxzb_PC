@@ -111,6 +111,12 @@ export default {
     methods: {
         selectMenu (menu) {
             this.currentMenu = { ...menu }
+            this.$router.push({
+                name: 'PersonalCenter',
+                params: {
+                    tabId: menu.id
+                }
+            })
         }
     }
 }
