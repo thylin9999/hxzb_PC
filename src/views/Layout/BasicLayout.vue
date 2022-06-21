@@ -43,14 +43,13 @@ export default {
         deep: true,
         immediate: true
     },
-    // created () {
-    //     const userInfo = getItem('userInfo')
-    //     if (userInfo) {
-    //         this.SET(JSON.parse(userInfo))
-    //     }
-    //     this.isHome = this.$route.meta.subId === 1
-    //     console.log(this.isHome, this.$route, '12222222')
-    // },
+    created () {
+        const userInfo = getItem('userInfo')
+        if (userInfo) {
+            this.SET(JSON.parse(userInfo))
+        }
+        this.isHome = this.$route.meta.subId === 1
+    },
     methods: {
         ...mapMutations('user', ['SET'])
     }

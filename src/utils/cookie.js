@@ -1,30 +1,30 @@
 // import Cookies from 'js-cookie'
 
 export function setToken (token) {
-    window.localStorage.setItem('token', token)
+    window.sessionStorage.setItem('token', token)
 }
 export function getToken () {
-    return window.localStorage.getItem('token')
+    return window.sessionStorage.getItem('token')
 }
 export function removeToken () {
-    window.localStorage.removeItem('token')
+    window.sessionStorage.removeItem('token')
 }
 
 // 获取本地储存的 语言
 export function getLang () {
-    return window.localStorage.getItem('lang') || 'zh'
+    return window.sessionStorage.getItem('lang') || 'zh'
 }
 
 export function setLang (value) {
-    return window.localStorage.setItem('lang', value)
+    return window.sessionStorage.setItem('lang', value)
 }
 // 获取、设置item
 export function getItem (key) {
-    return window.localStorage.getItem(key)
+    return window.sessionStorage.getItem(key)
 }
 export function setItem (key, value) {
-    return window.localStorage.setItem(key, value)
+    return window.sessionStorage.setItem(key, value)
 }
 export function removeSessionStorageItem (key) {
-    return window.localStorage.removeItem(key)
+    return window.sessionStorage.removeItem(key)
 }

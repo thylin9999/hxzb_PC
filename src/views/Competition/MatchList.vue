@@ -15,8 +15,9 @@
                     <div class="p-absolute match-status flex align-center text-center" :class="{'is-waiting': !match.isGoing}">
                         <span class="book-icon d-inline-block m-r-5 bg-center bg-no-repeat bg-size-100" v-if="!match.isGoing"></span>
                         <span
+                            @click="book(match)"
                             class=" font-12"
-                            :class="{'text-white': match.isGoing}"
+                            :class="{'text-white': match.isGoing, 'pointer': !match.isGoing }"
                         >{{ match.isGoing ? '比赛中' : '预约'}}</span>
                     </div>
                 </div>
@@ -51,18 +52,19 @@
             </li>
         </ul>
     </div>
-    <div @click="goToCompetition" class="right-button flex flex-column justify-center align-center ">
-        <span class="calender bg-no-repeat bg-center bg-size-100 d-inline-block">
+    <div @click="goToCompetition" class="right-button pointer bg-center bg-no-repeat bg-size-100 flex flex-column justify-center align-center ">
+        <span class="calender m-l-n-10 bg-no-repeat bg-center bg-size-100 d-inline-block">
 
         </span>
-        <span  class="m-t-20">全部 <br/>赛程</span>
+        <span  class="m-t-20 m-l-n-10">全部 <br/>赛程</span>
     </div>
 </div>
 </template>
 
 <script>
 import { getBookedMatches } from '@/api/competition/competition'
-
+import { Message } from 'element-ui'
+import { mapState } from 'vuex'
 export default {
     name: 'MatchList',
     data () {
@@ -75,6 +77,7 @@ export default {
         }
     },
     computed: {
+        ...mapState('user', ['token']),
         apiParams () {
             return {
                 pageNumber: this.pagination.pageNumber,
@@ -100,6 +103,17 @@ export default {
             this.$router.push({
                 name: 'Competition'
             })
+        },
+        book (match) {
+            if (!match.isGoing) {
+                if (this.token) {
+                    // 已登录
+                    // 发送请求订阅比赛
+                } else {
+                    Message.error('请先登录，无法预约！')
+                    this.openLoginDialog()
+                }
+            }
         }
     }
 }
@@ -192,7 +206,8 @@ export default {
 }
 .right-button{
     width: 90px;
-    background-color: #10234B;
+    //background-color: #10234B;
+    background-image: url('../../assets/images/home/calender-bg.png');
     height: 170px;
     border-radius: 10px;
     margin-left: 40px;
