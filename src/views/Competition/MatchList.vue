@@ -39,7 +39,7 @@
                 </div>
                 <div class="match-footer m-t-15 flex justify-center align-center">
                     <div v-if="match.isGoing" class="is-going flex justify-center align-center">
-                        <span class="icon"></span>
+                        <span class="icon m-r-15 bg-no-repeat bg-size-100 bg-center"></span>
                         <div class="host-list">
                             <span class="host"></span>
                             <span class="host"></span>
@@ -173,9 +173,9 @@ export default {
                     display: inline-block;
                 }
                 .icon {
-                    width: 30px;
-                    height: 30px;
-                    background-color: #eee;
+                    width: 25px;
+                    height: 20px;
+                    background-image: url('../../assets/images/common/living.png');
                 }
                 .host {
                     margin: 0 3px;
