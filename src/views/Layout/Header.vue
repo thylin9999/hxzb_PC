@@ -1,19 +1,19 @@
 <template>
 <div class="full-width">
-    <div class="wrap-1200 header flex justify-between align-center">
+    <div class="wrap-1450 header flex justify-between align-center">
         <div class="left-section flex align-center">
             <div class="logo">
                 <img class="h-100" src="../../assets/images/common/logo.png" alt="">
             </div>
             <ul class="menus flex align-center" :class="{'light-header': isLightHeader}">
                 <li
-                    class="pointer m-l-5 m-r-5"
+                    class="pointer m-l-5 m-r-5 font-400 text-center "
                     v-for="menu in menus"
                     :key="menu.id"
                     :class="{ 'is-active': currentId === menu.id}"
                     @click="changeTab(menu)"
                 >
-                    <span class="font-16">{{ menu.text }}</span>
+                    <span class="font-20">{{ menu.text }}</span>
                 </li>
             </ul>
         </div>
@@ -38,8 +38,14 @@ export default {
                     sub: 'Home'
                 },
                 {
+                    id: 5,
+                    text: '直播',
+                    name: 'LiveBroad',
+                    sub: 'LiveBroad'
+                },
+                {
                     id: 2,
-                    text: '赛程',
+                    text: '赛事',
                     name: 'Competition',
                     sub: 'Competition'
                 },
@@ -86,19 +92,20 @@ export default {
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
 .full-width {
-    background-color: transparent;
+    background-color: #0E3F6A;
 }
 .header {
-    height: 80px;
+    height: 90px;
     .logo {
         height: 60px;
     }
     .menus {
         margin-left: 110px;
         li {
-            padding: 5px 20px;
+            width: 80px;
+            line-height: 40px;
             &.is-active {
-                border-radius: 15px;
+                border-radius: 20px;
                 color: $text-white;
                 background-color: $background-color1;
             }

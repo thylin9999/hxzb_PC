@@ -1,12 +1,11 @@
 <template>
   <div class="home">
-      <div class="video-box p-relative">
-          <div class="bg-box bg-center bg-no-repeat p-absolute w-100"></div>
-          <div class="video wrap-1200">
+      <div class="video-box p-t-10 p-relative bg-size-100 bg-center bg-no-repeat">
+          <div class="video p-10 bg-black wrap-1450">
               <div class="video_view">
                   <VideoHome></VideoHome>
               </div>
-              <div class="videoList">
+              <div class="videoList m-l-5">
                   <div class="box1 item" v-for="item in [1,2,3,4,5,6]" :key="item">
                       <img class="item_img" src="https://cdn.podapi.com/image/live/20220511/74fe6e768e027c7e8152fdc9156fb6d8?imageView2/2/w/600/h/600" alt="">
                   </div>
@@ -14,38 +13,10 @@
           </div>
       </div>
       <div class="bg-gray2">
-          <match-list class="p-t-30"/>
-          <div class="wrap-1200">
-              <div class="announces m-t-25 flex justify-between align-center">
-                  <div class="announce-image h-100 bg-center bg-no-repeat">
-                  </div>
-                  <div class="news p-15 h-100">
-                      <div class="">
-                          <span class="font-14 font-medium">公告</span>
-                      </div>
-                      <ul class="news-list">
-                          <li
-                              class="font-12  flex justify-between align-center"
-                              v-for="item in news"
-                              :key="item.id"
-                          >
-                              <span class="text-333">{{ item.title }}</span>
-                              <span class="text-gray">{{ item.time }}</span>
-                          </li>
-                      </ul>
-                  </div>
-                  <div class="download-image h-100 flex align-center">
-                      <div class="flex flex-column align-center m-l-25 ">
-                          <div class="code-box">
-                              <qrcode />
-                          </div>
-                          <div class="font-medium m-t-15 flex flex-column text-white align-center">
-                              <span class="font-20">下载APP</span>
-                              <span class="font-regular font-12 m-t-10">更多比赛直播</span>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+          <match-list class="m-t-n-10"/>
+          <hot-recommend />
+          <div class="banner wrap-1450 bg-center bg-no-repeat bg-size-100">
+
           </div>
           <recommend-and-rank />
       </div>
@@ -58,13 +29,15 @@ import VideoHome from '@/components/VideoHome'
 import Qrcode from '@/components/Qrcode'
 import RecommendAndRank from '@/components/RecommendAndRank'
 import MatchList from '@/views/Competition/MatchList'
+import HotRecommend from '@/components/HotRecommend'
 export default {
     name: 'Home',
     components: {
         VideoHome,
         Qrcode,
         RecommendAndRank,
-        MatchList
+        MatchList,
+        HotRecommend
     },
     data () {
         return {
@@ -113,7 +86,8 @@ export default {
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
 .video-box{
-    //padding-bottom: 105px;
+    height: 790px;
+    background-image: url('../assets/images/home/bg.png');
     .bg-box {
         top: -80px;
         height: 755px;
@@ -122,25 +96,25 @@ export default {
         z-index: -1;
     }
     .video {
-        height: 570px;
-        border: 1px solid #ccc;
+        height: 750px;
         z-index: 2;
         display: flex;
+        border-radius: 15px;
         .video_view{
-          width: 1020px;
-          height: 570px;
+          width: 1200px;
+          height: 730px;
         }
         .videoList{
-            width: 176px;
-            height: 570px;
+            width: 235px;
+            height: 730px;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             align-content: space-around;
           .item{
             border-radius: 5px;
-            width: 160px;
-            height: 84px;
+            width: 235px;
+            height: 120px;
             border: none;
             .item_img{
               width: 100%;
@@ -156,47 +130,11 @@ export default {
         }
     }
 }
-.announces {
-    height: 200px;
-    .announce-image {
-        width: 510px;
-        background-image: url('https://cdn.podapi.com/image/slide/20210930/38c8c91a0ce02be8a5f3727b06013e28.png');
-        background-size: 100% 100%;
-    }
-    .news {
-        width: 430px;
-        background-color: $text-white;
-        .news-list {
-            li {
-                line-height: 17px;
-                margin-top: 12px;
-            }
-            li span:first-child {
-                &:before {
-                    line-height: 17px;
-                    vertical-align: middle;
-                    margin-right: 5px;
-                    content: '';
-                    display: inline-block;
-                    border-radius: 50%;
-                    width: 5px;
-                    height: 5px;
-                    background-color: $text-gray;
-                }
-            }
-        }
-    }
-    .download-image {
-        width: 240px;
-        background-color: $background-color1;
-        .code-box {
-            width: 80px;
-            height: 80px;
-        }
-    }
-    .recommends {
-        background-color: $background-color1;
-    }
+.banner {
+    height: 300px;
+    border-radius: 15px;
+    margin-top: 40px;
+    background-image: url('../assets/images/home/banner.png');
 }
 
 </style>

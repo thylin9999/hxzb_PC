@@ -1,11 +1,11 @@
 <template>
-<div class="matches text-white flex align-center wrap-1200 font-regular">
+<div class="matches text-white flex align-center justify-between wrap-1450 font-regular">
     <div class="left-list p-relative">
-        <span @click="fetchData" class="prev el-icon-arrow-left p-absolute"></span>
-        <span @click="fetchData" class="next el-icon-arrow-right p-absolute"></span>
+        <span @click="fetchData" class="prev  p-absolute"></span>
+        <span @click="fetchData" class="next  p-absolute"></span>
         <ul class="list w-100 flex justify-between flex-no-wrap">
             <li
-                class=" match-item  p-t-20  bg-center bg-no-repeat bg-size-100"
+                class=" match-item  p-t-20 m-r-10  bg-center bg-no-repeat bg-size-100"
                 v-for="match in matches"
                 :key="match.id"
             >
@@ -121,11 +121,9 @@ export default {
 
 <style lang="scss" scoped>
 .left-list {
-    //width: calc(100% - 90px);
     .match-item {
-        width: 210px;
-        height: 240px;
-        padding: 0 5px;
+        width: 240px;
+        height: 285px;
         background-image: url('../../assets/images/common/match_bg.png');
         .match-status {
             right: 20px;
@@ -190,25 +188,28 @@ export default {
         }
     }
     .prev, .next {
+        width: 27px;
+        height: 50px;
+        top: 100px;
         cursor: pointer;
         display: inline-block;
-        color: #000;
-        font-size: 50px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
     }
     .prev {
-        left: -40px;
-        top: 90px;
+        background-image: url('../../assets/images/matches/left-arrow.png');
+        left: -57px;
     }
     .next {
-        right: -40px;
-        top: 90px;
+        background-image: url('../../assets/images/matches/right-arrow.png');
+        right: -45px;
     }
 }
 .right-button{
-    width: 90px;
-    //background-color: #10234B;
+    width: 110px;
     background-image: url('../../assets/images/home/calender-bg.png');
-    height: 170px;
+    height: 217px;
     border-radius: 10px;
     margin-left: 40px;
     .calender {

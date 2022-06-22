@@ -1,5 +1,5 @@
 <template>
-<div class="wrap-1200 p-b-30 p-t-20">
+<div class="wrap-1450 p-b-30 p-t-20">
     <div class="tabs   p-l-30 p-t-20 p-b-20 overflow-hidden">
         <tabs
             :current-id.sync="currentId"

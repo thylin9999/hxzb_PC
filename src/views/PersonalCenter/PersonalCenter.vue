@@ -1,5 +1,5 @@
 <template>
-<div class="user-center wrap-1200 h-100 p-t-20">
+<div class="user-center wrap-1450 h-100 p-t-20">
    <div class="p-t-10 p-b-10 p-l-15 h-100 bg-white ">
        <person-header />
    </div>

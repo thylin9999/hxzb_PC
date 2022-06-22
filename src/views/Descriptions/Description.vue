@@ -1,5 +1,5 @@
 <template>
-<div class="description wrap-1200 p-t-20" :key="updateKey">
+<div class="description wrap-1450 p-t-20" :key="updateKey">
     <div class="header bg-white p-20 font-20 font-medium font-500">
         {{ headerTitle }}
     </div>

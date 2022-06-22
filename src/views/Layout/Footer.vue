@@ -1,6 +1,6 @@
 <template>
 <div class="footer text-white">
-    <div class="wrap-1200 h-100 flex justify-between align-center">
+    <div class="wrap-1450 h-100 flex justify-between align-center">
         <div class="left-info flex flex-column">
             <div class="about-app w-100 flex align-center">
                 <div class="left-logo">

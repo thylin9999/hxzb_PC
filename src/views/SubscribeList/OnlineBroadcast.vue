@@ -1,5 +1,5 @@
 <template>
-<div class="wrap-1200 p-t-15 p-l-15 bg-white">
+<div class="wrap-1450 p-t-15 p-l-15 bg-white">
     <tab-title title="正在直播" />
     <div class="online-broadcast"
          v-loading="isLoading"

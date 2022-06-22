@@ -1,5 +1,5 @@
 <template>
-    <div class="wrap-1200 recommends flex-1 m-t-25 flex justify-between ">
+    <div class="wrap-1450 recommends flex-1 m-t-25 flex justify-between ">
         <div class="host-recommend m-b-20">
             <div class="flex align-center ">
                 <tab-title title="直播推荐" />

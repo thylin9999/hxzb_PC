@@ -1,8 +1,8 @@
 <template>
 <div class="user font-16 font-medium" :class="{'light-background': isLightHeader}">
-    <div v-if="!token">
+    <div v-if="!token" class="user-buttons font-20 font-400 text-center">
         <span class="pointer" @click="openLogin">登录</span>
-        <span class="m-l-10 m-r-10">|</span>
+        <span class="">/</span>
         <span class="pointer" @click="openRegister">注册</span>
     </div>
     <div v-else class="flex align-center">
@@ -77,6 +77,13 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
+.user-buttons {
+    color: #FCFFA7;
+    border-radius: 20px;
+    border: 1px solid #FCFFA7;
+    width: 135px;
+    line-height: 40px;
+}
 .user-logo {
     width: 35px;
     height: 35px;
