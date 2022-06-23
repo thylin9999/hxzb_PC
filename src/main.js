@@ -18,7 +18,7 @@ import './styles/index.scss'
 // svg icon
 import './icons/index'
 
-import 'alvin-space-tool/css/main.css'
+// import 'alvin-space-tool/css/main.css'
 import vueComTestAlvin from 'vue-com-test-alvin'
 
 import { i18n } from './utils/lang/index'

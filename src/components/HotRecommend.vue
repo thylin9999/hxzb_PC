@@ -3,7 +3,7 @@
     <title-row
         icon="hot"
         title="热门直播"
-        class="m-b-30"
+        class="m-b-30 m-t-20"
     />
     <div class="w-100">
         <ul class="w-100 flex justify-between align-center">

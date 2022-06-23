@@ -1,7 +1,10 @@
 <template>
-<div class="header flex align-center">
-    <span class="icon bg-no-repeat bg-center bg-size-100" :style="{ backgroundImage: `url(${iconBg})`}"></span>
-    <span class="font-500 m-l-10 text-333 d-inline-block font-30">{{ title }}</span>
+<div class="header flex align-center p-relative justify-between">
+    <div class="flex align-center">
+        <span class="icon bg-no-repeat bg-center bg-size-100" :style="{ backgroundImage: `url(${iconBg})`}"></span>
+        <span class="font-500 m-l-10 text-333 d-inline-block font-30">{{ title }}</span>
+    </div>
+    <slot />
 </div>
 </template>
 
@@ -32,6 +35,6 @@ export default {
 }
 .icon {
     width: 35px;
-    height: 40px;
+    height: 35px;
 }
 </style>

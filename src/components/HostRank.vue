@@ -1,62 +1,88 @@
 <template>
-<div class="rank-list w-100">
-    <tab-title title="主播排行" />
-    <div class="list w-100 overflow-y-auto m-t-15 p-b-5 flex flex-column">
-        <ul class="w-100">
-            <li
-                v-for="(host, index) in hosts"
-                :key="host.id"
-                class="flex align-center p-t-25 p-b-25"
-            >
-                <span
-                    class="rank-num d-inline-block bg-center bg-no-repeat text-center font-16 font-regular"
-                    :class="{'show-flag': index <= 2 }">{{ index + 1}}</span>
-                <host-icon
-                    class="m-l-10 m-r-5"
-                    :img="host.img"
-                />
-                <div class="host flex flex-column font-16 font-regular m-r-15">
-                    <span class="text-333 line-height-22">{{ host.name }}</span>
-                    <div class="flex align-center">
-                        <span class="star d-inline-block bg-no-repeat bg-center"></span>
-                        <span class="font-12 m-l-5 text-gray line-height-17">{{ host.subscribe }}</span>
+<div class="wrap-1450">
+    <title-row
+        icon="gift"
+        title="主播排行"
+        class="m-b-30 m-t-20"
+    >
+        <more-button class="m-r-15"/>
+    </title-row>
+    <div class="host-section flex justify-between align-center p-t-20 p-b-20 m-t-25 m-b-25 bg-white w-100">
+        <div class="first-three">
+            <ul class="prizes flex align-center justify-between">
+                <li
+                    v-for="(host, index) in firstRank"
+                    :key="host.id"
+                    class="rank-item flex flex-column justify-center align-center"
+                >
+                    <div class="icon p-relative bg-center flex justify-center align-center bg-no-repeat bg-size-100" :class="`rank-${index}`">
+                        <div class="avatar bg-center bg-no-repeat bg-size-100"></div>
+                        <span class="p-absolute font-14 d-inline-block w-100 text-center" style="left: 0;bottom: 5px;color: #7B7B7B;">{{ host.name }}</span>
                     </div>
-                </div>
-                <subscribe-button
-                    :is-subscribe="host.isSubscribe"
-                />
-            </li>
-        </ul>
+                    <span class="text-888 m-t-15 m-b-10 w-100 text-ellipsis">{{ host.description }}</span>
+                    <submit-button :subscribed="host.isSubscribe" />
+                </li>
+            </ul>
+        </div>
+        <div class="left-host w-100">
+            <ul class="w-100">
+                <li
+                    v-for="host in leftRank"
+                    :key="host.id"
+                    class="flex justify-between host-item align-center"
+                >
+                    <div class="left-section flex align-center">
+                        <div class="icon m-r-10 bg-no-repeat bg-center bg-size-100"></div>
+                         <div class="flex host-info flex-column ">
+                             <span class="font-16 host-name font-regular">{{ host.name }}</span>
+                             <span class="w-100 text-888 text-ellipsis font-14">{{ host.description }}</span>
+                         </div>
+                    </div>
+                    <submit-button :subscribed="host.isSubscribe" />
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 </template>
 
 <script>
-import TabTitle from '@/components/TabTitle'
-import SubscribeButton from '@/components/SubscribeButton'
-import HostIcon from '@/components/HostIcon'
-import { getHosts } from '@/api/Host/Host'
+import TitleRow from '@/components/TitleRow'
+import MoreButton from '@/components/MoreButton'
+import SubmitButton from '@/components/SubmitButton'
+import { getHostRank } from '@/api/Host/Host'
 
 export default {
     name: 'HostRank',
     components: {
-        TabTitle,
-        SubscribeButton,
-        HostIcon
+        TitleRow,
+        MoreButton,
+        SubmitButton
     },
     data () {
         return {
-            defaultImg: 'https://cdn.podapi.com/image/avatar/default_thumb.jpg',
             hosts: []
         }
     },
+    computed: {
+        firstRank () {
+            return this.hosts.slice(0, 3)
+        },
+        leftRank () {
+            return this.hosts.slice(3)
+        }
+    },
     created () {
-        this.getHost()
+        this.fetchData()
     },
     methods: {
-        async getHost () {
-            const { data } = await getHosts()
-            this.hosts = data
+        async fetchData () {
+            try {
+                const { data } = await getHostRank()
+                this.hosts = data
+            } catch (e) {
+                console.log('出错了')
+            }
         }
     }
 }
@@ -64,32 +90,55 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
-.list {
-    background-color: $text-white;
-    max-height: 400px;
-    .rank-num {
-        color: $text-333;
-        width: 22px;
-        line-height: 23px;
-        &.show-flag {
-            background-image: url('../assets/images/common/flag.png');
-            background-size: contain;
-            color: $text-white;
+.host-section {
+    height: 250px;
+
+    .first-three {
+        width: 895px;
+        border-right: 1px solid #B9B9B9;
+        padding: 0 75px;
+        .rank-item {
+            width: 225px;
+        }
+        .rank-0 {
+            background-image: url('../assets/images/host/gold.png');
+        }
+        .rank-1 {
+            background-image: url('../assets/images/host/silver.png');
+        }
+        .rank-2 {
+            background-image: url('../assets/images/host/bronze.png');
+        }
+        .avatar {
+            margin-top: -5px;
+            margin-left: 5px;
+            width: 100px;
+            height: 100px;
+            background-image: url('../assets/images/common/host-avatar.png');
+        }
+        .icon {
+            width: 118px;
+            height: 130px;
         }
     }
-    .host {
-        .star {
-            width: 10px;
-            height: 10px;
-            background-image: url('../assets/images/common/empty-start.png');
-            background-size: contain;
+    .left-host {
+        padding: 25px 35px 25px 40px;
+        .host-item {
+            margin: 12.5px 0;
         }
-    }
-}
-::v-deep {
-    .list {
-        .subscribe {
-            line-height: 26px;
+        .left-section {
+            .host-info {
+                //width: 225px;
+            }
+            .host-name{
+                line-height: 24px;
+                color: #444343;
+            }
+            .icon {
+                width: 50px;
+                height: 50px;
+                background-image: url('../assets/images/common/host-avatar.png');
+            }
         }
     }
 }

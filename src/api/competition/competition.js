@@ -31,3 +31,10 @@ export function getBookedMatches ({ pageNumber = 1, pageSize = 20 }) {
         }
     })
 }
+
+export function getVideoCompetitions () {
+    return request({
+        method: 'get',
+        url: url.getVideoCompetitions
+    })
+}

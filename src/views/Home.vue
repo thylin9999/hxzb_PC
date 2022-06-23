@@ -15,10 +15,12 @@
       <div class="bg-gray2">
           <match-list class="m-t-n-10"/>
           <hot-recommend />
-          <div class="banner wrap-1450 bg-center bg-no-repeat bg-size-100">
-
-          </div>
-          <recommend-and-rank />
+          <div class="banner wrap-1450 bg-center bg-no-repeat bg-size-100" />
+          <host-rank />
+          <host-list />
+          <video-competition />
+          <events />
+<!--          <recommend-and-rank />-->
       </div>
   </div>
 </template>
@@ -30,6 +32,10 @@ import Qrcode from '@/components/Qrcode'
 import RecommendAndRank from '@/components/RecommendAndRank'
 import MatchList from '@/views/Competition/MatchList'
 import HotRecommend from '@/components/HotRecommend'
+import HostRank from '@/components/HostRank'
+import HostList from '@/views/Host/HostList'
+import VideoCompetition from '@/views/Competition/VideoCompetition'
+import Events from '@/views/components/Events'
 export default {
     name: 'Home',
     components: {
@@ -37,7 +43,11 @@ export default {
         Qrcode,
         RecommendAndRank,
         MatchList,
-        HotRecommend
+        HotRecommend,
+        HostRank,
+        HostList,
+        VideoCompetition,
+        Events
     },
     data () {
         return {

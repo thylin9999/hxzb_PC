@@ -72,7 +72,7 @@ export default {
 @import '@/theme/default-vars.scss';
 .footer {
     height: 205px;
-    background-color: $background-black;
+    background-color: #0F3F6A;
     .left-info{
         width: 740px;
     }

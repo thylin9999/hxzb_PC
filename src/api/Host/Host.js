@@ -30,3 +30,10 @@ export function getOBSAddress () {
         url: url.getOBSAddress
     })
 }
+
+export function getHostRank () {
+    return request({
+        method: 'get',
+        url: url.getHostRank
+    })
+}

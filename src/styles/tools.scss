@@ -142,6 +142,9 @@
 .text-333 {
     color: $text-333;
 }
+.text-888 {
+    color: $text-888;
+}
 .text-gray {
     color: $text-gray;
 }
@@ -157,7 +160,7 @@
 .text-ellipsis {
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowarp;
+    white-space: nowrap;
 }
 
 .overflow-hidden {

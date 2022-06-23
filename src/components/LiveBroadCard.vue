@@ -6,11 +6,11 @@
         }"
     >
     </div>
-    <div class="host flex justify-between align-center p-t-15 p-b-10 bg-white p-l-15 p-r-15">
+    <div class="host flex justify-between align-center p-t-10 p-b-10 bg-white p-l-15 p-r-15">
         <span class="avatar d-inline-block bg-center bg-no-repeat bg-size-100"></span>
         <div class="title font-medium ">
-            <span class="title font-20 font-500 text-5e text-ellipsis">阿是砥砺奋进阿加莎代发拉萨代发</span>
-            <div class="name font-15 flex justify-between align-center">
+            <span class="title w-100 d-inline-block font-20 font-500 text-5e text-ellipsis">阿是砥砺奋进阿加莎代发拉萨代发</span>
+            <div class="name font-15 flex m-t-5 justify-between align-center">
                 <span class="">{{ info.host.name }}</span>
                 <div class="views flex align-center">
                     <span class="icon bg-center bg-no-repeat d-inline-block bg-size-100"></span>
