@@ -4,7 +4,7 @@
         <more-button />
     </title-row>
     <div class="w-100">
-        <ul class="flex flex-wrap justify-between">
+        <ul class="flex flex-wrap hosts">
             <li
                 v-for="item in list"
                 :key="item.id"
@@ -53,6 +53,13 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.hosts{
+    li {
+        margin-right: 30px;
+    }
+    li:nth-child(4n) {
+        margin-right: 0;
+    }
+}
 </style>

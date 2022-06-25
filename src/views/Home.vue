@@ -20,7 +20,6 @@
           <host-list />
           <video-competition />
           <events />
-<!--          <recommend-and-rank />-->
       </div>
   </div>
 </template>
@@ -28,8 +27,6 @@
 <script>
 // @ is an alias to /src
 import VideoHome from '@/components/VideoHome'
-import Qrcode from '@/components/Qrcode'
-import RecommendAndRank from '@/components/RecommendAndRank'
 import MatchList from '@/views/Competition/MatchList'
 import HotRecommend from '@/components/HotRecommend'
 import HostRank from '@/components/HostRank'
@@ -40,8 +37,6 @@ export default {
     name: 'Home',
     components: {
         VideoHome,
-        Qrcode,
-        RecommendAndRank,
         MatchList,
         HotRecommend,
         HostRank,
