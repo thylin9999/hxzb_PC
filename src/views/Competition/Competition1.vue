@@ -1,26 +1,51 @@
 <template>
 <div class="wrap-1450 p-b-30 p-t-20">
-    <timer-filter
-        :type="competitionType"
-        :time="filterTime"
-    />
+    <div class="tabs   p-l-30 p-t-20 p-b-20 overflow-hidden">
+        <tabs
+            :current-id.sync="currentId"
+            :tabs="competitionTabs"
+            @updateTab="changeTab"
+        />
+    </div>
+    <div class="p-10 bg-gray2"></div>
+    <div class="content  p-b-20">
+        <div class="competitions p-25">
+            <ul class="w-100 flex flex-wrap">
+                <li
+                    class="p-l-5 p-r-5 m-b-25"
+                    v-for="competition in competitions"
+                    :key="competition.id"
+                >
+                    <competition-card :competition-info="competition" />
+                </li>
+            </ul>
+        </div>
+        <pagination
+            class="text-center m-b-20"
+            :total="pagination.total"
+            :current-page.sync="pagination.currentPage"
+        />
+    </div>
 </div>
 </template>
 
 <script>
+import Tabs from '@/components/Tabs'
 import Pagination from '@/components/Pagination'
-import TimerFilter from '@/views/Competition/TimerFilter'
+import CompetitionCard from '@/components/CompetitionCard'
 import { getCompetitions } from '@/api/competition/competition'
 import { mapState } from 'vuex'
 export default {
     name: 'Competition',
     components: {
-        TimerFilter
+        Tabs,
+        Pagination,
+        CompetitionCard
     },
     data () {
         return {
-            filterTime: '',
-            competitionType: 1, // 1 表示 赛程， 2 赛果
+            currentId: 1,
+            competitions: [],
             pagination: {
                 total: 0,
                 currentPage: 1

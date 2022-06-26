@@ -46,7 +46,7 @@
 
             </span>
             <div class="save-button font-medium font-16">
-                <submit-button text="保存" @click.native="saveInfo"/>
+                <submit-button class=" d-inline-block w-100 text-center  font-medium font-16" title="保存" @click.native="saveInfo"/>
             </div>
         </div>
     </div>

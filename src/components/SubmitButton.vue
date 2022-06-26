@@ -1,7 +1,6 @@
 <template>
     <span
         class="font-16 font-400 text-center font-16 pointer"
-
     >{{ title }}</span>
 </template>
 
