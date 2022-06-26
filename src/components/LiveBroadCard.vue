@@ -1,10 +1,12 @@
 <template>
 <div class="card">
-    <div class="live-cover w-100 bg-center bg-no-repeat bg-size-100"
-        :style="{
+    <div class="w-100 overflow-hidden">
+      <div class="live-cover pointer  bg-center bg-no-repeat bg-size-100 transition-3"
+           :style="{
             backgroundImage: `url(${info.cover})`
         }"
-    >
+      >
+      </div>
     </div>
     <div class="host flex justify-between align-center p-t-10 p-b-10 bg-white p-l-15 p-r-15">
         <span class="avatar d-inline-block bg-center bg-no-repeat bg-size-100"></span>
@@ -42,6 +44,9 @@ export default {
     height: 265px;
     .live-cover {
         height: 190px;
+      &:hover {
+        transform: scale(1.2);
+      }
     }
     .host {
         .avatar{

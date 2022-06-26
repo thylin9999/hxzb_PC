@@ -1,6 +1,6 @@
 <template>
 <div class="wrap-1450 p-t-15 p-l-15 bg-white">
-    <tab-title title="正在直播" />
+    <title-row icon="tv" title="正在直播" />
     <div class="online-broadcast"
          v-loading="isLoading"
     >
@@ -24,14 +24,14 @@
 </template>
 
 <script>
-import TabTitle from '@/components/TabTitle'
+import TitleRow from '@/components/TitleRow'
 import CompetitionCard from '@/components/CompetitionCard'
 import { getOnlineBroadcast } from '@/api/competition/competition'
 
 export default {
     name: 'OnlineBroadcast',
     components: {
-        TabTitle,
+        TitleRow,
         CompetitionCard
     },
     data () {

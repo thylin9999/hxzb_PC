@@ -16,8 +16,8 @@
                     class="rank-item flex flex-column justify-center align-center"
                 >
                     <div class="icon p-relative bg-center flex justify-center align-center bg-no-repeat bg-size-100" :class="`rank-${index}`">
-                        <div class="avatar bg-center bg-no-repeat bg-size-100"></div>
-                        <span class="p-absolute font-14 d-inline-block w-100 text-center" style="left: 0;bottom: 5px;color: #7B7B7B;">{{ host.name }}</span>
+                        <div class="avatar  bg-center bg-no-repeat bg-size-100"></div>
+                        <span class="p-absolute bg-center bg-no-repeat bg-size-100 name font-14 d-inline-block w-100 text-center" >{{ host.name }}</span>
                     </div>
                     <span class="text-888 m-t-15 m-b-10 w-100 text-ellipsis">{{ host.description }}</span>
                     <submit-button :subscribed="host.isSubscribe" />
@@ -102,23 +102,39 @@ export default {
         }
         .rank-0 {
             background-image: url('../assets/images/host/gold.png');
+            .name {
+                background-image: url('../assets/images/host/gold-name.png');
+                color: #907A10;
+            }
         }
         .rank-1 {
             background-image: url('../assets/images/host/silver.png');
+            .name {
+                background-image: url('../assets/images/host/silver-name.png');
+                color: #7B7B7B;
+            }
         }
         .rank-2 {
             background-image: url('../assets/images/host/bronze.png');
+            .name {
+                background-image: url('../assets/images/host/bronze-name.png');
+                color: #A76830;
+            }
         }
         .avatar {
-            margin-top: -5px;
-            margin-left: 5px;
-            width: 100px;
-            height: 100px;
+            width: 105px;
+            height: 105px;
             background-image: url('../assets/images/common/host-avatar.png');
         }
         .icon {
             width: 118px;
             height: 130px;
+        }
+        .name {
+            bottom: -10px;
+            width: 118px;
+            height: 38px;
+            line-height: 35px;
         }
     }
     .left-host {

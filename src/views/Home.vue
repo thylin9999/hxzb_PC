@@ -18,8 +18,9 @@
           <div class="banner wrap-1450 bg-center bg-no-repeat bg-size-100" />
           <host-rank />
           <host-list />
-          <video-competition />
-          <events />
+<!--          这里暂时先不加-->
+<!--          <video-competition />-->
+<!--          <events />-->
       </div>
   </div>
 </template>
