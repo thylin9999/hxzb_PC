@@ -1,11 +1,11 @@
 <template>
-<div class="wrap-1450 p-t-15 p-l-15 bg-white">
-    <tab-title title="暂未开通" />
-    <div class="list" v-loading="isLoading">
+<div class="wrap-1800 p-t-15 ">
+    <title-row class="title-row m-b-25" icon="un-live" title="未开播" />
+    <div class="list bg-white p-t-15 p-b-25" v-loading="isLoading">
         <div v-if="tableData.length" class="host-list">
             <ul v-if="tableData.length" class="w-100 flex flex-wrap">
                 <li
-                    class="m-l-5 m-r-5 p-t-15 p-b-15"
+                    class=" p-t-25 p-b-25 item"
                     v-for="host in tableData"
                     :key="host.id"
                 >
@@ -21,14 +21,14 @@
 </template>
 
 <script>
-import TabTitle from '@/components/TabTitle'
+import TitleRow from '@/components/TitleRow'
 import HostCard from '@/components/HostCard'
-import { getHosts } from '@/api/Host/Host'
+import { getSubscribeHost } from '@/api/Host/Host'
 
 export default {
     name: 'NotSubscribeBroadcast',
     components: {
-        TabTitle,
+        TitleRow,
         HostCard
     },
     data () {
@@ -42,19 +42,37 @@ export default {
     },
     methods: {
         async fetchData () {
-            this.isLoading = true
-            const res = await getHosts()
-            this.isLoading = false
-            this.tableData = res.data
+            try {
+                this.isLoading = true
+                const res = await getSubscribeHost({})
+                this.tableData = res.data
+                console.log(this.tableData, 'asdf111')
+            } catch (e) {
+                console.log('出错了')
+            } finally {
+                this.isLoading = false
+            }
         }
     }
 }
 </script>
 
 <style lang="scss" scoped>
+.list {
+    min-height: 300px;
+    .item {
+        width: 290px;
+        padding-left: 85px;
+    }
+}
 ::v-deep {
     .el-empty {
         padding: 0!important;
+    }
+    .title-row {
+        .icon {
+            width: 24px!important;
+        }
     }
 }
 </style>

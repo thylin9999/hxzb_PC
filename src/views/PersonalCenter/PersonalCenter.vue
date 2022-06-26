@@ -32,6 +32,7 @@ import editAvatar from '@/views/PersonalCenter/Components/editAvatar'
 import UpdatePassword from '@/views/PersonalCenter/Components/UpdatePassword'
 import Feedback from '@/views/PersonalCenter/Components/Feedback'
 import OpenLiveBroadCast from '@/views/PersonalCenter/Components/OpenLiveBroadCast'
+import BookLiveBroadCast from '@/views/PersonalCenter/Components/BookLiveBroadCast'
 import { mapState } from 'vuex'
 export default {
     name: 'PersonalCenter',
@@ -42,7 +43,8 @@ export default {
         editAvatar,
         UpdatePassword,
         Feedback,
-        OpenLiveBroadCast
+        OpenLiveBroadCast,
+        BookLiveBroadCast
     },
     data () {
         return {
@@ -87,6 +89,13 @@ export default {
                     text: '直播管理',
                     icon: 'message1',
                     com: 'OpenLiveBroadCast'
+                },
+                {
+                    id: 7,
+                    name: 'bookLiveBroadCast',
+                    text: '直播预约',
+                    icon: 'message1',
+                    com: 'BookLiveBroadCast'
                 }
             ],
             currentMenu: {}

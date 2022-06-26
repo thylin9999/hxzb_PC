@@ -5,7 +5,7 @@
             <div class="logo">
                 <img class="h-100" src="../../assets/images/common/logo.png" alt="">
             </div>
-            <ul class="menus flex align-center" :class="{'light-header': isLightHeader}">
+            <ul class="menus flex align-center light-header" :class="{'light-header': isLightHeader}">
                 <li
                     class="pointer m-l-5 m-r-5 font-400 text-center "
                     v-for="menu in menus"

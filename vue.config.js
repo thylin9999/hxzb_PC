@@ -18,6 +18,9 @@ module.exports = {
     publicPath: './',
     css: {
         loaderOptions: {
+            css: {
+                sourceMap: true
+            },
             scss: {
                 implementation: getSass({
                     getMultipleScopeVars: sassOptions => multipleScopeVars.map(item => {

@@ -9,7 +9,6 @@ const instance = axios.create({
     baseURL: process.env.NODE_ENV === 'production' ? process.env.VUE_APP_BASE_URL : ''
 })
 
-console.log(process.env.mode, process.env, 'asdya')
 const errorHandle = (error) => {
     console.log(error, '出错了')
     return Promise.reject(error)

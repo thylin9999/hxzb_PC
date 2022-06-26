@@ -42,48 +42,10 @@ export default {
         HotRecommend,
         HostRank,
         HostList,
-        VideoCompetition,
-        Events
+        VideoCompetition
     },
     data () {
         return {
-            menus: [
-                {
-
-                }
-            ],
-            news: [
-                {
-                    id: 1,
-                    title: '国际足联和卡塔尔公布2022年世界杯吉祥物',
-                    path: '',
-                    time: '2022-12-25'
-                },
-                {
-                    id: 2,
-                    title: '国际足联和卡塔尔公布2022年世界杯吉祥物',
-                    path: '',
-                    time: '2022-12-25'
-                },
-                {
-                    id: 3,
-                    title: '国际足联和卡塔尔公布2022年世界杯吉祥物',
-                    path: '',
-                    time: '2022-12-25'
-                },
-                {
-                    id: 4,
-                    title: '国际足联和卡塔尔公布2022年世界杯吉祥物',
-                    path: '',
-                    time: '2022-12-25'
-                },
-                {
-                    id: 5,
-                    title: '国际足联和卡塔尔公布2022年世界杯吉祥物',
-                    path: '',
-                    time: '2022-12-25'
-                }
-            ],
             competitions: []
         }
     }

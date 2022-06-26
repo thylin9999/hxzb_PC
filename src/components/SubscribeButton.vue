@@ -1,7 +1,6 @@
 <template>
-<div class="subscribe font-14 p-l-15 p-r-15 pointer" :class="{'un-subscribe': isSubscribe}">
-    <span v-if="isSubscribe">✅</span>
-    <span v-else>订阅</span>
+<div class="subscribe pointer" :class="{'un-subscribe': isSubscribe}">
+    <span >{{ title }}</span>
 </div>
 </template>
 
@@ -17,6 +16,11 @@ export default {
             type: Boolean,
             default: false
         }
+    },
+    computed: {
+        title () {
+            return this.isSubscribe ? '已订阅' : '订阅'
+        }
     }
 }
 </script>
@@ -24,13 +28,15 @@ export default {
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
 .subscribe{
-    background-color: $text-white;
-    border: 1px solid $background-color1;
-    color: $background-color1;
-    line-height: 20px;
-    border-radius: 15px;
+    background-color: #fff;
+    border: 1px solid #3C3F5B;
+    color: #3C3F5B;
+    line-height: 35px;
+    border-radius: 10px;
     &.un-subscribe {
-        border-color: #eee;
+        background-color: #C3C3C3;
+        border: 1px solid transparent;
+        color: $text-white;
     }
 }
 </style>

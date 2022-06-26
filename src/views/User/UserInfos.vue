@@ -1,5 +1,5 @@
 <template>
-<div class="user font-16 font-medium" :class="{'light-background': isLightHeader}">
+<div class="user font-16 font-medium light-background" :class="{'light-background': isLightHeader}">
     <div v-if="!token" class="user-buttons font-20 font-400 text-center">
         <span class="pointer" @click="openLogin">登录</span>
         <span class="">/</span>
@@ -11,7 +11,7 @@
           <span class="el-dropdown-link flex align-center">
             <span class="flex align-center">
                 <div class="user-logo bg-center bg-no-repeat"></div>
-                <span class="m-l-10" :class="{'text-white': isLightHeader}">{{nickname}}</span>
+                <span class="m-l-10 text-white" :class="{'text-white': isLightHeader}">{{nickname}}</span>
             </span>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>

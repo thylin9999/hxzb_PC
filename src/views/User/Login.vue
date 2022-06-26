@@ -61,8 +61,8 @@
                         <span class="pointer" @click="changeType(2)">去登录</span>
                     </template>
                 </div>
-                <div class="submit m-t-15">
-                    <submit-button :text="title" @click.native="submit"/>
+                <div class="submit m-t-15 text-center">
+                    <submit-button class="w-100 font-16 d-inline-block text-center" :title="title" @click.native="submit"/>
                 </div>
             </div>
         </div>

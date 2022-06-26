@@ -9,8 +9,10 @@
             :host-id.sync="hostId"
         />
     </div>
-    <div class="w-100">
-        <ul class="flex flex-wrap hosts">
+    <div class="w-100"
+         v-loading="isLoading"
+         element-loading-background="transparent">
+        <ul class="flex flex-wrap hosts" v-if="list.length">
             <li
                 v-for="item in list"
                 :key="item.id"
@@ -21,6 +23,10 @@
                 />
             </li>
         </ul>
+        <el-empty
+            v-else
+            :image-size="108"
+            description="暂无数据" />
     </div>
 </div>
 </template>
@@ -30,7 +36,7 @@ import TitleRow from '@/components/TitleRow'
 import MoreButton from '@/components/MoreButton'
 import LiveBroadCard from '@/components/LiveBroadCard'
 import MatchTypes from '@/views/components/MatchTypes'
-import { getHosts } from '@/api/Host/Host'
+import { getOnlineBroadcast } from '@/api/competition/competition'
 
 export default {
     name: 'HostList',
@@ -43,11 +49,21 @@ export default {
     data () {
         return {
             list: [],
-            hostId: 1
+            hostId: 5,
+            isLoading: false
         }
     },
     created () {
         this.fetchData()
+    },
+    computed: {
+        apiParams () {
+            return {
+                pageNumber: 1,
+                pageSize: 20,
+                type: this.hostId * 1 === 5 ? null : this.hostId // 赛事类型
+            }
+        }
     },
     watch: {
         hostId () {
@@ -57,10 +73,15 @@ export default {
     methods: {
         async fetchData () {
             try {
-                const { data } = await getHosts()
-                this.list = data
+                this.isLoading = true
+                // 获取所有的直播
+                const { data } = await getOnlineBroadcast(this.apiParams)
+                console.log(data, 'data')
+                this.list = data ? data.list : []
             } catch (e) {
                 console.log('出错了')
+            } finally {
+                this.isLoading = false
             }
         }
     }

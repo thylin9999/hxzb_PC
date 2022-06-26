@@ -1,17 +1,17 @@
 <template>
-<div class="wrap-1450 p-t-15 p-l-15 bg-white">
+<div class="wrap-1800 p-t-15 ">
     <title-row icon="tv" title="正在直播" />
     <div class="online-broadcast"
          v-loading="isLoading"
     >
         <ul v-if="tableData.length" class="w-100 flex flex-wrap">
             <li
-                class="m-l-5 m-r-5 p-t-15 p-b-15"
+                class=" p-t-15 p-b-15"
                 v-for="competition in tableData"
                 :key="competition.id"
             >
-                <competition-card
-                    :competition-info="competition"
+                <live-broad-card
+                    :info="competition"
                 />
             </li>
         </ul>
@@ -25,14 +25,14 @@
 
 <script>
 import TitleRow from '@/components/TitleRow'
-import CompetitionCard from '@/components/CompetitionCard'
+import LiveBroadCard from '@/components/LiveBroadCard'
 import { getOnlineBroadcast } from '@/api/competition/competition'
 
 export default {
     name: 'OnlineBroadcast',
     components: {
         TitleRow,
-        CompetitionCard
+        LiveBroadCard
     },
     data () {
         return {
@@ -47,6 +47,7 @@ export default {
         async fetchData () {
             this.isLoading = true
             const { data } = await getOnlineBroadcast({})
+            console.log(data, 'data')
             this.isLoading = false
             this.tableData = data.list
             console.log(this.tableData, 'adf')
@@ -65,6 +66,15 @@ export default {
 .empty-div {
     background-image: url('../../assets/images/common/empty.png');
     background-size: 105px 80px;
+}
+.online-broadcast {
+    li {
+        width: 340px;
+        margin-right: 25px;
+        &:nth-child(5n) {
+            margin-right: 0;
+        }
+    }
 }
 ::v-deep {
     .el-empty {

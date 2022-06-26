@@ -1,10 +1,21 @@
 import request from '../request'
 import url from './url'
 
-export function getHosts () {
+// export function getHosts () {
+//     return request({
+//         method: 'get',
+//         url: url.getHosts
+//     })
+// }
+
+// 获取订阅的直播列表
+export function getSubscribeHost ({ type = null }) {
     return request({
-        method: 'get',
-        url: url.getHosts
+        method: 'post',
+        url: url.getSubscribeHost,
+        data: {
+            type // 区分开播和未开播的
+        }
     })
 }
 

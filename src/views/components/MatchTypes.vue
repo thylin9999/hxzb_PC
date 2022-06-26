@@ -25,41 +25,41 @@ export default {
         return {
             types: [
                 {
-                    id: 1,
+                    id: 5, // 未定
                     title: '正在热播',
                     key: 'living'
                 },
                 {
-                    id: 2,
+                    id: 1,
                     title: '足球热播',
                     key: 'football'
                 },
                 {
-                    id: 3,
+                    id: 2,
                     title: '篮球热播',
                     key: 'basketball'
                 },
                 {
-                    id: 4,
+                    id: 3,
                     title: '电竞热播',
                     key: 'eSports'
                 },
                 {
-                    id: 5,
+                    id: 4,
                     title: '其他',
                     key: 'other'
                 }
             ],
-            activeId: 1
+            activeId: 5
         }
     },
     created () {
-        this.activeId = this.hostId
+        this.activeId = this.hostId * 1
     },
     methods: {
         changeId (type) {
             this.activeId = type.id
-            this.$emit('update:hostId', this.activeId)
+            this.$emit('update:hostId', this.activeId * 1)
         }
     }
 }

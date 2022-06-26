@@ -19,8 +19,14 @@
                         <div class="avatar  bg-center bg-no-repeat bg-size-100"></div>
                         <span class="p-absolute bg-center bg-no-repeat bg-size-100 name font-14 d-inline-block w-100 text-center" >{{ host.name }}</span>
                     </div>
-                    <span class="text-888 m-t-15 m-b-10 w-100 text-ellipsis">{{ host.description }}</span>
-                    <submit-button :subscribed="host.isSubscribe" />
+                    <custom-span
+                        class="font-14 text-888 w-100 m-t-25 m-b-10"
+                        :content="host.description"
+                    />
+                    <span
+                        class="subscribe-button text-center font-16 pointer"
+                        :class="{'is-subscribed': host.isSubscribe }"
+                    >{{ host.isSubscribe ? '已订阅' : '订阅'}}</span>
                 </li>
             </ul>
         </div>
@@ -35,10 +41,17 @@
                         <div class="icon m-r-10 bg-no-repeat bg-center bg-size-100"></div>
                          <div class="flex host-info flex-column ">
                              <span class="font-16 host-name font-regular">{{ host.name }}</span>
-                             <span class="w-100 text-888 text-ellipsis font-14">{{ host.description }}</span>
+<!--                             <span class="w-100 text-888 text-ellipsis font-14">{{ nhost.descriptio }}</span>-->
+                             <custom-span
+                                class="font-14 text-888 w-100"
+                                :content="host.description"
+                             />
                          </div>
                     </div>
-                    <submit-button :subscribed="host.isSubscribe" />
+                    <span
+                        class="subscribe-button text-center font-16 pointer"
+                        :class="{'is-subscribed': host.isSubscribe }"
+                    >{{ host.isSubscribe ? '已订阅' : '订阅'}}</span>
                 </li>
             </ul>
         </div>
@@ -49,7 +62,7 @@
 <script>
 import TitleRow from '@/components/TitleRow'
 import MoreButton from '@/components/MoreButton'
-import SubmitButton from '@/components/SubmitButton'
+import CustomSpan from '@/components/CustomSpan'
 import { getHostRank } from '@/api/Host/Host'
 
 export default {
@@ -57,7 +70,7 @@ export default {
     components: {
         TitleRow,
         MoreButton,
-        SubmitButton
+        CustomSpan
     },
     data () {
         return {
@@ -141,6 +154,7 @@ export default {
         padding: 25px 35px 25px 40px;
         .host-item {
             margin: 12.5px 0;
+
         }
         .left-section {
             .host-info {
@@ -155,6 +169,19 @@ export default {
                 height: 50px;
                 background-image: url('../assets/images/common/host-avatar.png');
             }
+        }
+    }
+    .subscribe-button {
+        color: #05195A;
+        font-weight: 400;
+        line-height: 32px;
+        width: 135px;
+        height: 32px;
+        border-radius: 16px;
+        border: 1px solid #05195A;
+        &.is-subscribed {
+            color: #6B6B6B;
+            border: 1px solid #6B6B6B;
         }
     }
 }

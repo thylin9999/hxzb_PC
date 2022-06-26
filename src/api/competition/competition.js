@@ -10,7 +10,19 @@ export function getCompetitions (type = 1) {
     })
 }
 
-export function getOnlineBroadcast ({ pageNumber = 1, pageSize = 20 }) {
+export function getOnlineBroadcast ({ pageNumber = 1, pageSize = 20, type = null }) {
+    return request({
+        method: 'post',
+        url: url.getOnlineBroadcast,
+        data: {
+            pageNum: pageNumber,
+            pageSize,
+            type
+        }
+    })
+}
+
+export function getHotBroadcast ({ pageNumber = 1, pageSize = 4 }) {
     return request({
         method: 'post',
         url: url.getOnlineBroadcast,

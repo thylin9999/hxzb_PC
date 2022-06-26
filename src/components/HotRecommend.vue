@@ -23,6 +23,8 @@
 <script>
 import TitleRow from '@/components/TitleRow'
 import LiveBroadCard from '@/components/LiveBroadCard'
+import { getHotBroadcast } from '@/api/competition/competition'
+
 export default {
     name: 'HotRecommend',
     components: {
@@ -74,6 +76,19 @@ export default {
                     }
                 }
             ]
+        }
+    },
+    created () {
+        this.fetchData()
+    },
+    methods: {
+        async fetchData () {
+            try {
+                const { data } = await getHotBroadcast({})
+                this.list = data.list
+            } catch (e) {
+                console.log('出粗了')
+            }
         }
     }
 }
