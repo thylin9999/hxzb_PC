@@ -1,5 +1,14 @@
 <template>
-<div class="card">
+<div class="card" :style="style">
+    <div
+        v-if="showTopImg"
+        class="top-image bg-center p-relative bg-no-repeat bg-size-100"
+        :style="{
+            backgroundImage: `url(${topImg})`
+        }"
+    >
+      <span class="font-600 p-absolute top-text" :class="`top${index+1}`">TOP{{ index + 1}}</span>
+    </div>
     <div class="w-100 overflow-hidden">
       <div class="live-cover pointer  bg-center bg-no-repeat transition-3"
            :class="{
@@ -43,6 +52,14 @@ export default {
         info: {
             type: Object,
             default: () => ({})
+        },
+        index: {
+            type: Number,
+            default: 1
+        },
+        showTopImg: {
+            type: Boolean,
+            default: false
         }
     },
     computed: {
@@ -51,6 +68,15 @@ export default {
         },
         cover () {
             return this.hasCover ? this.info.img : require('../assets/images/common/host-blank.png')
+        },
+        topImg () {
+            return require(`../assets/images/matches/top${this.index + 1}.png`)
+        },
+        style () {
+            return {
+            // height: 265px;
+                height: this.showTopImg ? 370 / 19.2 + 'vw' : 265 / 19.2 + 'vw'
+            }
         }
     }
 }
@@ -61,7 +87,6 @@ export default {
     border-radius: 10px;
     overflow: hidden;
     width: 340px;
-    height: 265px;
     .live-cover {
         height: 190px;
         background-color: #f2f2f2;
@@ -90,4 +115,31 @@ export default {
         }
     }
 }
+.top-image {
+  margin: 0 auto 20px;
+  width: 290px;
+  height: 84px;
+}
+.top-text {
+  font-size: 35px;
+  line-height: 60px;
+  left: 135px;
+  top: 0;
+}
+.top1 {
+  color: #FA8300;
+}
+.top2 {
+  color: #598888;
+}
+.top3 {
+  color: #B55D4A;
+}
+.top4 {
+  color: #398BAC;
+}
+.top5 {
+  color: #398BAC;
+}
+
 </style>

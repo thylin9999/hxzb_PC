@@ -14,10 +14,10 @@
       </div>
       <div class="bg-gray2">
           <match-list class="m-t-n-10"/>
-          <hot-recommend />
+          <hot-recommend class="wrap-1450" is-home/>
           <div class="banner wrap-1450 bg-center bg-no-repeat bg-size-100" />
           <host-rank />
-          <host-list />
+          <host-list class="wrap-1450" is-home/>
 <!--          这里暂时先不加-->
 <!--          <video-competition />-->
 <!--          <events />-->

@@ -1,5 +1,5 @@
 <template>
-<div class="wrap-1450">
+<div class="">
     <title-row
         icon="hot"
         title="热门直播"
@@ -8,11 +8,13 @@
     <div class="w-100">
         <ul class="w-100 flex justify-between align-center">
             <li
-                v-for="item in list"
+                v-for="(item, index) in list"
                 :key="item.id"
             >
                 <live-broad-card
+                    :index="index"
                     :info="item"
+                    :show-top-img="!isHome"
                 />
             </li>
         </ul>
@@ -27,6 +29,12 @@ import { getHotBroadcast } from '@/api/competition/competition'
 
 export default {
     name: 'HotRecommend',
+    props: {
+        isHome: {
+            type: Boolean,
+            default: false
+        }
+    },
     components: {
         TitleRow,
         LiveBroadCard
@@ -85,7 +93,7 @@ export default {
         async fetchData () {
             try {
                 const { data } = await getHotBroadcast({})
-                this.list = data.list
+                this.list = this.isHome ? data.list.slice(0, 4) : data.list
             } catch (e) {
                 console.log('出粗了')
             }

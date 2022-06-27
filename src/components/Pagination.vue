@@ -28,7 +28,6 @@ export default {
     },
     methods: {
         currentChange (page) {
-            console.log(page, 'page')
             this.$emit('update:currentPage', page)
             this.$emit('loadData')
         }

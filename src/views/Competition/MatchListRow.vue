@@ -1,6 +1,6 @@
 <template>
-    <div v-if="matches.length" class="matches text-white flex align-center justify-between wrap-1450 font-regular">
-        <div class="left-list p-relative">
+    <div v-if="matches.length" class="matches w-100 text-white flex align-center justify-between  font-regular">
+        <div class="left-list p-l-30 p-r-30 w-100 p-relative">
             <span @click="fetchData" class="prev  p-absolute"></span>
             <span @click="fetchData" class="next  p-absolute"></span>
             <div class="ul-box overflow-x-auto">
@@ -9,7 +9,7 @@
                     :style="ulStyle"
                 >
                     <li
-                        class=" match-item  p-t-20 m-r-10  bg-center bg-no-repeat bg-size-100"
+                        class=" match-item  p-t-20 m-r-10 m-l-10  bg-center bg-no-repeat bg-size-100"
                         v-for="match in matches"
                         :key="match.id"
                     >
@@ -113,11 +113,6 @@ export default {
                 return all
             }, [])
         },
-        goToCompetition () {
-            this.$router.push({
-                name: 'Competition'
-            })
-        },
         book (match) {
             if (!match.isGoing) {
                 if (this.token) {
@@ -135,9 +130,8 @@ export default {
 
 <style lang="scss" scoped>
 .left-list {
-    width: calc(100% - 140px);
     .ul-box {
-        width: calc(100% - 60px);
+        //width: calc(100% - 60px);
     }
     .list {
         min-width: 100%;
@@ -234,11 +228,11 @@ export default {
     }
     .prev {
         background-image: url('../../assets/images/matches/left-arrow.png');
-        left: -57px;
+        left: 0;
     }
     .next {
         background-image: url('../../assets/images/matches/right-arrow.png');
-        right: 0px;
+        right: 0;
     }
 }
 .right-button{

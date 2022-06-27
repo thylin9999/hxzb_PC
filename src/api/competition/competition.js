@@ -22,7 +22,7 @@ export function getOnlineBroadcast ({ pageNumber = 1, pageSize = 20, type = null
     })
 }
 
-export function getHotBroadcast ({ pageNumber = 1, pageSize = 4 }) {
+export function getHotBroadcast ({ pageNumber = 1, pageSize = 5 }) {
     return request({
         method: 'post',
         url: url.getOnlineBroadcast,
