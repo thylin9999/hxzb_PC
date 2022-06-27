@@ -162,7 +162,7 @@ export default {
 
 <style lang="scss" scoped>
 .row-outer {
-    width: 420px;
+    width: 520px;
     .label {
         width: 32px;
         margin-right: 45px;
@@ -187,7 +187,7 @@ export default {
     }
     .info {
         .row-inner {
-            max-width: 420px;
+            max-width: 520px;
             padding-left: 30px!important;
             .label {
                 width: 32px;

@@ -9,7 +9,7 @@
                     :style="ulStyle"
                 >
                     <li
-                        class=" match-item  p-t-20 m-r-10 m-l-10  bg-center bg-no-repeat bg-size-100"
+                        class=" match-item  p-t-20 m-r-10  bg-center bg-no-repeat bg-size-100"
                         v-for="match in matches"
                         :key="match.id"
                     >
@@ -21,21 +21,33 @@
                                 <span
                                     @click="book(match)"
                                     class=" font-12 pointer"
-                                    :class="{'text-white': match.isGoing, 'pointer': !match.isGoing }"
-                                >{{ match.isGoing ? '比赛中' : '预约'}}</span>
+                                    :class="{'text-white': match.isSubscribe, 'pointer': !match.isSubscribe }"
+                                >{{
+                                        match.isGoing ? '比赛中' : match.isSubscribe ? '已预约' : '预约'
+                                    }}</span>
                             </div>
                         </div>
                         <div class="team-score p-l-20 p-r-20">
                             <div class="team  flex justify-between align-center">
                                 <div class="flex align-center">
-                                    <span class="team-flag m-r-10 bg-no-repeat bg-center bg-size-100 d-inline-block"></span>
+                                <span
+                                    class="team-flag m-r-10 bg-no-repeat bg-center bg-size-100 d-inline-block"
+                                    :style="{
+                                        backgroundImage: `url(${match.homeLogo})`
+                                    }"
+                                ></span>
                                     <span class="font-18">{{ match.homeChs}}</span>
                                 </div>
                                 <span class="score">{{ match.homeScore}}</span>
                             </div>
                             <div class="team  flex justify-between align-center">
                                 <div class="flex align-center">
-                                    <span class="team-flag m-r-10 bg-no-repeat bg-center bg-size-100 d-inline-block"></span>
+                                <span
+                                    class="team-flag m-r-10 bg-no-repeat bg-center bg-size-100 d-inline-block"
+                                    :style="{
+                                        backgroundImage: `url(${match.awayLogo})`
+                                    }"
+                                ></span>
                                     <span class="font-15">{{ match.awayChs }}</span>
                                 </div>
                                 <span class="score">{{ match.awayScore }}</span>
@@ -61,11 +73,13 @@
 </template>
 
 <script>
-import { getMatchList } from '@/api/competition/competition'
+import { getMatchList, getHostMatches, addSubscribeMatch } from '@/api/competition/competition'
 import dayjs from 'dayjs'
 import CustomSpan from '@/components/CustomSpan'
 import { Message } from 'element-ui'
 import { mapState } from 'vuex'
+import { matchStatus } from '@/utils/utils'
+import { statusCode } from '@/utils/statusCode'
 export default {
     name: 'MatchList',
     components: {
@@ -103,21 +117,27 @@ export default {
     },
     methods: {
         async fetchData () {
-            const { data } = await getMatchList(this.apiParams)
-
-            this.matches = data.list.reduce((all, match) => {
-                all.push({
-                    ...match,
-                    isGoing: match.state !== 0
-                })
-                return all
-            }, [])
+            const { data } = await getHostMatches()
+            if (data.list) {
+                this.matches = data.list.reduce((all, match) => {
+                    all.push({
+                        ...match,
+                        isSubscribe: match.appointment * 1 === 1,
+                        isGoing: !matchStatus[match.state]
+                    })
+                    return all
+                }, [])
+            }
         },
-        book (match) {
+        async book (match) {
             if (!match.isGoing) {
                 if (this.token) {
                     // 已登录
-                    // 发送请求订阅比赛
+                    const { code, msg } = await addSubscribeMatch(match.matchId)
+                    if (code === statusCode.success) {
+                        Message.success(msg)
+                        this.fetchData()
+                    }
                 } else {
                     Message.error('请先登录，无法预约！')
                     this.openLoginDialog()

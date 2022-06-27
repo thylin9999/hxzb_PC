@@ -16,16 +16,22 @@
                     class="rank-item flex flex-column justify-center align-center"
                 >
                     <div class="icon p-relative bg-center flex justify-center align-center bg-no-repeat bg-size-100" :class="`rank-${index}`">
-                        <div class="avatar  bg-center bg-no-repeat bg-size-100"></div>
-                        <span class="p-absolute bg-center bg-no-repeat bg-size-100 name font-14 d-inline-block w-100 text-center" >{{ host.name }}</span>
+                        <div
+                            class="avatar  bg-center bg-no-repeat bg-size-100"
+                            :style="{
+                                backgroundImage: `url(${host.bgImg})`
+                            }"
+                        ></div>
+                        <span class="p-absolute bg-center bg-no-repeat bg-size-100 name font-14 d-inline-block w-100 text-center" >{{ host.anchor_name }}</span>
                     </div>
                     <custom-span
                         class="font-14 text-888 w-100 m-t-25 m-b-10"
-                        :content="host.description"
+                        :content="host.sign"
                     />
                     <span
                         class="subscribe-button text-center font-16 pointer"
                         :class="{'is-subscribed': host.isSubscribe }"
+                        @click="followOrUnFollowHost(host)"
                     >{{ host.isSubscribe ? '已订阅' : '订阅'}}</span>
                 </li>
             </ul>
@@ -38,19 +44,24 @@
                     class="flex justify-between host-item align-center"
                 >
                     <div class="left-section flex align-center">
-                        <div class="icon m-r-10 bg-no-repeat bg-center bg-size-100"></div>
+                        <div
+                            class="icon m-r-10 bg-no-repeat bg-center bg-size-100"
+                            :style="{
+                                backgroundImage: `url(${host.bgImg})`
+                            }"
+                        ></div>
                          <div class="flex host-info flex-column ">
-                             <span class="font-16 host-name font-regular">{{ host.name }}</span>
-<!--                             <span class="w-100 text-888 text-ellipsis font-14">{{ nhost.descriptio }}</span>-->
+                             <span class="font-16 host-name font-regular">{{ host.anchor_name }}</span>
                              <custom-span
                                 class="font-14 text-888 w-100"
-                                :content="host.description"
+                                :content="host.sign"
                              />
                          </div>
                     </div>
                     <span
                         class="subscribe-button text-center font-16 pointer"
                         :class="{'is-subscribed': host.isSubscribe }"
+                        @click="followOrUnFollowHost(host)"
                     >{{ host.isSubscribe ? '已订阅' : '订阅'}}</span>
                 </li>
             </ul>
@@ -63,8 +74,8 @@
 import TitleRow from '@/components/TitleRow'
 import MoreButton from '@/components/MoreButton'
 import CustomSpan from '@/components/CustomSpan'
-import { getHostRank } from '@/api/Host/Host'
-
+import { getHostRank, followHost } from '@/api/Host/Host'
+import { Message } from 'element-ui'
 export default {
     name: 'HostRank',
     components: {
@@ -92,7 +103,23 @@ export default {
         async fetchData () {
             try {
                 const { data } = await getHostRank()
-                this.hosts = data
+                this.hosts = data.reduce((all, item) => {
+                    all.push({
+                        ...item,
+                        bgImg: item.logo ? item.logo : require('../assets/images/common/host-avatar.png')
+                    })
+                    return all
+                }, [])
+            } catch (e) {
+                console.log('出错了')
+            }
+        },
+        async followOrUnFollowHost (host) {
+            console.log(host)
+            try {
+                const { msg } = await followHost(host.id)
+                Message.success(msg)
+                this.fetchData()
             } catch (e) {
                 console.log('出错了')
             }
@@ -137,7 +164,7 @@ export default {
         .avatar {
             width: 105px;
             height: 105px;
-            background-image: url('../assets/images/common/host-avatar.png');
+            //background-image: url('../assets/images/common/host-avatar.png');
         }
         .icon {
             width: 118px;
@@ -167,7 +194,7 @@ export default {
             .icon {
                 width: 50px;
                 height: 50px;
-                background-image: url('../assets/images/common/host-avatar.png');
+                //background-image: url('../assets/images/common/host-avatar.png');
             }
         }
     }

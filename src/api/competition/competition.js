@@ -73,3 +73,20 @@ export function getMatchList ({
         }
     })
 }
+// 热门赛程
+export function getHostMatches () {
+    return request({
+        method: 'post',
+        url: url.getHostMatches
+    })
+}
+// 卡片预约赛事
+export function addSubscribeMatch (matchId) {
+    return request({
+        method: 'post',
+        url: url.addSubscribeMatch,
+        data: {
+            match_id: matchId
+        }
+    })
+}

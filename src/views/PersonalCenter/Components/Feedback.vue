@@ -38,7 +38,7 @@ export default {
 
 <style lang="scss" scoped>
 .content {
-    width: 500px;
+    width: 600px;
 }
 ::v-deep {
     .content {

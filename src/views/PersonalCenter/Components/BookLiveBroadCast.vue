@@ -1,6 +1,6 @@
 <template>
     <div class="live-cast p-b-30">
-        <header-title title="直播管理"/>
+        <header-title title="直播预约"/>
         <div class="content info font-16 font-regular text-333">
             <input-with-error
                 class="m-b-20 m-t-25"
@@ -19,6 +19,7 @@
                     <el-radio-group v-model="category">
                         <el-radio label="football">足球</el-radio>
                         <el-radio label="basketball">篮球</el-radio>
+                        <el-radio label="basketball">电竞</el-radio>
                         <el-radio label="other">其他</el-radio>
                     </el-radio-group>
                 </div>
@@ -59,7 +60,7 @@
                 <span
                     class="font-16 p-t-5 p-b-5 p-l-10 p-r-10 pointer"
                     @click="submit"
-                >直播开播</span>
+                >直播预约</span>
                 </div>
             </div>
         </div>
@@ -201,7 +202,7 @@ export default {
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
 .row-outer {
-    width: 470px;
+    width: 570px;
     .label {
         width: 80px;
         margin-right: 45px;
@@ -239,7 +240,7 @@ export default {
     }
     .info {
         .row-inner {
-            max-width: 470px;
+            max-width: 570px;
             padding-left: 30px!important;
             .label {
                 width: 80px;

@@ -76,7 +76,34 @@ const state = {
             title: '正在比赛',
             icon: 'icons/lock'
         }
-    ]
+    ],
+    broadcastTypes: [
+        {
+            id: 5, // 未定
+            title: '正在热播',
+            key: 'living'
+        },
+        {
+            id: 1,
+            title: '足球热播',
+            key: 'football'
+        },
+        {
+            id: 2,
+            title: '篮球热播',
+            key: 'basketball'
+        },
+        {
+            id: 3,
+            title: '电竞热播',
+            key: 'eSports'
+        },
+        {
+            id: 4,
+            title: '其他',
+            key: 'other'
+        }
+    ],
 }
 const actions = {
 

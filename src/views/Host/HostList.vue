@@ -2,7 +2,7 @@
 <div class="">
     <div class="p-relative">
         <title-row icon="sport" title="全部直播" class="m-b-30 m-t-20">
-            <more-button />
+            <more-button v-if="isHome" @click.native="goToLiveBroadCast"/>
         </title-row>
         <match-types
             class="match-types p-absolute"
@@ -102,6 +102,11 @@ export default {
             } finally {
                 this.isLoading = false
             }
+        },
+        goToLiveBroadCast () {
+            this.$router.push({
+                name: 'LiveBroad'
+            })
         }
     }
 }

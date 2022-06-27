@@ -44,7 +44,32 @@ export function getOBSAddress () {
 
 export function getHostRank () {
     return request({
-        method: 'get',
+        method: 'post',
         url: url.getHostRank
+    })
+}
+// 关注的主播列表
+export function getFlowedHosts () {
+    return request({
+        method: 'post',
+        url: url.getFlowedHosts
+    })
+}
+// 关注、取消 主播
+export function followHost (anchorId) {
+    return request({
+        method: 'post',
+        url: url.followHost,
+        data: {
+            anchor_id: anchorId
+        }
+    })
+}
+
+export function bookBroadcast () {
+    return request({
+        method: 'post',
+        url: url.bookBroadcast
+
     })
 }

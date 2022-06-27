@@ -117,7 +117,7 @@ export default {
 
 <style lang="scss" scoped>
 .content, .submit-buttons{
-    width: 500px;
+    width: 600px;
 }
 .submit-buttons{
     padding-left: 125px;
@@ -125,7 +125,7 @@ export default {
 ::v-deep {
     .content {
         .row-inner {
-            max-width: 440px;
+            max-width: 540px;
             padding-left: 30px!important;
             .label {
                 width: 50px;

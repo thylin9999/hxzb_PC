@@ -3,6 +3,8 @@ const url = {
     getOnlineBroadcast: '/api/live/roomLists',
     getBookedMatches: '/api/get-matches',
     getMatchList: '/api/scheduleMatch/lists', // 赛程
-    getVideoCompetitions: '/api/get-video-competitions'
+    getHostMatches: '/api/scheduleMatch/hotMatch',
+    getVideoCompetitions: '/api/get-video-competitions',
+    addSubscribeMatch: '/api/attention/add', // 预约赛事
 }
 export default url
