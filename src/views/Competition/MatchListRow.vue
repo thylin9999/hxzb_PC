@@ -1,69 +1,63 @@
 <template>
-<div v-if="matches.length" class="matches text-white flex align-center justify-between wrap-1450 font-regular">
-    <div class="left-list p-relative">
-        <span @click="fetchData" class="prev  p-absolute"></span>
-        <span @click="fetchData" class="next  p-absolute"></span>
-        <div class="ul-box overflow-x-auto">
-            <ul
-                class="list  overflow-x-auto  flex justify-between flex-no-wrap"
-                :style="ulStyle"
-            >
-                <li
-                    class=" match-item  p-t-20 m-r-10  bg-center bg-no-repeat bg-size-100"
-                    v-for="match in matches"
-                    :key="match.id"
+    <div v-if="matches.length" class="matches text-white flex align-center justify-between wrap-1450 font-regular">
+        <div class="left-list p-relative">
+            <span @click="fetchData" class="prev  p-absolute"></span>
+            <span @click="fetchData" class="next  p-absolute"></span>
+            <div class="ul-box overflow-x-auto">
+                <ul
+                    class="list  overflow-x-auto  flex justify-between flex-no-wrap"
+                    :style="ulStyle"
                 >
-                    <div class="header p-l-20 p-b-15 p-relative font-500 flex flex-column  font-15 text-match">
-                        <CustomSpan class="match-title font-18" :content="match.leagueChsShort"/>
-                        <span class="m-t-10 font-18 font-400">{{ match.matchTime }}</span>
-                        <div class="p-absolute match-status flex align-center text-center" :class="{'is-waiting': !match.isGoing}">
-                            <span class="book-icon d-inline-block m-r-5 bg-center bg-no-repeat bg-size-100" v-if="!match.isGoing"></span>
-                            <span
-                                @click="book(match)"
-                                class=" font-12 pointer"
-                                :class="{'text-white': match.isGoing, 'pointer': !match.isGoing }"
-                            >{{ match.isGoing ? '比赛中' : '预约'}}</span>
-                        </div>
-                    </div>
-                    <div class="team-score p-l-20 p-r-20">
-                        <div class="team  flex justify-between align-center">
-                            <div class="flex align-center">
-                                <span class="team-flag m-r-10 bg-no-repeat bg-center bg-size-100 d-inline-block"></span>
-                                <span class="font-18">{{ match.homeChs}}</span>
+                    <li
+                        class=" match-item  p-t-20 m-r-10  bg-center bg-no-repeat bg-size-100"
+                        v-for="match in matches"
+                        :key="match.id"
+                    >
+                        <div class="header p-l-20 p-b-15 p-relative font-500 flex flex-column  font-15 text-match">
+                            <CustomSpan class="match-title font-18" :content="match.leagueChsShort"/>
+                            <span class="m-t-10 font-18 font-400">{{ match.matchTime }}</span>
+                            <div class="p-absolute match-status flex align-center text-center" :class="{'is-waiting': !match.isGoing}">
+                                <span class="book-icon d-inline-block m-r-5 bg-center bg-no-repeat bg-size-100" v-if="!match.isGoing"></span>
+                                <span
+                                    @click="book(match)"
+                                    class=" font-12 pointer"
+                                    :class="{'text-white': match.isGoing, 'pointer': !match.isGoing }"
+                                >{{ match.isGoing ? '比赛中' : '预约'}}</span>
                             </div>
-                            <span class="score">{{ match.homeScore}}</span>
                         </div>
-                        <div class="team  flex justify-between align-center">
-                            <div class="flex align-center">
-                                <span class="team-flag m-r-10 bg-no-repeat bg-center bg-size-100 d-inline-block"></span>
-                                <span class="font-15">{{ match.awayChs }}</span>
+                        <div class="team-score p-l-20 p-r-20">
+                            <div class="team  flex justify-between align-center">
+                                <div class="flex align-center">
+                                    <span class="team-flag m-r-10 bg-no-repeat bg-center bg-size-100 d-inline-block"></span>
+                                    <span class="font-18">{{ match.homeChs}}</span>
+                                </div>
+                                <span class="score">{{ match.homeScore}}</span>
                             </div>
-                            <span class="score">{{ match.awayScore }}</span>
+                            <div class="team  flex justify-between align-center">
+                                <div class="flex align-center">
+                                    <span class="team-flag m-r-10 bg-no-repeat bg-center bg-size-100 d-inline-block"></span>
+                                    <span class="font-15">{{ match.awayChs }}</span>
+                                </div>
+                                <span class="score">{{ match.awayScore }}</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="match-footer m-t-15 flex justify-center align-center">
-                        <div v-if="match.isGoing" class="is-going flex justify-between align-center">
-                            <span class="icon m-r-15 bg-no-repeat bg-size-100 bg-center"></span>
-                            <div class="host-list overflow-hidden flex">
+                        <div class="match-footer m-t-15 flex justify-center align-center">
+                            <div v-if="match.isGoing" class="is-going flex justify-between align-center">
+                                <span class="icon m-r-15 bg-no-repeat bg-size-100 bg-center"></span>
+                                <div class="host-list overflow-hidden flex">
                                 <span
                                     v-for="host in match.anchor_list"
                                     :key="host.id"
                                     class="host"></span>
+                                </div>
                             </div>
+                            <span v-else class="wait text-center font-12 d-inline-block">未开始</span>
                         </div>
-                        <span v-else class="wait text-center font-12 d-inline-block">未开始</span>
-                    </div>
-                </li>
-            </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
-    <div @click="goToCompetition" class="right-button pointer bg-center bg-no-repeat bg-size-100 flex flex-column justify-center align-center ">
-        <span class="calender m-l-n-10 bg-no-repeat bg-center bg-size-100 d-inline-block">
-
-        </span>
-        <span  class="m-t-20 m-l-n-10">全部 <br/>赛程</span>
-    </div>
-</div>
 </template>
 
 <script>

@@ -15,7 +15,8 @@ import {
     Option,
     Upload,
     Loading,
-    Tooltip
+    Tooltip,
+    DatePicker
 } from 'element-ui'
 
 Vue.use(Pagination)
@@ -34,3 +35,4 @@ Vue.use(Option)
 Vue.use(Upload)
 Vue.use(Loading)
 Vue.use(Tooltip)
+Vue.use(DatePicker)

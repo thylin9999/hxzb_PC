@@ -54,6 +54,28 @@ const state = {
             com: 'Disclaimer'
         }
 
+    ],
+    matchTypes: [
+        {
+            id: 1,
+            title: '足球',
+            icon: 'icons/football'
+        },
+        {
+            id: 2,
+            title: '篮球',
+            icon: 'icons/basketball'
+        },
+        {
+            id: 3,
+            title: '热门赛事',
+            icon: 'icons/hot-white'
+        },
+        {
+            id: 4,
+            title: '正在比赛',
+            icon: 'icons/lock'
+        }
     ]
 }
 const actions = {

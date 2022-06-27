@@ -157,11 +157,12 @@ export default {
     },
     methods: {
         async getAddress () {
-            const { data } = await getOBSAddress()
-            if (data.code === statusCode.success) {
-                this.obs = data.data
+            const { data, code, msg } = await getOBSAddress()
+            console.log(data, 'data')
+            if (code === statusCode.success) {
+                this.obs = data
             } else {
-                Message.error(data.msg)
+                Message.error(msg)
             }
         },
         async submit () {

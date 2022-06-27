@@ -97,9 +97,98 @@ const getVideoCompetitions = config => {
     })
 }
 
+const getMatchList = config => {
+    return Mock.mock({
+        'code': statusCode.success,
+        'msg': '',
+        data: {
+            'list|10': [
+                {
+                    'anchor_list|0-5': [ // 主播信息
+                        {
+                            'room_id': '',
+                            'img': ''
+                        }
+                    ],
+                    'appointment': '',
+                    'id': '@id',
+                    'matchId': '',
+                    'color': '',
+                    'kind': '',
+                    'leagueId': '',
+                    'leagueEn': '',
+                    'leagueEnShort': '',
+                    'leagueChsShort': '@title',
+                    'leagueChtShort': '',
+                    'subLeagueId': '',
+                    'subLeagueEn': '',
+                    'subLeagueChs': '',
+                    'subLeagueCht': '',
+                    'matchTime': '2020-06-15 12:15:00',
+                    'startTime': '',
+                    'homeEn': '',
+                    'homeChs': '@cname',
+                    'homeCht': '',
+                    'awayEn': '',
+                    'awayChs': '@cname',
+                    'awayCht': '',
+                    'homeId': '',
+                    'awayId': '',
+                    'state|1': [0, 1, 2, 3, 4, 5, -1, -10, -11, -12, -13, -14], // 比赛状态 0：未开1：上半场2：中场3：下半场4：加时5：点球-1：完场-10：取消-11：待定-12：腰斩-13：中断-14：推迟
+                    'homeScore|0-10': 1,
+                    'awayScore|0-10': 2,
+                    'homeHalfScore': '',
+                    'awayHalfScore': '',
+                    'homeRed': '',
+                    'awayRed': '',
+                    'homeYellow': '',
+                    'awayYellow': '',
+                    'homeCorner': '',
+                    'awayCorner': '',
+                    'homeRankEn': '',
+                    'homeRankCn': '',
+                    'awayRankEn': '',
+                    'awayRankCn': '',
+                    'isNeutral': '',
+                    'hasLineup': '',
+                    'season': '',
+                    'groupId': '',
+                    'roundEn': '',
+                    'roundCn': '',
+                    'grouping': '',
+                    'locationEn': '',
+                    'locationCn': '',
+                    'weatherEn': '',
+                    'weatherCn': '',
+                    'temp': '',
+                    'explainEn': '',
+                    'explainCn': '',
+                    'extraExplain': '',
+                    'isHidden': '',
+                    'updateTime': '',
+                    'matchStartTime': '',
+                    'sort': '0',
+                    'isPosition': '1',
+                    'technicCount': '',
+                    'leagueType': '1',
+                    'remark': '',
+                    'adminUser': '',
+                    'create_time': '',
+                    'update_time': '',
+                    'follow': '0',
+                    'reserveNum': '0',
+                    'matchLevel': '0',
+                    'focalPoint': '1'
+                }
+            ]
+        }
+    })
+}
+
 Mock.mock(/\/api\/get-competition/, 'post', getCompetitions)
 
 // Mock.mock(url.getOnlineBroadcast, 'get', getOnlineBroadcast)
 Mock.mock(url.getBookedMatches, 'post', getBookedMatches)
 
 Mock.mock(url.getVideoCompetitions, 'get', getVideoCompetitions)
+// Mock.mock(url.getMatchList, 'post', getMatchList)

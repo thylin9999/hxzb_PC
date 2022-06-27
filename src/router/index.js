@@ -24,6 +24,14 @@ const routes = [
                 }
             },
             {
+                path: '/live-broadcast',
+                name: 'LiveBroad',
+                component: () => import(/* webpackChunkName: "Home" */ '../views/Host/HostIndex'),
+                meta: {
+                    subId: 5
+                }
+            },
+            {
                 path: '/competition',
                 name: 'Competition',
                 component: () => import(/* webpackChunkName: "Home" */ '../views/Competition/Competition'),

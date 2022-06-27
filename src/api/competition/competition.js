@@ -50,3 +50,26 @@ export function getVideoCompetitions () {
         url: url.getVideoCompetitions
     })
 }
+
+// 赛程
+export function getMatchList ({
+    pageNumber = 1,
+    pageSize = 20,
+    leagueId = null,
+    playing = null,
+    leagueType = null,
+    day
+}) {
+    return request({
+        method: 'post',
+        url: url.getMatchList,
+        data: {
+            'pageNum': pageNumber,
+            pageSize,
+            day,
+            leagueId,
+            playing,
+            leagueType
+        }
+    })
+}
