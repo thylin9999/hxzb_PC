@@ -10,7 +10,7 @@
       <span class="font-600 p-absolute top-text" :class="`top${index+1}`">TOP{{ index + 1}}</span>
     </div>
     <div class="w-100 overflow-hidden">
-      <div class="live-cover pointer  bg-center bg-no-repeat transition-3"
+      <div class="live-cover p-relative pointer  bg-center bg-no-repeat transition-3"
            :class="{
               'bg-size-100': hasCover,
               'bg-size-auto': !hasCover
@@ -19,6 +19,9 @@
             backgroundImage: `url(${cover})`
         }"
       >
+          <div class="mask w-100 h-100 pointer p-relative" :style="maskBg" @click="goLiveRoom">
+
+          </div>
       </div>
     </div>
     <div class="host flex justify-between align-center p-t-10 p-b-10 bg-white p-l-15 p-r-15">
@@ -77,6 +80,21 @@ export default {
             // height: 265px;
                 height: this.showTopImg ? 370 / 19.2 + 'vw' : 265 / 19.2 + 'vw'
             }
+        },
+        maskBg () {
+            return {
+                backgroundImage: `url(${process.env.VUE_APP_START_BUTTON})`
+            }
+        }
+    },
+    methods: {
+        goLiveRoom () {
+            console.log(this.info, 'info')
+            const { href } = this.$router.resolve({
+                path: '/liveRoom',
+                query: { room_id: this.info.room_id }
+            })
+            window.open(href, '_blank')
         }
     }
 }
@@ -90,8 +108,19 @@ export default {
     .live-cover {
         height: 190px;
         background-color: #f2f2f2;
+        .mask {
+            background-color: rgba(0,0,0,.7);
+            display: none;
+            background-size: auto;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 3;
+        }
       &:hover {
         transform: scale(1.2);
+        .mask {
+            display: block;
+        }
       }
     }
     .host {
