@@ -189,12 +189,11 @@ export default {
         async submit () {
             const isValidate = this.validate()
             if (!isValidate) return
-            const { code, data, msg } = await bookMatches(this.form.match.value)
-            if (code === statusCode.success) {
+            const { data } = await bookMatches(this.form.match.value)
+            if (data.code === statusCode.success) {
                 Message.success('开播成功')
-                console.log(data, 'data')
             } else {
-                Message.error(msg)
+                Message.error(data.msg)
             }
         },
         validate () {

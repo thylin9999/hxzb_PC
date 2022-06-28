@@ -148,7 +148,7 @@ export default {
     methods: {
         async fetchData () {
             try {
-                const { data, code, msg } = await getMatchSchedule()
+                const { data, code } = await getMatchSchedule()
                 if (code === statusCode.success) {
                     this.competitionOptions = data.reduce((all, item) => {
                         all.push({
@@ -165,12 +165,11 @@ export default {
             }
         },
         async getAddress () {
-            const { data, code, msg } = await getOBSAddress()
-            console.log(data, 'data')
-            if (code === statusCode.success) {
+            const { data } = await getOBSAddress()
+            if (data.code === statusCode.success) {
                 this.obs = data
             } else {
-                Message.error(msg)
+                Message.error(data.msg)
             }
         },
         async submit () {
@@ -180,6 +179,7 @@ export default {
             if (!isValidate || !isCoverValidate) return
             if (!this.obs) {
                 Message.error('请先获取推流地址，再点击开播！')
+                return
             }
             const { code, data } = await startLive({
                 matchId: this.form.match.value,

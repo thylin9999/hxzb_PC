@@ -1,6 +1,6 @@
 <template>
 <div class="full-width">
-    <div class="wrap-1450 header flex justify-between align-center">
+    <div class="wrap-1450 p-relative header flex justify-between align-center">
         <div class="left-section flex align-center">
             <div class="logo">
                 <img class="h-100" src="../../assets/images/common/logo.png" alt="">
@@ -18,11 +18,13 @@
             </ul>
         </div>
         <user-infos :is-light-header="isLightHeader"/>
+        <div class="p-absolute" style="left: 300px;top:50px;" @click="test">点我</div>
     </div>
 </div>
 </template>
 <script>
 import UserInfos from '@/views/User/UserInfos'
+import { Message } from 'element-ui'
 export default {
     name: 'Header',
     components: {
@@ -85,6 +87,9 @@ export default {
             this.$router.push({
                 name: tab.name
             })
+        },
+        test () {
+            Message.error('asdfafsd')
         }
     }
 }
