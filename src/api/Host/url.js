@@ -9,6 +9,7 @@ const url = {
     getFlowedHosts: '/api/follow/lists',
     followHost: '/api/follow/add',
     // 预约直播
-    bookBroadcast: '/api/preordain/lists'
+    bookBroadcast: '/api/preordain/lists',
+    bookMatches: '/api/preordain/add', // 预约比赛
 }
 export default url

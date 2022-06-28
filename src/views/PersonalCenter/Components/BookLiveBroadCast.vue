@@ -19,21 +19,39 @@
                     <el-radio-group v-model="category">
                         <el-radio label="football">足球</el-radio>
                         <el-radio label="basketball">篮球</el-radio>
-                        <el-radio label="basketball">电竞</el-radio>
+                        <el-radio label="eSport">电竞</el-radio>
                         <el-radio label="other">其他</el-radio>
                     </el-radio-group>
                 </div>
             </div>
             <div class="row-outer flex align-center p-l-30 m-t-20 m-b-20">
-            <span class="label">
-                直播类型
-            </span>
+                <span class="label">
+                    直播类型
+                </span>
                 <div class="content">
                     <el-radio-group v-model="liveType">
                         <el-radio label="all">全部</el-radio>
                     </el-radio-group>
                 </div>
             </div>
+
+            <div class="row-outer flex align-center p-l-30 m-t-20 m-b-20">
+                <span class="label">
+                    比赛时间
+                </span>
+                <div class="content flex-1">
+                    <el-date-picker
+                        class="time-picker w-100"
+                        v-model="showTime"
+                        type="date"
+                        @change="selectTime"
+                        format="yyyy-MM-dd"
+                        :picker-options="pickerOptions"
+                        placeholder="选择日期">
+                    </el-date-picker>
+                </div>
+            </div>
+
             <SelectWithError
                 class="m-b-20 m-t-25"
                 showLabel
@@ -44,14 +62,14 @@
                 :key="form.match.updateKey"
                 :options="competitionOptions"
             />
-            <UploadWithError
-                class="m-b-30 m-t-25"
-                showLabel
-                :label="form.liveCover.label"
-                :row-info.sync="form.liveCover"
-                @changeFile="changeFile"
-                :show-error="coverError"
-            />
+<!--            <UploadWithError-->
+<!--                class="m-b-30 m-t-25"-->
+<!--                showLabel-->
+<!--                :label="form.liveCover.label"-->
+<!--                :row-info.sync="form.liveCover"-->
+<!--                @changeFile="changeFile"-->
+<!--                :show-error="coverError"-->
+<!--            />-->
             <div class="row-outer flex align-center p-l-30 m-b-20">
             <span class="label">
 
@@ -74,16 +92,19 @@ import SelectWithError from '@/components/Form/SelectWithError'
 import UploadWithError from '@/components/Form/UploadWithError'
 import { isRequire } from '@/utils/validator'
 import { isEmpty, omit } from '@/utils/lodashUtil'
-import { startLive, getOBSAddress } from '@/api/Host/Host'
+import { bookMatches } from '@/api/Host/Host'
+import { getMatchScheduleByDay } from '@/api/competition/competition'
+import { matchTypeMap } from '@/utils/utils'
 import { Message } from 'element-ui'
 import { statusCode } from '@/utils/statusCode'
+import dayjs from 'dayjs'
 export default {
     name: 'BookLiveBroadCast',
     components: {
         HeaderTitle,
         InputWithError,
-        SelectWithError,
-        UploadWithError
+        SelectWithError
+        // UploadWithError
     },
     data () {
         return {
@@ -120,57 +141,61 @@ export default {
                 match: {}
             },
             coverError: false,
-            competitionOptions: [
-                {
-                    id: 1,
-                    value: 1,
-                    label: '比赛1'
-                },
-                {
-                    id: 2,
-                    value: 2,
-                    label: '比赛2'
-                },
-                {
-                    id: 3,
-                    value: 3,
-                    label: '比赛3'
-                }
-            ],
-            obs: null
+            competitionOptions: [],
+            showTime: dayjs().format('YYYY-MM-DD')
+
         }
     },
-    methods: {
-        async getAddress () {
-            const { data } = await getOBSAddress()
-            if (data.code === statusCode.success) {
-                this.obs = data.data
-            } else {
-                Message.error(data.msg)
+    computed: {
+        pickerOptions () {
+            return {
+                disabledDate: date => {
+                    return dayjs(date).isBefore(dayjs())
+                }
             }
+        },
+        leagueId () {
+            return matchTypeMap[this.category]
+        }
+    },
+    created () {
+        this.fetchData()
+    },
+    methods: {
+        async  fetchData () {
+            try {
+                const { code, data } = await getMatchScheduleByDay({
+                    date: dayjs(this.showTime).format('YYYY-MM-DD')
+                })
+                if (code === statusCode.success) {
+                    this.competitionOptions = data.reduce((all, item) => {
+                        all.push({
+                            ...item,
+                            id: item.matchId,
+                            value: item.matchId,
+                            label: item.leagueChsShort
+                        })
+                        return all
+                    }, [])
+                    console.log(data, 'data')
+                }
+            } catch (e) {
+                console.log('出错了')
+            }
+        },
+        selectTime () {
+            this.fetchData()
         },
         async submit () {
             const isValidate = this.validate()
-            this.changeFile()
-            const isCoverValidate = !!this.form.liveCover.value
-            if (!isValidate || !isCoverValidate) return
-            if (!this.obs) {
-                Message.error('请先获取推流地址，再点击开播！')
-            }
-            const { code, data } = await startLive({
-                matchId: this.form.match.value,
-                liveType: this.liveType,
-                title: this.form.title.value,
-                liveCover: this.form.liveCover.value,
-                category: this.category
-            })
+            if (!isValidate) return
+            const { code, data, msg } = await bookMatches(this.form.match.value)
             if (code === statusCode.success) {
                 Message.success('开播成功')
                 console.log(data, 'data')
+            } else {
+                Message.error(msg)
             }
-        },
-        changeFile () {
-            this.coverError = !this.form.liveCover.value
         },
         validate () {
             const res = []
@@ -257,6 +282,16 @@ export default {
                 left: 157px;
             }
         }
+    }
+    .time-picker{
+        width: 100% !important;
+        .el-input__inner {
+            line-height: 40px;
+            height: 40px;
+        }
+    }
+    .el-input__icon{
+        line-height: 40px!important;
     }
 }
 </style>

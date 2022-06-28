@@ -90,3 +90,26 @@ export function addSubscribeMatch (matchId) {
         }
     })
 }
+
+// 时间查询 赛程
+export function getMatchScheduleByDay ({ date, leagueId = 1 }) {
+    return request({
+        method: 'post',
+        url: url.getMatchScheduleByDay,
+        data: {
+            day: date,
+            leagueId: 1 // 足球
+        }
+    })
+}
+
+// 赛程
+export function getMatchSchedule (leagueId = 1) {
+    return request({
+        method: 'post',
+        url: url.getMatchSchedule,
+        data: {
+            leagueId: 1
+        }
+    })
+}

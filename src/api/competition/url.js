@@ -6,5 +6,8 @@ const url = {
     getHostMatches: '/api/scheduleMatch/hotMatch',
     getVideoCompetitions: '/api/get-video-competitions',
     addSubscribeMatch: '/api/attention/add', // 预约赛事
+
+    getMatchScheduleByDay: '/api/scheduleMatch/getScheduleByDay',
+    getMatchSchedule: '/api/scheduleMatch/getSchedule', // 联赛赛程
 }
 export default url

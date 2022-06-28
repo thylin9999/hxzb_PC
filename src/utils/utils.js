@@ -24,3 +24,10 @@ export const matchTypes = {
     3: '电竞',
     4: '其他'
 }
+
+export const matchTypeMap = {
+    'football': 1,
+    'basketball': 2,
+    'eSport': 3,
+    'other': 4
+}

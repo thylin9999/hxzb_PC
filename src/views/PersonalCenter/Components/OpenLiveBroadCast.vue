@@ -19,7 +19,7 @@
                 <el-radio-group v-model="category">
                     <el-radio label="football">足球</el-radio>
                     <el-radio label="basketball">篮球</el-radio>
-                    <el-radio label="basketball">电竞</el-radio>
+                    <el-radio label="esport">电竞</el-radio>
                     <el-radio label="other">其他</el-radio>
                 </el-radio-group>
             </div>
@@ -91,6 +91,7 @@ import UploadWithError from '@/components/Form/UploadWithError'
 import { isRequire } from '@/utils/validator'
 import { isEmpty, omit } from '@/utils/lodashUtil'
 import { startLive, getOBSAddress } from '@/api/Host/Host'
+import { getMatchSchedule } from '@/api/competition/competition'
 import { Message } from 'element-ui'
 import { statusCode } from '@/utils/statusCode'
 export default {
@@ -136,27 +137,33 @@ export default {
                 match: {}
             },
             coverError: false,
-            competitionOptions: [
-                {
-                    id: 1,
-                    value: 1,
-                    label: '比赛1'
-                },
-                {
-                    id: 2,
-                    value: 2,
-                    label: '比赛2'
-                },
-                {
-                    id: 3,
-                    value: 3,
-                    label: '比赛3'
-                }
-            ],
+            competitionOptions: [],
             obs: null
         }
     },
+    created () {
+        this.fetchData()
+    },
+
     methods: {
+        async fetchData () {
+            try {
+                const { data, code, msg } = await getMatchSchedule()
+                if (code === statusCode.success) {
+                    this.competitionOptions = data.reduce((all, item) => {
+                        all.push({
+                            ...item,
+                            id: item.matchId,
+                            value: item.matchId,
+                            label: item.leagueChsShort
+                        })
+                        return all
+                    }, [])
+                }
+            } catch (e) {
+                console.log('出错了')
+            }
+        },
         async getAddress () {
             const { data, code, msg } = await getOBSAddress()
             console.log(data, 'data')

@@ -73,3 +73,13 @@ export function bookBroadcast () {
 
     })
 }
+
+export function bookMatches (matchId) {
+    return request({
+        method: 'post',
+        url: url.bookMatches,
+        data: {
+            matchId
+        }
+    })
+}
