@@ -18,7 +18,7 @@
             </ul>
         </div>
         <user-infos :is-light-header="isLightHeader"/>
-        <div class="p-absolute" style="left: 300px;top:50px;" @click="test">点我</div>
+<!--        <div class="p-absolute" style="left: 300px;top:50px;" @click="test">点我</div>-->
     </div>
 </div>
 </template>
