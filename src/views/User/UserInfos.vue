@@ -10,7 +10,13 @@
         <el-dropdown trigger="click" @command="handleCommand">
           <span class="el-dropdown-link flex align-center">
             <span class="flex align-center">
-                <div class="user-logo bg-center bg-no-repeat"></div>
+                <div
+                    class="user-logo bg-center bg-no-repeat"
+                    :style="{
+                        backgroundImage: `url(${avatarLogo})`
+
+                    }"
+                ></div>
                 <span class="m-l-10 text-white" :class="{'text-white': isLightHeader}">{{nickname}}</span>
             </span>
             <i class="el-icon-arrow-down el-icon--right"></i>
@@ -38,7 +44,10 @@ export default {
         return {}
     },
     computed: {
-        ...mapState('user', ['token', 'nickname'])
+        ...mapState('user', ['token', 'nickname', 'avatar']),
+        avatarLogo () {
+            return this.avatar ? this.avatar : require('../../assets/images/user.png')
+        }
     },
     methods: {
         ...mapActions('user', ['logoutAction']),
@@ -88,7 +97,7 @@ export default {
     width: 35px;
     height: 35px;
     border-radius: 50%;
-    background-image: url('../../assets/images/user.png');
+    //background-image: url('../../assets/images/user.png');
     background-size: contain;
 }
 .light-background {

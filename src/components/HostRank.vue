@@ -108,6 +108,7 @@ export default {
                 this.hosts = data.reduce((all, item) => {
                     all.push({
                         ...item,
+                        isSubscribe: item.follow === 1,
                         bgImg: item.logo ? item.logo : require('../assets/images/common/host-avatar.png')
                     })
                     return all
@@ -123,7 +124,7 @@ export default {
                 return
             }
             try {
-                const { msg } = await followHost(host.id)
+                const { msg } = await followHost(host.member_id)
                 Message.success(msg)
                 this.fetchData()
             } catch (e) {

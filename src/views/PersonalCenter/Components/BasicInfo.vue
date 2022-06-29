@@ -17,9 +17,9 @@
             </span>
             <div class="content">
                 <el-radio-group v-model="userInfo.sex">
-                    <el-radio label="secret">保密</el-radio>
-                    <el-radio label="female">男</el-radio>
-                    <el-radio label="male">女</el-radio>
+                    <el-radio :label="3">保密</el-radio>
+                    <el-radio :label="1">男</el-radio>
+                    <el-radio :label="2">女</el-radio>
                 </el-radio-group>
             </div>
         </div>
@@ -104,7 +104,7 @@ export default {
             },
             userInfo: {
                 nickname: '',
-                sex: '',
+                sex: 3,
                 signature: '',
                 birthday: ''
             }
@@ -118,7 +118,7 @@ export default {
             nickname: this.nickname,
             signature: this.sign,
             birthday: this.birth,
-            sex: 'secret'
+            sex: 3
         }
     },
     methods: {
@@ -126,10 +126,19 @@ export default {
             const isValidate = this.validate()
             if (!isValidate) return
             try {
-                const data = await editUserInfo(this.userInfo)
+                const data = await editUserInfo(this.finalData())
                 console.log(data, 'data')
             } catch (e) {
                 console.log('出错了')
+            }
+        },
+        finalData () {
+            return {
+                'nickname': this.form.nickname.value,
+                'birth': this.form.birth.value,
+                'sign': this.form.sign.value,
+                'avatar': '',
+                'gender': this.userInfo.sex
             }
         },
         validate () {

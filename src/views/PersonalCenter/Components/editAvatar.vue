@@ -27,6 +27,7 @@ import UploadWithTip from '@/components/UploadWithTip'
 import ConfirmButton from '@/components/ConfirmButton'
 import CancelButton from '@/components/CancelButton'
 import { uploadImage } from '@/api/Common'
+import { editUserInfo } from '@/api/user'
 import { statusCode } from '@/utils/statusCode'
 import { Message } from 'element-ui'
 export default {
@@ -48,18 +49,22 @@ export default {
             const formData = new FormData()
             formData.append('file', file)
             console.log(file, formData)
-            const { data } = await uploadImage(formData)
-            console.log(data, 'data')
-            if (data.code === statusCode.success) {
+            const { data, code } = await uploadImage(formData)
+            if (code === statusCode.success) {
                 this.url = data.url
             }
         },
         cancel () {
             this.$router.push('/')
         },
-        submit () {
+        async submit () {
             if (this.url) {
-
+                const { code, msg } = await editUserInfo({
+                    avatar: this.url
+                })
+                if (code === statusCode.success) {
+                    Message.success(msg)
+                }
             } else {
                 Message.error('请先上传头像再保存！')
             }
