@@ -1,15 +1,18 @@
 <template>
-<div class="">
+<div class="hot-rooms">
     <title-row
         icon="hot"
         title="热门直播"
         class="m-b-30 m-t-20"
     />
-    <div class="w-100">
-        <ul class="w-100 flex justify-between align-center">
+    <div class="w-100"
+         v-loading="isLoading"
+         element-loading-background="transparent">
+        <ul v-if="list.length" class="w-100 flex  align-center">
             <li
                 v-for="(item, index) in list"
                 :key="item.id"
+                class="m-r-30"
             >
                 <live-broad-card
                     :index="index"
@@ -18,6 +21,10 @@
                 />
             </li>
         </ul>
+        <el-empty
+            v-else
+            :image-size="108"
+            description="暂无数据" />
     </div>
 </div>
 </template>
@@ -25,7 +32,7 @@
 <script>
 import TitleRow from '@/components/TitleRow'
 import LiveBroadCard from '@/components/LiveBroadCard'
-import { getHotBroadcast } from '@/api/competition/competition'
+import { getHotRooms } from '@/api/competition/competition'
 
 export default {
     name: 'HotRecommend',
@@ -41,49 +48,8 @@ export default {
     },
     data () {
         return {
-            list: [
-                {
-                    id: 1,
-                    url: '',
-                    title: '直播标题',
-                    cover: 'https://cdn.podapi.com/image/live/20220511/810101297e7bf7d0418f718121cf2e2b?imageView2/2/w/600/h/600',
-                    views: 10000,
-                    host: {
-                        name: '主播名称',
-                        icon: ''
-                    }
-                },
-                {
-                    id: 2,
-                    cover: 'https://cdn.podapi.com/image/live/20220511/810101297e7bf7d0418f718121cf2e2b?imageView2/2/w/600/h/600',
-                    title: '直播标题',
-                    views: 10000,
-                    host: {
-                        name: '主播名称',
-                        icon: ''
-                    }
-                },
-                {
-                    id: 3,
-                    cover: 'https://cdn.podapi.com/image/live/20220511/810101297e7bf7d0418f718121cf2e2b?imageView2/2/w/600/h/600',
-                    title: '直播标题',
-                    views: 10000,
-                    host: {
-                        name: '主播名称',
-                        icon: ''
-                    }
-                },
-                {
-                    id: 4,
-                    cover: 'https://cdn.podapi.com/image/live/20220511/810101297e7bf7d0418f718121cf2e2b?imageView2/2/w/600/h/600',
-                    title: '直播标题',
-                    views: 10000,
-                    host: {
-                        name: '主播名称',
-                        icon: ''
-                    }
-                }
-            ]
+            list: [],
+            isLoading: false
         }
     },
     created () {
@@ -92,16 +58,24 @@ export default {
     methods: {
         async fetchData () {
             try {
-                const { data } = await getHotBroadcast({})
-                this.list = this.isHome ? data.list.slice(0, 4) : data.list
+                this.isLoading = true
+                const { data } = await getHotRooms({})
+                // 首页展示4条，直播页面展示5条
+                this.list = this.isHome ? data.list.slice(0, 4) : data.list.slice(0, 5)
             } catch (e) {
                 console.log('出粗了')
+            } finally {
+                this.isLoading = false
             }
         }
     }
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.hot-rooms {
+    li:nth-child(4n) {
+        margin-right: 0!important;
+    }
+}
 </style>

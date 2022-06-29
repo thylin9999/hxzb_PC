@@ -5,7 +5,7 @@
             <span @click="fetchData" class="next  p-absolute"></span>
             <div class="ul-box overflow-x-auto">
                 <ul
-                    class="list  overflow-x-auto  flex justify-between flex-no-wrap"
+                    class="list  overflow-x-auto  flex  flex-no-wrap"
                     :style="ulStyle"
                 >
                     <li

@@ -25,7 +25,11 @@
                 </li>
             </ul>
             <Pagination
-                class="text-center"
+                class="text-center p-b-20"
+                :current-page.sync="pagination.pageNumber"
+                :page-size.sync="pagination.pageSize"
+                :total="pagination.total"
+                @loadData="fetchData"
             />
         </div>
         <el-empty
@@ -85,6 +89,7 @@ export default {
     },
     watch: {
         hostId () {
+            this.pagination.pageNumber = 1
             this.fetchData()
         }
     },
@@ -93,9 +98,10 @@ export default {
             try {
                 this.isLoading = true
                 // 获取所有的直播
-                const { data, total, current_page } = await getOnlineBroadcast(this.apiParams)
-                this.pagination.total = total
-                this.pagination.pageNumber = current_page
+                const { data } = await getOnlineBroadcast(this.apiParams)
+                console.log(data, 'dataasdfasdf')
+                this.pagination.total = data.total
+                this.pagination.pageNumber = data.current_page
                 this.list = data ? data.list : []
             } catch (e) {
                 console.log('出错了')

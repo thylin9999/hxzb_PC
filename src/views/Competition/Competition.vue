@@ -1,5 +1,5 @@
 <template>
-<div class="wrap-1450 p-t-30">
+<div class="wrap-1450 competition-box p-t-30">
     <timer-filter
         :type.sync="competitionType"
         :time.sync="filterTime"
@@ -16,11 +16,11 @@
                 >
                     <icon-png :width="21" :height="21" :icon="type.icon"/>
                     <span class="m-l-10">{{ type.title }}</span>
-                    <span>12场</span>
+<!--                    <span>12场</span>-->
                 </li>
             </ul>
         </div>
-        <div class="matches">
+        <div class="matches h-100">
             <div class="title flex align-center">
                 <span class="date font-500 font-medium">{{ filterTime | dateFilter}}</span>
                 <ul class="flex align-center">
@@ -35,7 +35,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="match-list w-100 m-t-20"
+            <div class="match-list w-100 m-t-20 overflow-y-auto"
                  v-loading="isLoading"
                  element-loading-background="transparent"
             >
@@ -46,6 +46,8 @@
                     >
                         <match-card-rect
                             :match="item"
+                            :is-finish="competitionType===2"
+                            @updateAppointment="updateAppointment"
                         />
                     </li>
                 </ul>
@@ -60,11 +62,10 @@
 </template>
 
 <script>
-import Pagination from '@/components/Pagination'
 import TimerFilter from '@/views/Competition/TimerFilter'
 import IconPng from '@/components/IconPng'
 import MatchCardRect from '@/views/Competition/MatchCardRect'
-import { getMatchList } from '@/api/competition/competition'
+import { getMatchList, getHostMatches } from '@/api/competition/competition'
 import dayjs from 'dayjs'
 import { mapState } from 'vuex'
 export default {
@@ -93,22 +94,28 @@ export default {
                 currentPage: 1
             },
             statusType: 1, // 赛事状态
-            menus: [
-                {
-                    id: 1,
-                    title: '正在直播'
-                },
-                {
-                    id: 2,
-                    title: '全部赛事'
-                }
-            ],
             list: [],
             isLoading: false
         }
     },
     computed: {
         ...mapState('commonData', ['competitionTabs', 'matchTypes']),
+        isToday () {
+            return dayjs(this.filterTime).format('YYYY-MM-DD') === dayjs().format('YYYY-MM-DD')
+        },
+        menus () {
+            const list = [{
+                id: 2,
+                title: '全部赛事'
+            }]
+            // if (this.isToday && this.competitionType === 1) {
+            //     list.unshift({
+            //         id: 1,
+            //         title: '正在直播'
+            //     })
+            // }
+            return list
+        },
         fetchDataParams () {
             return {
                 competitionType: this.competitionType,
@@ -120,11 +127,11 @@ export default {
         apiParams () {
             return {
                 pageNumber: 1,
-                pageSize: 20,
-                leagueId: null,
-                playing: this.competitionType === 1 ? 1000 : 2000,
-                leagueType: this.matchType,
-                day: this.time
+                pageSize: 2000,
+                leagueId: null, // 联赛id，
+                playing: this.competitionType === 1 ? (this.matchType === 4 ? 2000 : 1000) : 3000,
+                leagueType: this.matchType === 4 ? null : this.matchType, // 赛事分类，足球，篮球等
+                day: this.filterTime
             }
         }
     },
@@ -134,6 +141,12 @@ export default {
                 this.fetchData()
             },
             deep: true
+        },
+        isToday: {
+            handler () {
+                this.statusType = this.menus[0].id
+            },
+            immediate: true
         }
     },
     created () {
@@ -150,9 +163,10 @@ export default {
             console.log(tab, 'tab')
         },
         async fetchData () {
+            const request = this.matchType === 3 ? getHostMatches : getMatchList
             try {
                 this.isLoading = true
-                const { data } = await getMatchList(this.apiParams)
+                const { data } = await request(this.apiParams)
                 console.log(data, 'data')
                 this.list = data.list
             } catch (e) {
@@ -160,9 +174,11 @@ export default {
             } finally {
                 this.isLoading = false
             }
-            // this.competitions = data
-            // this.pagination.total = page.total
-            // this.pagination.currentPage = page.current
+        },
+        updateAppointment ({ id, value }) {
+            const temp = this.list.find(x => x.matchId === id)
+            temp.appointment = value
+            // this.fetchData()
         }
     }
 }
@@ -170,13 +186,17 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
+.competition-box {
+    height: calc(100vh - 295px);
+}
 .tabs {
     background-color: $text-white;
 }
 .content {
+    height: calc(100% - 137px);
     .left-bars{
         width: 245px;
-        height: 865px;
+        height: 100%;
         background-image: url('../../assets/images/matches/bg.png');
         .type-item{
             width: 180px;
@@ -224,6 +244,9 @@ export default {
 
                 }
             }
+        }
+        .match-list {
+            height: calc(100% - 35px);
         }
     }
 }

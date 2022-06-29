@@ -55,14 +55,26 @@
             </ul>
         </div>
         <div class="button m-r-20">
-            <div class="is-subscribe flex align-center justify-center w-100 h-100" v-if="!isSubscribe">
-                <icon-png :width="25" :height="27" icon="matches/appointment"/>
-                <span class="font-20 m-l-10 font-400 font-regular">比赛中</span>
-            </div>
-            <div class="un-subscribe flex align-center justify-center w-100 h-100" v-else>
-                <icon-png :width="27" :height="25" icon="matches/going"/>
-                <span class="font-20 m-l-10 font-400 font-regular">预约</span>
-            </div>
+            <template v-if="isFinish">
+                <div class="is-subscribe flex align-center justify-center w-100 h-100">
+                    <icon-png :width="25" :height="27" icon="matches/appointment"/>
+                    <span class="font-20 m-l-10 font-400 font-regular">已结束</span>
+                </div>
+            </template>
+            <template v-else>
+                <div class="is-subscribe pointer flex align-center justify-center w-100 h-100" v-if="isGoing">
+                    <icon-png :width="25" :height="27" icon="matches/appointment"/>
+                    <span class="font-20 m-l-10 font-400 font-regular">比赛中</span>
+                </div>
+                <div
+                    class="un-subscribe pointer flex align-center justify-center w-100 h-100"
+                    @click="subscribeMatch"
+                    v-else>
+                    <icon-png :width="27" :height="25" icon="matches/going"/>
+                    <span class="font-20 m-l-10 font-400 font-regular">{{ isSubscribe ? '已预约' : '预约'}}</span>
+                </div>
+            </template>
+
         </div>
     </div>
 </div>
@@ -72,8 +84,22 @@
 import dayjs from 'dayjs'
 import CustomSpan from '@/components/CustomSpan'
 import IconPng from '@/components/IconPng'
+import { addSubscribeMatch } from '@/api/competition/competition'
+import { matchStatus } from '@/utils/utils'
+import { Message } from 'element-ui'
+import { statusCode } from '@/utils/statusCode'
 export default {
     name: 'MatchCardRect',
+    props: {
+        match: {
+            type: Object,
+            default: () => ({})
+        },
+        isFinish: {
+            type: Boolean,
+            default: false
+        }
+    },
     components: {
         CustomSpan,
         IconPng
@@ -85,16 +111,14 @@ export default {
     },
     filters: {
         filterTime (value) {
-            return dayjs(value).format('HH:ss')
+            return dayjs(value).format('HH:mm')
         }
     },
-    props: {
-        match: {
-            type: Object,
-            default: () => ({})
-        }
-    },
+
     computed: {
+        isGoing () {
+            return !matchStatus[this.match.state]
+        },
         isSubscribe () {
             return this.match.appointment * 1 === 1
         },
@@ -103,6 +127,19 @@ export default {
         },
         homeLogo () {
             return this.match.homeLogo ? this.match.homeLogo : this.emptyLogo
+        }
+    },
+    methods: {
+        async subscribeMatch () {
+            try {
+                const { code, msg } = await addSubscribeMatch(this.match.matchId)
+                if (code === statusCode.success) {
+                    Message.success(msg)
+                    this.$emit('updateAppointment', { id: this.match.matchId, value: this.match.appointment === 1 ? 2 : 1 })
+                }
+            } catch (e) {
+                console.log('出凑了')
+            }
         }
     }
 }

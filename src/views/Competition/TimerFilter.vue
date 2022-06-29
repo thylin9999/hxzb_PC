@@ -13,10 +13,10 @@
         </li>
     </ul>
     <div class="date-list h-100 p-relative">
-        <icon-png class="prev pointer p-absolute" :width="27" :height="50" icon="common/prev"/>
-        <icon-png class="next pointer p-absolute" :width="27" :height="50" icon="common/next"/>
+        <icon-png @click="prev" class="prev pointer p-absolute" :width="27" :height="50" icon="common/prev"/>
+        <icon-png @click="next" class="next pointer p-absolute" :width="27" :height="50" icon="common/next"/>
         <div class="date-box h-100 overflow-x-auto">
-            <ul class="flex h-100 flex-no-wrap ">
+            <ul class="flex h-100 flex-no-wrap " :style="ulStyle">
                 <li
                     v-for="date in dates"
                     :key="date.id"
@@ -84,19 +84,36 @@ export default {
     },
     computed: {
         dates () {
-            const today = dayjs()
+            // 赛程往后14天，赛果，往前 7天
             const dates = []
-            const startDate = dayjs(today).subtract(7, 'day')
-            for (let i = 0; i < 15; i++) {
-                const date = dayjs(startDate).add(i, 'day')
-                dates.push({
-                    id: dayjs(date).format('YYYY-MM-DD'),
-                    date: dayjs(date).format('MM-DD'),
-                    week: dayjs(date).isoWeekday(),
-                    weekName: weekDay[dayjs(date).isoWeekday()]
-                })
+            if (this.type === 1) {
+                // 赛程
+                for (let i = 0; i <= 14; i++) {
+                    const date = dayjs().add(i, 'day')
+                    dates.push({
+                        id: dayjs(date).format('YYYY-MM-DD'),
+                        date: dayjs(date).format('MM-DD'),
+                        week: dayjs(date).isoWeekday(),
+                        weekName: weekDay[dayjs(date).isoWeekday()]
+                    })
+                }
+            } else {
+                for (let i = 0; i <= 7; i++) {
+                    const date = dayjs().subtract(i, 'day')
+                    dates.unshift({
+                        id: dayjs(date).format('YYYY-MM-DD'),
+                        date: dayjs(date).format('MM-DD'),
+                        week: dayjs(date).isoWeekday(),
+                        weekName: weekDay[dayjs(date).isoWeekday()]
+                    })
+                }
             }
             return dates
+        },
+        ulStyle () {
+            return {
+                width: this.dates.length * 90 + 'px'
+            }
         }
     },
     watch: {
@@ -121,6 +138,9 @@ export default {
         selectTime (value) {
             const date = dayjs(new Date(value).getTime()).format('YYYY-MM-DD')
             this.$emit('update:time', date)
+        },
+        prev() {
+
         }
     }
 }
@@ -163,7 +183,7 @@ export default {
         width: 840px;
         margin: 0 auto;
         ul {
-            width: 1800px;
+            //width: 1800px;
         }
 
     }

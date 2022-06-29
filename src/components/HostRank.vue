@@ -76,6 +76,7 @@ import MoreButton from '@/components/MoreButton'
 import CustomSpan from '@/components/CustomSpan'
 import { getHostRank, followHost } from '@/api/Host/Host'
 import { Message } from 'element-ui'
+import { mapState } from 'vuex'
 export default {
     name: 'HostRank',
     components: {
@@ -89,6 +90,7 @@ export default {
         }
     },
     computed: {
+        ...mapState('user', ['token']),
         firstRank () {
             return this.hosts.slice(0, 3)
         },
@@ -115,7 +117,11 @@ export default {
             }
         },
         async followOrUnFollowHost (host) {
-            console.log(host)
+            if (!this.token) {
+                Message.error('请先登录，无法预约！')
+                this.openLoginDialog()
+                return
+            }
             try {
                 const { msg } = await followHost(host.id)
                 Message.success(msg)
