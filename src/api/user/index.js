@@ -20,13 +20,14 @@ export function login ({ account = 'admin', password = '000000' }) {
         }
     })
 }
-export function register ({ account = 'admin', password = '000000' }) {
+export function register ({ account = 'admin', code = 666666, password = '000000' }) {
     return request({
         method: 'POST',
         url: url.register,
         data: {
             account,
-            password
+            password,
+            mobile_code: code
         }
     })
 }
@@ -41,6 +42,17 @@ export function editUserInfo ({ nickname, sign, birth, gender, avatar }) {
             birth,
             gender,
             avatar
+        }
+    })
+}
+
+export function getCode ({ mobile, msType = 1 }) {
+    return request({
+        method: 'post',
+        url: url.getCode,
+        data: {
+            mobile,
+            'msg_type': msType
         }
     })
 }

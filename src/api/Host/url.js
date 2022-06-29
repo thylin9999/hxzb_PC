@@ -11,5 +11,7 @@ const url = {
     // 预约直播
     bookBroadcast: '/api/preordain/lists',
     bookMatches: '/api/preordain/add', // 预约比赛
+
+    getOfflineHost: '/api/anchor/lists' // 未开播的主播
 }
 export default url

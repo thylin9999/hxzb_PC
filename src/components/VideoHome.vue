@@ -83,11 +83,11 @@
         },
         async mounted() {
             try {
-                // setTimeout(() => {
-                //     this.showPuse = true;
-                //     this.showPuse = false;
-                //     this.changeQuality(this.qualityType, true)
-                // }, 1000)
+                setTimeout(() => {
+                    this.showPuse = true;
+                    this.showPuse = false;
+                    this.changeQuality(this.qualityType, true)
+                }, 1000)
             } catch (e) {
             }
         },

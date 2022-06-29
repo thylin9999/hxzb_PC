@@ -9,7 +9,7 @@
         <div class="flex w-100 m-l-25 h-100 right-section flex-end flex-column align-center">
             <HotValue
                 class="w-100 m-b-10"
-                :value="hostInfo.heat_num"
+                :value="hostInfo.follow"
             />
             <SubscribeButton
                 class="w-100 font-16 text-center"
@@ -21,7 +21,7 @@
     <div class="info font-medium ">
         <custom-span
             class="name m-b-15"
-            :content="hostInfo.name"
+            :content="hostInfo.anchor_name"
         />
         <custom-span
             class="description font-500 font-18"
@@ -35,6 +35,10 @@
 import CustomSpan from '@/components/CustomSpan'
 import HotValue from '@/components/HotValue'
 import SubscribeButton from '@/components/SubscribeButton'
+import { mapState } from 'vuex'
+import { followHost } from '@/api/Host/Host'
+import { Message } from 'element-ui'
+
 export default {
     name: 'HostCard',
     components: {
@@ -49,16 +53,26 @@ export default {
         }
     },
     computed: {
+        ...mapState('user', ['token']),
         hasAvatar () {
-            return !!this.hostInfo.avatar
+            return !!this.hostInfo.logo
         },
         cover () {
-            return this.hasAvatar ? this.hostInfo.avatar : require('../assets/images/common/host-avatar.png')
+            return this.hasAvatar ? this.hostInfo.logo : require('../assets/images/common/host-avatar.png')
         }
     },
     methods: {
-        subscribe (hostInfo) {
+        async subscribe (hostInfo) {
             // 是否订阅的
+            if (this.token && this.hostInfo.isSubscribe) {
+                // 取消订阅
+                const { msg } = await followHost(this.hostInfo.member_id)
+                Message.success(msg)
+                this.$emit('refresh')
+            } else {
+                // 未订阅
+                this.openLoginDialog()
+            }
             console.log(hostInfo, 'hostInfo')
         }
     }

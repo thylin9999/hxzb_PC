@@ -66,6 +66,12 @@ export function followHost (anchorId) {
     })
 }
 
+export function getOfflineHost () {
+    return request({
+        method: 'post',
+        url: url.getOfflineHost
+    })
+}
 export function bookBroadcast () {
     return request({
         method: 'post',

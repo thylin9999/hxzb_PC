@@ -78,7 +78,8 @@ export default {
         style () {
             return {
             // height: 265px;
-                height: this.showTopImg ? 370 / 19.2 + 'vw' : 265 / 19.2 + 'vw'
+            //     height: this.showTopImg ? 370 / 19.2 + 'vw' : 265 / 19.2 + 'vw'
+                height: this.showTopImg ? '370px' : '265px'
             }
         },
         maskBg () {

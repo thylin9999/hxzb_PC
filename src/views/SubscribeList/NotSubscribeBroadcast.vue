@@ -11,6 +11,7 @@
                 >
                     <host-card
                         :host-info="host"
+                        @refresh="fetchData"
                     />
                 </li>
             </ul>
@@ -23,7 +24,7 @@
 <script>
 import TitleRow from '@/components/TitleRow'
 import HostCard from '@/components/HostCard'
-import { getSubscribeHost } from '@/api/Host/Host'
+import { getOfflineHost } from '@/api/Host/Host'
 
 export default {
     name: 'NotSubscribeBroadcast',
@@ -44,9 +45,15 @@ export default {
         async fetchData () {
             try {
                 this.isLoading = true
-                const res = await getSubscribeHost({})
-                this.tableData = res.data
-                console.log(this.tableData, 'asdf111')
+                const res = await getOfflineHost()
+                console.log(res, 'res')
+                this.tableData = res.data.reduce((all, item) => {
+                    all.push({
+                        ...item,
+                        isSubscribe: item.is_follow * 1 === 1
+                    })
+                    return all
+                }, [])
             } catch (e) {
                 console.log('出错了')
             } finally {

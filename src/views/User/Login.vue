@@ -1,5 +1,10 @@
 <template>
     <modal >
+        <template slot="close">
+            <span  @click="closeModal">
+                <i class="el-icon-close font-20 pointer"></i>
+            </span>
+        </template>
         <div
             v-loading.body="isLoading"
             element-loading-background="rgba(0, 0, 0, 0.8)"
@@ -77,8 +82,8 @@ import InputWithError from '@/components/Form/InputWithError'
 import { isRequire, phone } from '@/utils/validator'
 import { omit, isEmpty } from '../../utils/lodashUtil'
 import { statusCode } from '@/utils/statusCode'
-import { Message } from '../../utils/messageBox'
-import { register } from '@/api/user'
+import { Message } from 'element-ui'
+import { register, getCode } from '@/api/user'
 
 export default {
     name: 'Login',
@@ -136,7 +141,7 @@ export default {
         },
         showCode () {
             console.log(process.env.VUE_APP_NEED_CODE, 'VUE_APP_NEED_CODE')
-            return false
+            return true
         },
         style () {
             return {
@@ -160,6 +165,9 @@ export default {
                 const params = {
                     account: this.form.account.value,
                     password: this.form.password.value
+                }
+                if (this.isRegister) {
+                    params.code = this.form.code.value
                 }
                 const result = await request(params)
                 console.log(result, 'result')
@@ -216,11 +224,17 @@ export default {
             this.changeKey(key)
             return isEmpty(this.errorInfo[key])
         },
-        getCode () {
+        async getCode () {
             const isValidate = this.validateRow('account')
             // 获取验证码操作
             if (isValidate) {
                 this.isSend = true
+                const { msg, code } = await getCode({
+                    mobile: this.form.account.value
+                })
+                if (code === statusCode.success) {
+                    Message.success(msg)
+                }
             }
         },
         changeKey (key) {
@@ -233,6 +247,9 @@ export default {
         forgetPassword () {
             this.isRegister = true
             this.isResetPassword = true
+        },
+        closeModal () {
+            this.closeLoginDialog()
         }
     }
 }
