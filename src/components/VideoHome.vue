@@ -1,6 +1,5 @@
 <template>
     <div class="video-player" style="width: 100%;height: 100%">
-
         <!--        <vue-danmaku :style="{opacity: showDanmaku ? 1 : 0}" class="dankumu" ref="dankumu" :danmus="danmus"-->
         <!--                     :randomChannel="true"-->
         <!--                     :speeds="70"></vue-danmaku>-->
@@ -117,6 +116,8 @@
                 }
             },
             changeQuality(type) {
+                // console.log("------------type--------")
+                // console.log(type)
                 this.qualityType = type || 'HD'
                 this.showQuality = false  //高清... 切换 展示
                 let rtmp_url = this.roomInfo.rtmp_url
@@ -129,6 +130,8 @@
                     'ordinary': url.replace(rtmp_url.split("_")[1], '480p.flv'),
                 }
                 this.init()
+                // console.log("---------this.playList-----------")
+                // console.log(this.playList)
             },
             videoRefresh() {
                 this.init()
@@ -147,6 +150,8 @@
                     } else {
                         url = `${this.roomInfo.rtmp_url}?${this.roomInfo.rtmp_live}`
                     }
+                    // console.log("-----------url---------")
+                    // console.log(url)
                     window.flvjs = (await import(/* webpackChunkName: "flv" */ 'flv.js')).default
                     const DPlayer = (await import(/* webpackChunkName: "dplayer" */ 'dplayer')).default
                     this.dp = new DPlayer({
@@ -209,10 +214,11 @@
                    const { data } = await liveRoom({room_id:newVal.room_id})
                    this.roomInfo = JSON.parse(JSON.stringify(data.room_info))
                } catch (e) {
-                   console.log('出粗了')
+                   console.log('请求房间信息出错了了')
                } finally {
                    this.isLoading = false
                }
+
             }
         },
         beforeDestroy() {

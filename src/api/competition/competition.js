@@ -129,12 +129,10 @@ export function getMatchScheduleByDay ({ date, leagueId = 1 }) {
 }
 
 // 赛程
-export function getMatchSchedule (leagueId = 1) {
+export function getMatchSchedule (data) {
     return request({
         method: 'post',
         url: url.getMatchSchedule,
-        data: {
-            leagueId: 1
-        }
+        data
     })
 }
