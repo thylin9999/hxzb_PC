@@ -3,12 +3,13 @@
       <div class="video-box p-t-10 p-relative bg-size-100 bg-center bg-no-repeat">
           <div class="video p-10 bg-black wrap-1450">
               <div class="video_view">
-                  <VideoHome></VideoHome>
+                  <VideoHome :videoInfo="videoInfo"></VideoHome>
               </div>
               <div class="videoList m-l-5">
-                  <div class="box1 item" v-for="item in [1,2,3,4,5,6]" :key="item">
-                      <img class="item_img" src="https://cdn.podapi.com/image/live/20220511/74fe6e768e027c7e8152fdc9156fb6d8?imageView2/2/w/600/h/600" alt="">
+                  <div class="box1 item" :class="{select:current == i}" v-for="(item,i) in list" :key="i">
+                      <img @click="selectLive(item,i)" class="item_img" :src="item.live_cover || require('@/assets/images/common/host-avatar.png')" alt="">
                   </div>
+                  <div class="box1 item item_blank" v-for="tem in (6-list.length)" :key="1000-tem"></div>
               </div>
           </div>
       </div>
@@ -32,8 +33,7 @@ import MatchList from '@/views/Competition/MatchList'
 import HotRecommend from '@/components/HotRecommend'
 import HostRank from '@/components/HostRank'
 import HostList from '@/views/Host/HostList'
-import VideoCompetition from '@/views/Competition/VideoCompetition'
-import Events from '@/views/components/Events'
+import { getHotRooms } from '@/api/competition/competition'
 export default {
     name: 'Home',
     components: {
@@ -41,12 +41,38 @@ export default {
         MatchList,
         HotRecommend,
         HostRank,
-        HostList,
-        VideoCompetition
+        HostList
     },
     data () {
         return {
+            current: 0,
+            videoInfo: {},
+            list: [],
             competitions: []
+        }
+    },
+    created () {
+        this.fetchData()
+    },
+    methods: {
+        selectLive (item, i) {
+            this.current = i
+            this.videoInfo = item
+            console.log('----videoInfo--')
+            console.log(this.videoInfo)
+        },
+        async fetchData () {
+            try {
+                const { data } = await getHotRooms({})
+                this.videoInfo = data.list[0]
+                // 首页展示4条，直播页面展示5条
+                this.list = data.list.slice(0, 6)
+                this.selectLive(this.videoInfo, 0)
+            } catch (e) {
+                console.log('出粗了')
+            } finally {
+                this.isLoading = false
+            }
         }
     }
 }
@@ -89,11 +115,14 @@ export default {
               height: 100%;
             }
           }
-          .item:nth-child(1){
+          .select{
             border: 2px solid #d2ac84;
           }
           .item:hover{
             border: 2px solid #d2ac84;
+          }
+          .item_blank:hover{
+            border: none;
           }
         }
     }

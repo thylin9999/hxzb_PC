@@ -3,6 +3,7 @@ const url = {
     getOnlineBroadcast: '/api/live/roomLists',
     // 热门直播
     getHotRooms: '/api/live/hotRoom',
+    liveRoom: '/api/live/live', // 直播间
 
     getBookedMatches: '/api/get-matches',
     getMatchList: '/api/scheduleMatch/lists', // 赛程

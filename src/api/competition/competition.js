@@ -46,6 +46,15 @@ export function getHotRooms ({ pageNumber = 1, pageSize = 5, type = 0 }) {
     })
 }
 
+// 首页顶部推荐
+export function liveRoom (data) {
+    return request({
+        method: 'post',
+        url: url.liveRoom,
+        data
+    })
+}
+
 export function getBookedMatches ({ pageNumber = 1, pageSize = 20 }) {
     return request({
         method: 'post',

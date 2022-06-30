@@ -39,17 +39,20 @@
 <script src="DPlayer.min.js"></script>
 <script>
 
+    import { liveRoom } from '@/api/competition/competition'
+
     export default {
         props: {
             isLive: {
                 type: Boolean,
                 default: () => true
             },
-            isDanmaku: {
-                type: Boolean,
-                default: false,
-            },
             dankamu: {
+                type: [Object, Array],
+                default: () => {
+                },
+            },
+            videoInfo: {
                 type: [Object, Array],
                 default: () => {
                 },
@@ -61,7 +64,7 @@
             refresh: {  //当前界面是刷新操作会暂停 备用
                 type: Boolean,
                 default: false
-            }
+            },
         },
         data() {
             return {
@@ -72,8 +75,8 @@
                 showQuality: false,
                 showRefresh: false,
                 roomInfo: {
-                    rtmp_url: 'https://jqpull.eeoovo.com/qajaEo100037_480p.flv',
-                    rtmp_live: 'txSecret=e60bcaebfc89192246c11fd85c5afa35&txTime=629F1323'
+                    rtmp_url: '',
+                    rtmp_live: ''
                 },
                 timeOut: false,
                 dp: null,
@@ -81,12 +84,17 @@
                 showPuse: false,
             }
         },
+        computed:{
+            videoInfoItem(){
+                return JSON.parse(JSON.stringify(this.videoInfo))
+            }
+        },
         async mounted() {
             try {
                 setTimeout(() => {
                     this.showPuse = true;
                     this.showPuse = false;
-                    this.changeQuality(this.qualityType, true)
+                    this.changeQuality(this.qualityType)
                 }, 1000)
             } catch (e) {
             }
@@ -108,7 +116,7 @@
                     this.dp.toggle()
                 }
             },
-            changeQuality(type, desQuality) {  //画质  降画质（直播间未登录情况）
+            changeQuality(type) {
                 this.qualityType = type || 'HD'
                 this.showQuality = false  //高清... 切换 展示
                 let rtmp_url = this.roomInfo.rtmp_url
@@ -195,6 +203,17 @@
                     }, 2000)
                 }
             },
+           async videoInfoItem(newVal,oldVal){
+               this.changeQuality(this.qualityType)
+               try {
+                   const { data } = await liveRoom({room_id:newVal.room_id})
+                   this.roomInfo = JSON.parse(JSON.stringify(data.room_info))
+               } catch (e) {
+                   console.log('出粗了')
+               } finally {
+                   this.isLoading = false
+               }
+            }
         },
         beforeDestroy() {
             if (this.dp) {

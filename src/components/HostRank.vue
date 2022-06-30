@@ -5,7 +5,7 @@
         title="主播排行"
         class="m-b-30 m-t-20"
     >
-        <more-button class="m-r-15"/>
+    <!--<more-button class="m-r-15"/>-->
     </title-row>
     <div class="host-section flex justify-between align-center p-t-20 p-b-20 m-t-25 m-b-25 bg-white w-100">
         <div class="first-three">
@@ -72,7 +72,6 @@
 
 <script>
 import TitleRow from '@/components/TitleRow'
-import MoreButton from '@/components/MoreButton'
 import CustomSpan from '@/components/CustomSpan'
 import { getHostRank, followHost } from '@/api/Host/Host'
 import { Message } from 'element-ui'
@@ -81,7 +80,6 @@ export default {
     name: 'HostRank',
     components: {
         TitleRow,
-        MoreButton,
         CustomSpan
     },
     data () {
