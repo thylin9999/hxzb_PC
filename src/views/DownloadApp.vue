@@ -46,7 +46,8 @@ export default {
 <style lang="scss" scoped>
 .box {
     background: linear-gradient(180deg, #FFFFFF 0%, #E3E9FD 100%);
-    height: 39.1vw;
+    //height: 39.1vw;
+    height: calc(100vh - 90px);
 }
 .right-pic {
     width: 56.7vw;

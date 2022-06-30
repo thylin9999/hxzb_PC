@@ -86,12 +86,16 @@ export function bookBroadcast () {
     })
 }
 
-export function bookMatches (matchId) {
+export function bookMatches ({ matchId, cover, title, leagueType = 1, placard = '' }) {
     return request({
         method: 'post',
         url: url.bookMatches,
         data: {
-            matchId
+            matchId,
+            leagueType, // 足球，篮球电竞等
+            title,
+            live_cover: cover,
+            placard
         }
     })
 }

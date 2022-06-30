@@ -1,6 +1,6 @@
 <template>
-<div class="user-center wrap-1450 h-100 p-t-20">
-   <div class="p-t-10 p-b-10 p-l-15 h-100 bg-white ">
+<div class="user-center wrap-1450  p-t-20">
+   <div class="p-t-10 p-b-10 p-l-15  bg-white ">
        <person-header />
    </div>
     <div class="content w-100 flex justify-between m-t-15">
@@ -143,10 +143,12 @@ export default {
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
 .user-center{
+    height: calc(100vh - 90px);
     background-color: $background-gray2;
 }
 .content {
-    min-height: 600px;
+    //min-height: 600px;
+    height: calc(100% - 120px);
     padding-bottom: 50px;
 }
 .left-section {

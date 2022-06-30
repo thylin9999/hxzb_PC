@@ -77,7 +77,7 @@ export default {
     },
     computed: {
         isPassword () {
-            return ['password', 'newPassword', 'oldPassword'].includes('password')
+            return this.rowInfo.key.toLowerCase().includes('password')
         },
         inputType () {
             return this.isPassword ? 'password' : 'text'

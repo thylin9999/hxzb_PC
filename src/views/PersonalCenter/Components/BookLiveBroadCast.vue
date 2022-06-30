@@ -62,21 +62,19 @@
                 :key="form.match.updateKey"
                 :options="competitionOptions"
             />
-<!--            <UploadWithError-->
-<!--                class="m-b-30 m-t-25"-->
-<!--                showLabel-->
-<!--                :label="form.liveCover.label"-->
-<!--                :row-info.sync="form.liveCover"-->
-<!--                @changeFile="changeFile"-->
-<!--                :show-error="coverError"-->
-<!--            />-->
+            <UploadWithError
+                class="m-b-30 m-t-25"
+                showLabel
+                :label="form.liveCover.label"
+                :row-info.sync="form.liveCover"
+                @changeFile="changeFile"
+                :show-error="coverError"
+            />
             <div class="row-outer flex align-center p-l-30 m-b-20">
-            <span class="label">
-
-            </span>
+            <span class="label"></span>
                 <div class="save-button font-medium font-16">
                 <span
-                    class="font-16 p-t-5 p-b-5 p-l-10 p-r-10 pointer"
+                    class="font-16 d-inline-block p-t-5 p-b-5 p-l-10 p-r-10 pointer"
                     @click="submit"
                 >直播预约</span>
                 </div>
@@ -103,8 +101,8 @@ export default {
     components: {
         HeaderTitle,
         InputWithError,
-        SelectWithError
-        // UploadWithError
+        SelectWithError,
+        UploadWithError
     },
     data () {
         return {
@@ -150,12 +148,21 @@ export default {
         pickerOptions () {
             return {
                 disabledDate: date => {
-                    return dayjs(date).isBefore(dayjs())
+                    return dayjs(date).isBefore(dayjs(), 'day')
                 }
             }
         },
         leagueId () {
             return matchTypeMap[this.category]
+        }
+    },
+    watch: {
+        category (newVal, oldVal) {
+            if (newVal) {
+                this.form.match.value = ''
+                this.errorInfo.match = {}
+                this.fetchData()
+            }
         }
     },
     created () {
@@ -165,7 +172,8 @@ export default {
         async  fetchData () {
             try {
                 const { code, data } = await getMatchScheduleByDay({
-                    date: dayjs(this.showTime).format('YYYY-MM-DD')
+                    date: dayjs(this.showTime).format('YYYY-MM-DD'),
+                    leagueId: this.leagueId
                 })
                 if (code === statusCode.success) {
                     this.competitionOptions = data.reduce((all, item) => {
@@ -173,11 +181,10 @@ export default {
                             ...item,
                             id: item.matchId,
                             value: item.matchId,
-                            label: item.leagueChsShort
+                            label: `${item.leagueChsShort} ${item.homeChs} VS ${item.awayChs}`
                         })
                         return all
                     }, [])
-                    console.log(data, 'data')
                 }
             } catch (e) {
                 console.log('出错了')
@@ -188,12 +195,20 @@ export default {
         },
         async submit () {
             const isValidate = this.validate()
-            if (!isValidate) return
-            const { data } = await bookMatches(this.form.match.value)
-            if (data.code === statusCode.success) {
-                Message.success('开播成功')
+            this.changeFile()
+            const isCoverValidate = !!this.form.liveCover.value
+            console.log(this.coverError, isCoverValidate, '2')
+            if (!isValidate || !isCoverValidate) return
+            const { code, msg } = await bookMatches({
+                matchId: this.form.match.value,
+                title: this.form.title.value,
+                cover: this.form.liveCover.value,
+                leagueType: this.leagueId
+            })
+            if (code === statusCode.success) {
+                Message.success(msg)
             } else {
-                Message.error(data.msg)
+                Message.error(msg)
             }
         },
         validate () {
@@ -218,6 +233,9 @@ export default {
         changeKey (key) {
             const flag = JSON.parse(this.form[key].updateKey.split('-')[1])
             this.form[key].updateKey = `${key}-${!flag}`
+        },
+        changeFile () {
+            this.coverError = !this.form.liveCover.value
         }
     }
 }
