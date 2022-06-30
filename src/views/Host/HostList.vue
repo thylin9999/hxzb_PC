@@ -99,10 +99,15 @@ export default {
                 this.isLoading = true
                 // 获取所有的直播
                 const { data } = await getOnlineBroadcast(this.apiParams)
-                console.log(data, 'dataasdfasdf')
-                this.pagination.total = data.total
-                this.pagination.pageNumber = data.current_page
-                this.list = data ? data.list : []
+                if (data) {
+                    this.pagination.total = data.total
+                    this.pagination.pageNumber = data.current_page
+                    this.list = data ? data.list : []
+                } else {
+                    this.pagination.total = 0
+                    this.pagination.pageNumber = 1
+                    this.list = []
+                }
             } catch (e) {
                 console.log('出错了')
             } finally {

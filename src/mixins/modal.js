@@ -9,6 +9,7 @@ export const modalMixin = {
     methods: {
         ...mapActions('modal', ['openDialog', 'closeDialog']),
         openLoginDialog () {
+            this.modalUpdateKey = +new Date().getTime()
             this.openDialog()
         },
         closeLoginDialog () {

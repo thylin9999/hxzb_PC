@@ -35,7 +35,7 @@
             </div>
         </div>
         <SelectWithError
-            v-if="['football','basketball'].includes(category)"
+            v-if="needValidateMatch"
             class="m-b-20 m-t-25"
             showLabel
             :label="form.match.label"
@@ -76,8 +76,8 @@
             <div class="save-button font-medium font-16">
                 <span
                     class="font-16 p-t-5 p-b-5 p-l-10 p-r-10 pointer"
-                    @click="submit"
-                >直播开播</span>
+                    @click="beforeSubmit"
+                >{{ buttonString }}</span>
             </div>
         </div>
     </div>
@@ -91,7 +91,7 @@ import SelectWithError from '@/components/Form/SelectWithError'
 import UploadWithError from '@/components/Form/UploadWithError'
 import { isRequire } from '@/utils/validator'
 import { isEmpty, omit } from '@/utils/lodashUtil'
-import { startLive, getOBSAddress } from '@/api/Host/Host'
+import { startLive, getOBSAddress, closeLive } from '@/api/Host/Host'
 import { getMatchSchedule } from '@/api/competition/competition'
 import { Message } from 'element-ui'
 import { statusCode } from '@/utils/statusCode'
@@ -116,9 +116,9 @@ export default {
                 },
                 match: {
                     label: '直播比赛',
-                    value: '',
+                    value: null,
                     key: 'match',
-                    validators: [isRequire('直播比赛')],
+                    validators: [],
                     validateLabel: ['isRequire'],
                     updateKey: 'match-false'
                 },
@@ -139,8 +139,18 @@ export default {
             },
             coverError: false,
             competitionOptions: [],
-            obs: null
+            obs: null,
+            openBroadcastSuccess: false // 是否开播成功
         }
+    },
+    computed: {
+        needValidateMatch () {
+            return ['football', 'basketball'].includes(this.category)
+        },
+        buttonString () {
+            return this.openBroadcastSuccess ? '结束直播' : '直播开播'
+        }
+
     },
     created () {
         this.fetchData()
@@ -150,10 +160,30 @@ export default {
             if (newVal) {
                 this.form.title.value = ''
                 this.form.match.value = ''
+                this.errorInfo.match = {}
+                // this.form.match.validators = this.matchRules
             }
         }
     },
     methods: {
+        beforeSubmit () {
+            if (this.openBroadcastSuccess) {
+                // 结束直播
+                this.closeLive()
+            } else {
+                this.submit()
+            }
+        },
+        async closeLive () {
+            try {
+                const { code, msg } = await closeLive()
+                if (code === statusCode.success) {
+                    Message.success(msg)
+                }
+            } catch (e) {
+                console.log('出错了')
+            }
+        },
         async fetchData () {
             try {
                 const { data, code } = await getMatchSchedule({ leagueType: 1 })
@@ -199,6 +229,7 @@ export default {
             })
             if (code === statusCode.success) {
                 Message.success('开播成功')
+                this.openBroadcastSuccess = true
                 console.log(data, 'data')
             }
         },

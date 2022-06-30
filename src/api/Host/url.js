@@ -1,6 +1,9 @@
 const url = {
     // getHosts: '/api/get-hosts',
     startLive: '/api/live/startLive',
+    // 下播
+    closeLive: '/api/live/close',
+
     getOBSAddress: '/api/live/getOBS',
     getHostRank: '/api/anchor/ranking',
     getSubscribeHost: '/api/get-subscribe-host',
