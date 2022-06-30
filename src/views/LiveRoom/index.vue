@@ -5,8 +5,8 @@
                 <div class="top">
                     <img class="img_title" :src="anchorInfo.logo" alt="">
                     <div class="vs" v-if="matchInfo">{{matchInfo.homeChs}} VS {{matchInfo.awayChs}}</div>
-                    <div class="anchor">{{anchorInfo.anchor_name}}</div>
-                    <div class="hot">{{anchorInfo.heat}}</div>
+                    <div class="anchor"> <img :src="require('@/assets/images/room/man.png')" alt=""> {{anchorInfo.anchor_name}}</div>
+                    <div class="hot"><img :src="require('@/assets/images/room/hot.png')" alt=""> {{anchorInfo.heat}}</div>
                     <div class="watch_phone">手机观看</div>
                     <div class="book_box">
                         {{anchorInfo.follow}}人 | <span class="book_btn"> 订阅</span>
@@ -27,7 +27,7 @@
                 </div>
             </div>
         </div>
-        <RecommendAndRank class="tj"></RecommendAndRank>
+        <RecommendAndRank class="tj" style="width: 1200px"></RecommendAndRank>
     </div>
 </template>
 
@@ -123,17 +123,26 @@ export default {
         }
 
         .anchor {
+          height: 20px;
+          max-width: 120px;
+          padding-left: 20px;
           font-size: 12px;
           position: absolute;
           bottom: 20px;
           left: 90px;
           color: #9f9f9f;
+          overflow: hidden;
+          .txt{
+            color: #555;
+          }
         }
 
         .hot {
+          height: 20px;
+          padding-left: 30px;
           font-size: 12px;
           position: absolute;
-          bottom: 20px;
+          bottom: 18px;
           left: 190px;
           color: #9f9f9f;
         }
