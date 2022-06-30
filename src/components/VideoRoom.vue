@@ -6,7 +6,7 @@
                 <img :src="liveCover" alt="" draggable="false" style="width: 100%;height: 100%">
             </div>
         </div>
-<!--        <img class="big-play-btn" :src="logo" v-if="showPuse" @click="bigPause"/>-->
+        <img class="big-play-btn" :src="logo" v-if="showPuse" @click="bigPause"/>
         <div class="showRefresh btn" @mousemove="showRefresh = true" @mouseleave="showRefresh = false">
             <p @click="videoRefresh">刷新</p>
         </div>
@@ -27,8 +27,6 @@
 <script src="DPlayer.min.js"></script>
 <script>
 
-    import { liveRoom } from '@/api/competition/competition'
-
     export default {
         props: {
             isLive: {
@@ -48,9 +46,8 @@
         data() {
             return {
                 liveCover: require("@/assets/images/common/live-cover.jpg"),
-                // logo: require("@/assets/images/common/logo.png"),
+                logo: require("@/assets/images/common/logo.png"),
                 refreshItem: true,
-                danmus: [],
                 showQuality: false,
                 showRefresh: false,
                 roomInfo: {
@@ -63,12 +60,8 @@
                 showPuse: false,
             }
         },
-        computed:{
-            videoInfoItem(){
-                return JSON.parse(JSON.stringify(this.videoInfo))
-            }
-        },
         async mounted() {
+            this.roomInfo = this.videoInfo
             try {
                 setTimeout(() => {
                     this.showPuse = true;
@@ -176,18 +169,6 @@
                     }, 2000)
                 }
             },
-           async videoInfoItem(newVal,oldVal){
-               if(this.dp) this.dp.destroy()
-               try {
-                   const { data } = await liveRoom({room_id:newVal.room_id})
-                   this.roomInfo = JSON.parse(JSON.stringify(data.room_info))
-                   this.changeQuality(this.qualityType)
-               } catch (e) {
-                   console.log('请求房间信息出错了了')
-               } finally {
-                   this.isLoading = false
-               }
-            }
         },
         beforeDestroy() {
             if (this.dp) {

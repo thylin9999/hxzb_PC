@@ -13,7 +13,7 @@
                     </div>
                 </div>
                 <div class="video_box">
-                    <VideoHome class="video_con"></VideoHome>
+                    <VideoRoom :videoInfo="roomInfo" class="video_con"></VideoRoom>
                 </div>
             </div>
             <div class="right">
@@ -33,7 +33,7 @@
 
 <script>
 import RecommendAndRank from '@/components/RecommendAndRank'
-import VideoHome from '@/components/VideoHome'
+import VideoRoom from '@/components/VideoRoom'
 import { statusCode } from '@/utils/statusCode'
 import { liveRoom } from '@/api/competition/competition'
 
@@ -41,7 +41,7 @@ export default {
     name: 'liveRoom',
     components: {
         RecommendAndRank,
-        VideoHome
+        VideoRoom
     },
     data () {
         return {
@@ -76,8 +76,6 @@ export default {
         async getInfo (dataJson) {
             const { data, code } = await liveRoom(dataJson)
             if (code === statusCode.success) {
-                console.log('----------data----------')
-                console.log(data)
                 this.roomInfo = data.room_info
                 this.matchInfo = data.room_info && data.room_info.match_info
                 this.anchorInfo = data.anchor_info
