@@ -24,7 +24,7 @@
                 </el-radio-group>
             </div>
         </div>
-        <div class="row-outer flex align-center p-l-30 m-t-20 m-b-20">
+        <div class="row-outer flex align-center p-l-30 m-t-20 m-b-20" v-if="['football','basketball'].includes(category)">
             <span class="label">
                 直播类型
             </span>
@@ -35,6 +35,7 @@
             </div>
         </div>
         <SelectWithError
+            v-if="['football','basketball'].includes(category)"
             class="m-b-20 m-t-25"
             showLabel
             :label="form.match.label"
@@ -144,18 +145,26 @@ export default {
     created () {
         this.fetchData()
     },
-
+    watch: {
+        category (newVal, oldVal) {
+            if (newVal) {
+                this.form.title.value = ''
+                this.form.match.value = ''
+            }
+        }
+    },
     methods: {
         async fetchData () {
             try {
-                const { data, code } = await getMatchSchedule()
+                const { data, code } = await getMatchSchedule({ leagueType: 1 })
                 if (code === statusCode.success) {
                     this.competitionOptions = data.reduce((all, item) => {
+                        const showLabel = `${item.leagueChsShort} ${item.homeChs} ${item.matchId ? 'VS' : ''} ${item.awayChs}`
                         all.push({
                             ...item,
                             id: item.matchId,
                             value: item.matchId,
-                            label: item.leagueChsShort
+                            label: showLabel
                         })
                         return all
                     }, [])
@@ -182,7 +191,7 @@ export default {
                 return
             }
             const { code, data } = await startLive({
-                matchId: this.form.match.value,
+                matchId: ['football', 'basketball'].includes(this.category) && this.form.match.value,
                 liveType: this.liveType,
                 title: this.form.title.value,
                 liveCover: this.form.liveCover.value,

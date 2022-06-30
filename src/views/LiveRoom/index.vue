@@ -1,17 +1,15 @@
 <template>
     <div>
-        <div class="box">
+        <div class="box" v-if="roomInfo && anchorInfo">
             <div class="left">
                 <div class="top">
-                    <img class="img_title"
-                         src="https://cdn.podapi.com/image/avatar/20201129/94c9db716f8fec692e28d177d0d8d960?imageView2/2/w/200/h/200"
-                         alt="">
-                    <div class="vs">阿尔巴尼亚 VS 爱沙尼亚</div>
-                    <div class="anchor">多余说球</div>
-                    <div class="hot">232525</div>
+                    <img class="img_title" :src="anchorInfo.logo" alt="">
+                    <div class="vs" v-if="matchInfo">{{matchInfo.homeChs}} VS {{matchInfo.awayChs}}</div>
+                    <div class="anchor">{{anchorInfo.anchor_name}}</div>
+                    <div class="hot">{{anchorInfo.heat}}</div>
                     <div class="watch_phone">手机观看</div>
                     <div class="book_box">
-                        {{12345552}}人 | <span class="book_btn"> 订阅</span>
+                        {{anchorInfo.follow}}人 | <span class="book_btn"> 订阅</span>
                     </div>
                 </div>
                 <div class="video_box">
@@ -22,7 +20,6 @@
                 <div class="announces">直播公告：</div>
                 <div class="txt_top">直播间禁止任何传播违法、违规、低俗等信息行为，一经发现将给予封禁处理，请勿相信任何方式的诱导打赏，私下交易等行为，以防人身或财产损失</div>
                 <div class="chat">
-
                 </div>
                 <div class="send_model">
                     <input class="send_inp" type="text" placeholder="发送聊天信息">
@@ -37,6 +34,8 @@
 <script>
 import RecommendAndRank from '@/components/RecommendAndRank'
 import VideoHome from '@/components/VideoHome'
+import { statusCode } from '@/utils/statusCode'
+import { liveRoom } from '@/api/competition/competition'
 
 export default {
     name: 'liveRoom',
@@ -44,21 +43,56 @@ export default {
         RecommendAndRank,
         VideoHome
     },
+    data () {
+        return {
+            matchInfo: null,
+            roomInfo: null,
+            anchorInfo: null
+        }
+    },
+    beforeRouteEnter (to, from, next) {
+        next(vm => {
+            // vm.$route.query.room_id
+            // if (from.name == null) {
+            //     // 先用ID查直播间信息  主播 房间 赛事等 然后跳转
+            //     vm.$store.dispatch("goLiveRoom", {
+            //         room_id: vm.$route.query.room_id,
+            //     })
+            //     if (localStorage.getItem("token")) {
+            //         vm.$store.dispatch("getUserInfo")  //更新个人数据
+            //     }
+            // } else {
+            //     console.log('外部跳转')
+            // }
+            vm.getInfo({ room_id: vm.$route.query.room_id })
+        })
+    },
     mounted () {
         this.$router.afterEach((to, from, next) => {
             window.scrollTo(0, 0)
         })
+    },
+    methods: {
+        async getInfo (dataJson) {
+            const { data, code } = await liveRoom(dataJson)
+            if (code === statusCode.success) {
+                console.log('----------data----------')
+                console.log(data)
+                this.roomInfo = data.room_info
+                this.matchInfo = data.room_info && data.room_info.match_info
+                this.anchorInfo = data.anchor_info
+            }
+        }
     }
 }
 </script>
 
 <style scoped lang="scss">
   .box {
-    padding-top: 20px;
+    //margin-top: 20px;
     height: 591px;
     width: 1200px;
-    margin: auto;
-    //background-color: #ccc;
+    margin:20px auto;
     display: flex;
     justify-content: space-around;
 
