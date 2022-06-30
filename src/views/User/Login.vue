@@ -32,19 +32,34 @@
                         @validate="validateRow"
                         :key="form.account.updateKey"
                     />
-                    <input-with-error
-                        v-if="showCode && isRegister"
-                        class="m-b-20"
-                        :label="form.code.label"
-                        :error-info="errorInfo.code"
-                        :icon="form.code.icon"
-                        :row-info.sync="form.code"
-                        :is-send-code="isSend"
-                        @validate="validateRow"
-                        @getCode="getCode"
-                        :show-code="true"
-                        :key="form.code.updateKey"
-                    />
+<!--                    <input-with-error-->
+<!--                        v-if="showCode && isRegister"-->
+<!--                        class="m-b-20"-->
+<!--                        :label="form.code.label"-->
+<!--                        :error-info="errorInfo.code"-->
+<!--                        :icon="form.code.icon"-->
+<!--                        :row-info.sync="form.code"-->
+<!--                        :is-send-code="isSend"-->
+<!--                        @validate="validateRow"-->
+<!--                        @getCode="getCode"-->
+<!--                        :show-code="true"-->
+<!--                        :key="form.code.updateKey"-->
+<!--                    />-->
+                    <div v-if="showCode && isRegister" class="row row-inner code-input m-b-20 flex p-relative">
+                        <div class="input-section flex align-center flex-1 p-l-15" >
+                            <svg-icon class="icon-14" icon-class="safe"></svg-icon>
+                            <el-input
+                                class="input  flex-1"
+                                placeholder="请输入验证码"
+                                v-model="form.code.value"
+                                @blur="validateRow('code')"
+                            />
+                            <div class="code h-100 pointer text-center" :class="{'not-allowed opacity-7': isSend}" v-if=showCode @click="getCode">
+                                <span class="font-14 line-height-20 font-medium">{{ codeText }}</span>
+                            </div>
+                        </div>
+                        <span class="p-absolute error font-12 ">{{ errorInfo.code.isRequire }}</span>
+                    </div>
                     <input-with-error
                         class="m-b-20"
                         :label="form.password.label"
@@ -59,7 +74,7 @@
                     <template v-if="!isRegister">
                         <div class="flex justify-between align-center">
                             <span class="pointer" @click="changeType(1)">立即注册</span>
-                            <span @click="forgetPassword"  class="pointer">忘记密码</span>
+<!--                            <span @click="forgetPassword"  class="pointer">忘记密码</span>-->
                         </div>
                     </template>
                     <template v-else>
@@ -95,7 +110,6 @@ export default {
     },
     data () {
         return {
-            isRegister: false,
             form: {
                 account: {
                     label: '账号',
@@ -112,7 +126,7 @@ export default {
                     key: 'code',
                     icon: 'safe',
                     validators: [isRequire('验证码')],
-                    validateLabel: ['isRequire', 'phone'],
+                    validateLabel: ['isRequire'],
                     updateKey: 'code-false'
                 },
                 password: {
@@ -130,9 +144,12 @@ export default {
                 code: {},
                 password: {}
             },
+            isRegister: false,
             isSend: false,
             isResetPassword: false,
-            isLoading: false
+            isLoading: false,
+            leftTime: 60,
+            timer: null
         }
     },
     computed: {
@@ -146,6 +163,24 @@ export default {
         style () {
             return {
                 height: this.isRegister ? '370px' : '350px'
+            }
+        },
+        codeText () {
+            return this.isSend ? `${this.leftTime}s` : '获取验证码'
+        }
+    },
+    watch: {
+        isSend () {
+            if (this.isSend) {
+                this.timer = setInterval(() => {
+                    if (this.leftTime <= 0) {
+                        clearInterval(this.timer)
+                        this.isSend = false
+                        this.leftTime = 60
+                    } else {
+                        this.leftTime--
+                    }
+                }, 1000)
             }
         }
     },
@@ -225,6 +260,7 @@ export default {
             return isEmpty(this.errorInfo[key])
         },
         async getCode () {
+            if (this.isSend) return
             const isValidate = this.validateRow('account')
             // 获取验证码操作
             if (isValidate) {
@@ -249,6 +285,13 @@ export default {
             this.isResetPassword = true
         },
         closeModal () {
+            this.initForm()
+            this.isRegister = false
+            this.isSend = false
+            this.isResetPassword = false
+            this.isLoading = false
+            this.leftTime = 60
+            this.timer = null
             this.closeLoginDialog()
         }
     }
@@ -281,5 +324,39 @@ export default {
     .button-text {
         color: $background-color1;
     }
+}
+
+.code-input {
+    .input-section {
+        background-color: $background-input;
+        height: 45px;
+    }
+    .error {
+        left: 0;
+        top: 100%;
+        color: $text-error;
+    }
+    .code {
+        width: 100px;
+        background-color: #E67A40;
+        color: $text-white;
+        line-height: 45px;
+        &.is-send{
+            background-color: #eee;
+        }
+    }
+}
+::v-deep {
+    .code-input {
+        .el-input__inner {
+            border: none!important;
+            background-color: transparent;
+            line-height: 45px;
+            height: 45px;
+            font-size: 14px;
+            font-family: PingFang-SC-Regular;
+        }
+    }
+
 }
 </style>

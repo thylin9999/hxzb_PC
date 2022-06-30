@@ -35,6 +35,13 @@ export function startLive ({
     })
 }
 
+export function closeLive () {
+    return request({
+        method: 'post',
+        url: url.closeLive
+    })
+}
+
 export function getOBSAddress () {
     return request({
         method: 'post',

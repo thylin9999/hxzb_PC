@@ -106,7 +106,7 @@ export default {
                 this.hosts = data.reduce((all, item) => {
                     all.push({
                         ...item,
-                        isSubscribe: item.follow === 1,
+                        isSubscribe: item.is_follow === 1,
                         bgImg: item.logo ? item.logo : require('../assets/images/common/host-avatar.png')
                     })
                     return all
