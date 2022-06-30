@@ -6,7 +6,7 @@
         <span class="pointer" @click="openRegister">注册</span>
     </div>
     <div v-else class="flex align-center">
-        <span class="m-r-15 pointer" @click="openLiveCast">开播</span>
+        <span class="m-r-15 pointer" v-if="isAnchor" @click="openLiveCast">开播</span>
         <el-dropdown trigger="click" @command="handleCommand">
           <span class="el-dropdown-link flex align-center">
             <span class="flex align-center">
@@ -44,9 +44,12 @@ export default {
         return {}
     },
     computed: {
-        ...mapState('user', ['token', 'nickname', 'avatar']),
+        ...mapState('user', ['token', 'nickname', 'avatar', 'is_anchor']),
         avatarLogo () {
             return this.avatar ? this.avatar : require('../../assets/images/user.png')
+        },
+        isAnchor () {
+            return this.is_anchor === 2 // 1 非主播， 2，主播
         }
     },
     methods: {

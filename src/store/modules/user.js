@@ -5,6 +5,7 @@ import { statusCode } from '@/utils/statusCode'
 const state = {
     age: null,
     nickname: null,
+    is_anchor: 1, // 1 非主播 2 主播
     token: null // token
 }
 
