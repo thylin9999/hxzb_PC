@@ -165,8 +165,8 @@ export default {
             }
         },
         async getAddress () {
-            const { data } = await getOBSAddress()
-            if (data.code === statusCode.success) {
+            const { data, code } = await getOBSAddress()
+            if (code === statusCode.success) {
                 this.obs = data
             } else {
                 Message.error(data.msg)
