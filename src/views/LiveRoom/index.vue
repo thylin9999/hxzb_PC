@@ -9,7 +9,7 @@
                     <div class="hot"><img :src="require('@/assets/images/room/hot.png')" alt=""> {{anchorInfo.heat}}</div>
                     <div class="watch_phone">手机观看</div>
                     <div class="book_box">
-                        {{anchorInfo.follow}}人 | <span class="book_btn"> 订阅</span>
+                        {{anchorInfo.follow}}人 | <span class="book_btn" @click="followHost">{{anchorInfo.is_follow ? '已订阅':'订阅'}} </span>
                     </div>
                 </div>
                 <div class="video_box">
@@ -36,6 +36,9 @@ import RecommendAndRank from '@/components/RecommendAndRank'
 import VideoRoom from '@/components/VideoRoom'
 import { statusCode } from '@/utils/statusCode'
 import { liveRoom } from '@/api/competition/competition'
+import { Message } from 'element-ui'
+import { followHost } from '@/api/Host/Host'
+import { mapState } from 'vuex'
 
 export default {
     name: 'liveRoom',
@@ -67,6 +70,9 @@ export default {
             vm.getInfo({ room_id: vm.$route.query.room_id })
         })
     },
+    computed: {
+        ...mapState('user', ['token'])
+    },
     mounted () {
         this.$router.afterEach((to, from, next) => {
             window.scrollTo(0, 0)
@@ -79,6 +85,29 @@ export default {
                 this.roomInfo = data.room_info
                 this.matchInfo = data.room_info && data.room_info.match_info
                 this.anchorInfo = data.anchor_info
+            }
+        },
+        async  followHost () {
+            if (!this.token) {
+                Message.error('请先登录')
+                this.openLoginDialog()
+                return
+            }
+            try {
+                const { code, msg } = await followHost(this.anchorInfo.member_id)
+                if (code === 200) {
+                    // this.anchorInfo.is_follow = this.anchorInfo.is_follow ? 1 : 0
+                    if (this.anchorInfo.is_follow === 1) {
+                        this.anchorInfo.is_follow = 0
+                        this.anchorInfo.follow -= 1
+                    } else {
+                        this.anchorInfo.is_follow = 1
+                        this.anchorInfo.follow += 1
+                    }
+                }
+                Message.success(msg)
+            } catch (e) {
+                console.log('出错了')
             }
         }
     }

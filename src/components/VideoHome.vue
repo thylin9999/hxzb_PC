@@ -6,7 +6,7 @@
                 <img :src="liveCover" alt="" draggable="false" style="width: 100%;height: 100%">
             </div>
         </div>
-<!--        <img class="big-play-btn" :src="logo" v-if="showPuse" @click="bigPause"/>-->
+        <img class="big-play-btn" :src="logo" v-if="showPuse" @click="bigPause"/>
         <div class="showRefresh btn" @mousemove="showRefresh = true" @mouseleave="showRefresh = false">
             <p @click="videoRefresh">刷新</p>
         </div>
@@ -48,7 +48,7 @@
         data() {
             return {
                 liveCover: require("@/assets/images/common/live-cover.jpg"),
-                // logo: require("@/assets/images/common/logo.png"),
+                logo: require("@/assets/images/common/logo.png"),
                 refreshItem: true,
                 danmus: [],
                 showQuality: false,
