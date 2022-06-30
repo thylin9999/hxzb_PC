@@ -32,7 +32,9 @@
                     <span class="w-100 text-center m-t-20">Android下载</span>
                 </div>
                 <div class="qrcode m-l-30">
-                    <div class="code"></div>
+                    <div class="code">
+                        <Qrcode />
+                    </div>
                 </div>
             </div>
         </div>
@@ -47,8 +49,12 @@
 
 <script>
 import { mapState } from 'vuex'
+import Qrcode from '@/components/Qrcode'
 export default {
     name: 'Footer',
+    components: {
+        Qrcode
+    },
     data () {
         return {
 

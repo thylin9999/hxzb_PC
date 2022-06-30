@@ -112,11 +112,11 @@ export default {
         return {
             form: {
                 account: {
-                    label: '账号',
+                    label: '手机号',
                     value: '',
                     key: 'account',
                     icon: 'phone',
-                    validators: [isRequire('账号'), phone],
+                    validators: [isRequire('手机号'), phone],
                     validateLabel: ['isRequire', 'phone'],
                     updateKey: 'account-false'
                 },

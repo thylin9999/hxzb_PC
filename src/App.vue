@@ -1,6 +1,6 @@
 <template>
   <div id="app" :class="{'overflow-hidden': showDialog }">
-    <router-view/>
+    <router-view :key="updateKey"/>
   </div>
 </template>
 <script >
@@ -9,6 +9,16 @@ import { getFlowedHosts } from '@/api/Host/Host'
 
 export default {
     name: 'App',
+    data () {
+        return {
+            updateKey: +new Date().getTime()
+        }
+    },
+    provide () {
+        return {
+            reload: this.reload
+        }
+    },
     computed: {
         ...mapState('modal', ['showDialog']),
         ...mapState('user', ['token'])
@@ -24,6 +34,9 @@ export default {
         }
     },
     methods: {
+        reload () {
+            this.updateKey = +new Date().getTime()
+        },
         async init () {
             try {
                 const res = await getFlowedHosts()

@@ -83,7 +83,6 @@ export function bookBroadcast () {
     return request({
         method: 'post',
         url: url.bookBroadcast
-
     })
 }
 
@@ -91,6 +90,26 @@ export function bookMatches (matchId) {
     return request({
         method: 'post',
         url: url.bookMatches,
+        data: {
+            matchId
+        }
+    })
+}
+
+export function getBookedMatches (matchId) {
+    return request({
+        method: 'post',
+        url: url.getBookedMatches,
+        data: {
+            match_id: matchId
+        }
+    })
+}
+
+export function cancelSubscribe (matchId) {
+    return request({
+        method: 'post',
+        url: url.cancelSubscribe,
         data: {
             matchId
         }

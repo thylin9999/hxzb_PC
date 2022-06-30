@@ -1,6 +1,6 @@
 <template>
-<div class="qrcode w-100 h-100">
-    <div class="code w-100 h-100"></div>
+<div class="qrcode w-100 h-100 bg-center bg-no-repeat bg-size-100">
+<!--    <div class="code w-100 h-100"></div>-->
 </div>
 </template>
 
@@ -15,6 +15,7 @@ export default {
 .qrcode {
     padding: 3px;
     background-color: $text-white;
+    background-image: url('../assets/images/app-code.jpg');
     .code {
         background-color: #eee;
     }

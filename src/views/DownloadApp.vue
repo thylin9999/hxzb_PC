@@ -21,7 +21,9 @@
             </ul>
             <div>
                 <div class="qrcode bg-white">
-                    <div class="code w-100 h-100 bg-gray2"></div>
+                    <div class="code w-100 h-100 bg-gray2">
+                        <qrcode />
+                    </div>
                 </div>
                 <span class="download-label w-100 d-inline-block text-center">扫描二维码下载</span>
             </div>
@@ -32,8 +34,12 @@
 </template>
 
 <script>
+import Qrcode from '@/components/Qrcode'
 export default {
-    name: 'DownloadApp'
+    name: 'DownloadApp',
+    components: {
+        Qrcode
+    }
 }
 </script>
 
@@ -87,7 +93,7 @@ export default {
         }
     }
     .qrcode {
-        padding: 0.625vw;
+        //padding: 0.625vw;
         width: 9.5vw;
         height: 9.5vw;
     }

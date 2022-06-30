@@ -33,7 +33,7 @@ import UpdatePassword from '@/views/PersonalCenter/Components/UpdatePassword'
 import Feedback from '@/views/PersonalCenter/Components/Feedback'
 import OpenLiveBroadCast from '@/views/PersonalCenter/Components/OpenLiveBroadCast'
 import BookLiveBroadCast from '@/views/PersonalCenter/Components/BookLiveBroadCast'
-import MyBroadcast from "@/views/PersonalCenter/Components/MyBroadcast";
+import MyBroadcast from '@/views/PersonalCenter/Components/MyBroadcast'
 import { mapState } from 'vuex'
 export default {
     name: 'PersonalCenter',
@@ -72,19 +72,19 @@ export default {
                     icon: 'lock1',
                     com: 'updatePassword'
                 },
-                {
-                    id: 4,
-                    name: 'feedback',
-                    text: '意见反馈',
-                    icon: 'message',
-                    com: 'Feedback'
-                },
-                {
-                    id: 5,
-                    name: 'notify',
-                    text: '消息通知',
-                    icon: 'message1'
-                },
+                // {
+                //     id: 4,
+                //     name: 'feedback',
+                //     text: '意见反馈',
+                //     icon: 'message',
+                //     com: 'Feedback'
+                // },
+                // {
+                //     id: 5,
+                //     name: 'notify',
+                //     text: '消息通知',
+                //     icon: 'message1'
+                // },
                 {
                     id: 6,
                     name: 'notify',

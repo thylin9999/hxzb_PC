@@ -46,6 +46,18 @@ export function editUserInfo ({ nickname, sign, birth, gender, avatar }) {
     })
 }
 
+export function updatePassword ({ password, verPassword, oldPassword }) {
+    return request({
+        method: 'post',
+        url: url.updatePassword,
+        data: {
+            password,
+            ver_password: verPassword,
+            old_password: oldPassword
+        }
+    })
+}
+
 export function getCode ({ mobile, msType = 1 }) {
     return request({
         method: 'post',

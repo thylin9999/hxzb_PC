@@ -1,7 +1,10 @@
 <template>
 <div class="wrap-1800 p-t-15 ">
     <title-row class="title-row m-b-25" icon="un-live" title="未开播" />
-    <div class="list bg-white p-t-15 p-b-25" v-loading="isLoading">
+    <div
+        class="list bg-white p-t-15 p-b-25"
+        :class="{'flex align-center justify-center': !tableData.length}"
+        v-loading="isLoading">
         <div v-if="tableData.length" class="host-list">
             <ul v-if="tableData.length" class="w-100 flex flex-wrap">
                 <li

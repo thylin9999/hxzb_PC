@@ -107,7 +107,8 @@ export default {
     .menus {
         margin-left: 110px;
         li {
-            width: 80px;
+            //width: 80px;
+            padding: 0 20px;
             line-height: 40px;
             &.is-active {
                 border-radius: 20px;

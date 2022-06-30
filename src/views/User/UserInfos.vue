@@ -70,6 +70,7 @@ export default {
                 this.goToUserCenter()
             } else {
                 this.logoutAction()
+                this.$router.push('/')
             }
         },
         openLiveCast () {

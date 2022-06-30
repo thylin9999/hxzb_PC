@@ -11,27 +11,32 @@
                 prop="type"
                 align="center"
                 label="比赛类型"
-                width="180" />
+                min-width="180" />
             <el-table-column
                 prop="title"
                 align="center"
                 label="直播标题"
-                width="180" />
+                min-width="180" />
             <el-table-column
                 prop="matchTime"
                 align="center"
                 label="开始时间"
-                width="180" />
+                min-width="180" />
             <el-table-column
                 prop="announcement"
                 label="直播公告"
                 align="center"
-                width="180" />
+                min-width="150" />
             <el-table-column
                 prop="leagueType"
                 align="center"
                 label="操作"
-                width="180" />
+                min-width="150" >
+                <template slot-scope="scope">
+                    <el-button small @click="cancel(scope.row)">取消预约</el-button>
+<!--                    <span @click="cancel(scope.row)">取消预约</span>-->
+                </template>
+            </el-table-column>
         </el-table>
     </div>
 </div>
@@ -39,9 +44,10 @@
 
 <script>
 import HeaderTitle from '@/views/PersonalCenter/Components/HeaderTitle'
-import { bookBroadcast } from '@/api/Host/Host'
+import { bookBroadcast, getBookedMatches, cancelSubscribe } from '@/api/Host/Host'
 import { matchTypes } from '@/utils/utils'
-
+import { statusCode } from '@/utils/statusCode'
+import { Message } from 'element-ui'
 export default {
     name: 'MyBroadcast',
     components: {
@@ -58,7 +64,7 @@ export default {
     methods: {
         async fetchData () {
             try {
-                const { data } = await bookBroadcast()
+                const { data } = await getBookedMatches()
                 this.list = data.list.reduce((all, item) => {
                     all.push({
                         ...item,
@@ -66,6 +72,19 @@ export default {
                     })
                     return all
                 }, [])
+            } catch (e) {
+                console.log('出错了')
+            }
+        },
+        async cancel (row) {
+            console.log(row, 'row')
+            try {
+                const { data } = await cancelSubscribe(row.id)
+                if (data.code === statusCode.success) {
+
+                } else {
+                    Message.error(data.msg)
+                }
             } catch (e) {
                 console.log('出错了')
             }
