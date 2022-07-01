@@ -67,10 +67,10 @@ export default {
     },
     computed: {
         hasCover () {
-            return !!this.info.img
+            return !!this.info.live_cover
         },
         cover () {
-            return this.hasCover ? this.info.img : require('../assets/images/common/host-blank.png')
+            return this.hasCover ? this.info.live_cover : require('../assets/images/common/host-blank.png')
         },
         topImg () {
             return require(`../assets/images/matches/top${this.index + 1}.png`)

@@ -3,7 +3,7 @@
     <div class="wrap-1450 p-relative header flex justify-between align-center">
         <div class="left-section flex align-center">
             <div class="logo">
-                <img class="h-100" src="../../assets/images/common/logo.png" alt="">
+<!--                <img class="h-100" src="../../assets/images/common/logo.png" alt="">-->
             </div>
             <ul class="menus flex align-center light-header" :class="{'light-header': isLightHeader}">
                 <li
