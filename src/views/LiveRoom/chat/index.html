@@ -1,0 +1,37 @@
+<div class="chat_box">
+    <div class="content">
+        <div class="announcement">
+            高清视频直播
+        </div>
+        <!-- 主要的聊天室内容-->
+        <div class="chat_con clear" v-loading="0" element-loading-text="正在连接">
+            <ul class="chat_list" ref="element" id="element">
+                <li v-for="(item,i) in chatList" :key="i" class="chat_item clear">
+                    <div v-if="item.type == '1120'" class="notice">{{ item.msg }}</div>  <!-- 系统提示 -->
+                    <div v-if="item.type == '1090'" class="beMuted">{{ item.msg }}</div>  <!-- 主播下播 暂时没有-->
+                    <div v-if="item.type == '2010'" class="beMuted">{{ item.msg }}</div>  <!-- 发言频繁 -->
+                    {{ item.type == '1010' ? item.msg : '' }}   <!-- 进入直播间 -->
+                    {{ item.type == '1040' ? item.msg : '' }}   <!-- 发言 -->
+                </li>
+            </ul>
+        </div>
+        <div class="send_bot">
+            <div class="clear_btn">
+                <img :src="1" alt="" class="icon_clear">
+                <span class="txt" @click="chatList = []">清屏</span>
+            </div>
+            <Input
+                ref="inputBox"
+                class="inp"
+                type="text"
+                placeholder="开始聊天"
+                v-model="inpTxt"
+                maxlength="30"
+                show-word-limit
+                @keydown.enter.native="sendMessage"
+            >
+            </Input>
+            <div class="send btn" @click="sendMessage">发送</div>
+        </div>
+    </div>
+</div>
