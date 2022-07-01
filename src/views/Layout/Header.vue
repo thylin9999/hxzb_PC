@@ -1,6 +1,6 @@
 <template>
 <div class="full-width">
-    <div class="wrap-1450 p-relative header flex justify-between align-center">
+    <div class="p-relative header flex justify-between align-center">
         <div class="left-section flex align-center">
             <div class="logo">
 <!--                <img class="h-100" src="../../assets/images/common/logo.png" alt="">-->
@@ -96,16 +96,21 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
+
 .full-width {
     background-color: #0E3F6A;
+    width: 100%;
 }
 .header {
     height: 90px;
+    width: 1200px;
+    margin: auto;
     .logo {
         height: 60px;
     }
     .menus {
-        margin-left: 110px;
+
+        //margin-left: 110px;
         li {
             //width: 80px;
             padding: 0 20px;

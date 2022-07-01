@@ -1,15 +1,17 @@
 <template>
   <div class="home">
-      <div class="video-box p-t-10 p-relative bg-size-100 bg-center bg-no-repeat">
-          <div class="video p-10 bg-black wrap-1450">
-              <div class="video_view">
-                  <VideoHome :videoInfo="videoInfo"></VideoHome>
-              </div>
-              <div class="videoList m-l-5">
-                  <div class="box1 item" :class="{select:current == i}" v-for="(item,i) in list" :key="i">
-                      <img @click="selectLive(item,i)" class="item_img" :src="item.live_cover || require('@/assets/images/common/host-avatar.png')" alt="">
+      <div class="box">
+          <div class="video-box p-t-10">
+              <div class="video p-10 bg-black">
+                  <div class="video_view">
+                      <VideoHome :videoInfo="videoInfo"></VideoHome>
                   </div>
-                  <div class="box1 item item_blank" v-for="tem in (6-list.length)" :key="1000-tem"></div>
+                  <div class="videoList m-l-5">
+                      <div class="box1 item" :class="{select:current == i}" v-for="(item,i) in list" :key="i">
+                          <img @click="selectLive(item,i)" class="item_img" :src="item.live_cover || require('@/assets/images/common/host-avatar.png')" alt="">
+                      </div>
+                      <div class="box1 item item_blank" v-for="tem in (6-list.length)" :key="1000-tem"></div>
+                  </div>
               </div>
           </div>
       </div>
@@ -79,9 +81,15 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
+.box{
+  width: 100%;
+  background: url('../assets/images/home/bg.png') no-repeat;
+  background-size: 100% 100%;
+}
 .video-box{
+    width: 1200px;
+    margin: auto;
     height: 790px;
-    background-image: url('../assets/images/home/bg.png');
     .bg-box {
         top: -80px;
         height: 755px;
