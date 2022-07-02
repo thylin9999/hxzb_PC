@@ -1,7 +1,7 @@
 <template src="./index.html"></template>
 
 <script>
-// import { Input, Loading } from 'element-ui'
+import { Message } from 'element-ui'
 
 import { mapState } from 'vuex'
 
@@ -23,6 +23,7 @@ export default {
             announcement: '',
             webSocket: null,
             value: '600',
+            trumpet: require('@/assets/images/common/trumpet.png'),
             chatList: []
         }
     },
@@ -48,49 +49,26 @@ export default {
     },
     methods: {
         sendMessage () {
+            console.log(this.inpTxt.trim())
             if (!this.inpTxt.trim().length) return
-            if (!this.userInfo) {
-                this.send('1043')
+            if (!this.member_id) {
+                Message('请先登录')
             } else {
                 this.send('1040')
             }
         },
-        send (num, obj, trumpet) {
-            // const userInfoItem = localStorage.userInfo ? JSON.parse(localStorage.userInfo) : null
-            // if (num === '1040') { // 发言
-            //     const sendCon = {
-            //         type: num,
-            //         trumpet: trumpet ? 2 : 1, // 1，正常发言  2，贵族喇叭
-            //         room_id: this.$route.query.room_id,
-            //         member_id: localStorage.userInfo ? JSON.parse(localStorage.userInfo).member_id : '',
-            //         userInfo: userInfoItem,
-            //         msg: this.inpTxt
-            //     }
-            //     this.webSocket.send(JSON.stringify(sendCon))
-            //     this.inpTxt = ''
-            // }
-            // if (num === '1043') { // 发言
-            //     const sendCon = {
-            //         type: num,
-            //         trumpet: trumpet ? 2 : 1, // 1，正常发言  2，贵族喇叭
-            //         room_id: this.$route.query.room_id,
-            //         msg: this.inpTxt
-            //     }
-            //     this.webSocket.send(JSON.stringify(sendCon))
-            //     this.inpTxt = ''
-            // }
-            // if (num === '1042') { // 发言
-            //     const sendCon = {
-            //         type: num,
-            //         speak_id: obj.id,
-            //         trumpet: 1, // 1，正常发言  2，贵族喇叭
-            //         room_id: this.$route.query.room_id,
-            //         member_id: localStorage.userInfo ? JSON.parse(localStorage.userInfo).member_id : '',
-            //         userInfo: userInfoItem || null,
-            //         msg: obj.content
-            //     }
-            //     this.webSocket.send(JSON.stringify(sendCon))
-            // }
+        send (num) {
+            if (num === '1040') { // 发言
+                const sendCon = {
+                    type: num,
+                    room_id: this.$route.query.room_id,
+                    member_id: this.member_id,
+                    nickname: this.nickname,
+                    msg: this.inpTxt
+                }
+                this.webSocket.send(JSON.stringify(sendCon))
+                this.inpTxt = ''
+            }
         },
         connectWebSocket () {
             const that = this
@@ -101,6 +79,7 @@ export default {
                     const sendCon = {
                         type: '1010',
                         room_id: that.$route.query.room_id,
+                        nickname: that.nickname,
                         member_id: that.member_id
                     }
                     console.log('---websocke已连接成功---')
@@ -109,7 +88,9 @@ export default {
                 }
             }
             this.webSocket.onmessage = function (evt) {
+                if (!evt.data.includes('type')) return
                 const obj = JSON.parse(evt.data)
+                console.log(obj)
                 let item = {}
                 if (obj) {
                     switch (obj.type) {
@@ -132,7 +113,7 @@ export default {
                         item = {
                             type: obj.type,
                             nickname: obj.nickname,
-                            msg: obj.content.msg,
+                            msg: obj.msg,
                             member_id: obj.member_id
                         }
                         that.chatList.push(item)
@@ -153,7 +134,7 @@ export default {
                     case '1120': // 系统提示
                         item = {
                             type: '1120',
-                            msg: '系统提示：' + obj.content.msg
+                            msg: '系统提示：' + obj.msg
                         }
                         that.chatList.push(item)
                         that.$nextTick(() => {
@@ -202,5 +183,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-    @import "./index";
+  @import "./index";
 </style>
