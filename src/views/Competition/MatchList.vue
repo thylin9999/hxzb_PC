@@ -31,7 +31,7 @@
                         <div class="team  flex justify-between align-center">
                             <div class="flex align-center">
                                 <span
-                                    class="team-flag m-r-10 bg-no-repeat bg-center bg-size-100 d-inline-block"
+                                    class="team-flag border-radius-50 m-r-10 bg-no-repeat bg-center bg-size-100 d-inline-block"
                                     :style="{
                                         backgroundImage: `url(${match.homeLogo})`
                                     }"

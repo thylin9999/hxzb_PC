@@ -1,7 +1,7 @@
 <template>
 <div class="box flex flex-column  ">
     <div class="avatar w-100 flex justify-between align-center">
-        <div class="icon h-100 bg-center bg-no-repeat bg-size-100"
+        <div class="icon border-radius-50 h-100 bg-center bg-no-repeat bg-size-100"
              :style="{
                 backgroundImage: `url(${cover})`
              }"

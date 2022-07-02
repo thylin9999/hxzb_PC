@@ -17,7 +17,7 @@
                 >
                     <div class="icon p-relative bg-center flex justify-center align-center bg-no-repeat bg-size-100" :class="`rank-${index}`">
                         <div
-                            class="avatar  bg-center bg-no-repeat bg-size-100"
+                            class="avatar border-radius-50  bg-center bg-no-repeat bg-size-100"
                             :style="{
                                 backgroundImage: `url(${host.bgImg})`
                             }"
@@ -45,7 +45,7 @@
                 >
                     <div class="left-section flex align-center">
                         <div
-                            class="icon m-r-10 bg-no-repeat bg-center bg-size-100"
+                            class="icon border-radius-50 m-r-10 bg-no-repeat bg-center bg-size-100"
                             :style="{
                                 backgroundImage: `url(${host.bgImg})`
                             }"
@@ -169,7 +169,6 @@ export default {
         .avatar {
             width: 105px;
             height: 105px;
-            //background-image: url('../assets/images/common/host-avatar.png');
         }
         .icon {
             width: 118px;
@@ -199,7 +198,6 @@ export default {
             .icon {
                 width: 50px;
                 height: 50px;
-                //background-image: url('../assets/images/common/host-avatar.png');
             }
         }
     }
