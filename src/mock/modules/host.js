@@ -50,6 +50,6 @@ const bookBroadcast = config => {
         }
     })
 }
-Mock.mock(url.getSubscribeHost, 'post', getSubscribeHost)
+// Mock.mock(url.getSubscribeHost, 'post', getSubscribeHost)
 // Mock.mock(url.getHostRank, 'get', getHostRank)
-Mock.mock(url.bookBroadcast, 'post', bookBroadcast)
+// Mock.mock(url.bookBroadcast, 'post', bookBroadcast)

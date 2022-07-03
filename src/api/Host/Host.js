@@ -26,10 +26,10 @@ export function startLive ({
         method: 'post',
         url: url.startLive,
         data: {
-            leagueType: category, // 赛事类型
+            // leagueType: category, // 赛事类型
             live_cover: liveCover,
             room_title: title,
-            type: liveType, // 分类
+            type: category, // 分类
             match_id: matchId
         }
     })

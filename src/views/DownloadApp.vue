@@ -94,7 +94,7 @@ export default {
     margin: 0 auto;
     .outer-wrap{
         background-image: url('../assets/images/download/phone.png');
-        background-size: contain;
+        background-size: 115% 100%;
         background-position: left -150px;
     }
     .upper-div {

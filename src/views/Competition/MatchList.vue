@@ -124,7 +124,7 @@ export default {
         },
         ulStyle () {
             return {
-                width: this.ulWidth / 19.2 + 'vw'
+                width: this.ulWidth + 'px'
             }
         }
     },

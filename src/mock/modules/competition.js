@@ -185,10 +185,10 @@ const getMatchList = config => {
     })
 }
 
-Mock.mock(/\/api\/get-competition/, 'post', getCompetitions)
+// Mock.mock(/\/api\/get-competition/, 'post', getCompetitions)
 
 // Mock.mock(url.getOnlineBroadcast, 'get', getOnlineBroadcast)
 // Mock.mock(url.getBookedMatches, 'post', getBookedMatches)
 
-Mock.mock(url.getVideoCompetitions, 'get', getVideoCompetitions)
+// Mock.mock(url.getVideoCompetitions, 'get', getVideoCompetitions)
 // Mock.mock(url.getMatchList, 'post', getMatchList)
