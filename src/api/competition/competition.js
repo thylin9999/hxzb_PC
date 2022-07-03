@@ -85,6 +85,7 @@ export function getMatchList ({
     return request({
         method: 'post',
         url: url.getMatchList,
+        timeout: 1000 * 60, // 1分钟
         data: {
             'pageNum': pageNumber,
             pageSize,

@@ -1,6 +1,7 @@
 const url = {
     // getHosts: '/api/get-hosts',
     startLive: '/api/live/startLive',
+    getHostIsOnline: '/api/live/live', // 主播是否开播的信息
     // 下播
     closeLive: '/api/live/close',
 

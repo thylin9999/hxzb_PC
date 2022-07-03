@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import BasicLayout from '@/views/Layout/BasicLayout'
-
+import { getToken } from '@/utils/cookie'
+import { getUserInfo } from '@/api/user'
+import Store from '../store/index'
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push (location) {
     return originalPush.call(this, location).catch(err => err)
@@ -86,6 +88,15 @@ const routes = [
 
 const router = new VueRouter({
     routes
+})
+
+router.beforeEach(async (to, from, next) => {
+    const token = getToken()
+    if (token) {
+        Store.commit('user/SET', { token })
+    }
+
+    next()
 })
 
 export default router

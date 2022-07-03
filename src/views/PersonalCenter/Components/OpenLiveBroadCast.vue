@@ -16,11 +16,13 @@
                 直播分类
             </span>
             <div class="content">
-                <el-radio-group v-model="category">
-                    <el-radio label="football">足球</el-radio>
-                    <el-radio label="basketball">篮球</el-radio>
-                    <el-radio label="esport">电竞</el-radio>
-                    <el-radio label="other">其他</el-radio>
+                <el-radio-group v-model="category" @change="changeCategory">
+                    <el-radio
+                        v-for="item in categoryOptions"
+                        :key="item.id"
+                        :label="item.id"
+                        :value="item.key"
+                    >{{item.text}}</el-radio>
                 </el-radio-group>
             </div>
         </div>
@@ -92,9 +94,11 @@ import UploadWithError from '@/components/Form/UploadWithError'
 import { isRequire } from '@/utils/validator'
 import { isEmpty, omit } from '@/utils/lodashUtil'
 import { startLive, getOBSAddress, closeLive } from '@/api/Host/Host'
-import { getMatchSchedule } from '@/api/competition/competition'
+import { getMatchSchedule, getMatchList } from '@/api/competition/competition'
 import { Message } from 'element-ui'
 import { statusCode } from '@/utils/statusCode'
+import { mapState } from 'vuex'
+import dayjs from 'dayjs'
 export default {
     name: 'OpenLiveBroadCast',
     components: {
@@ -132,7 +136,7 @@ export default {
                 }
             },
             liveType: 'all',
-            category: 'football',
+            category: 1,
             errorInfo: {
                 title: {},
                 match: {}
@@ -144,13 +148,18 @@ export default {
         }
     },
     computed: {
+        ...mapState('commonData', ['broadcastTypes']),
         needValidateMatch () {
-            return ['football', 'basketball'].includes(this.category)
+            return [1, 2].includes(this.category)
         },
         buttonString () {
             return this.openBroadcastSuccess ? '结束直播' : '直播开播'
+        },
+        categoryOptions () {
+            return this.broadcastTypes.filter(x => {
+                return !(x.id === 5) // 过滤掉 正在热播
+            })
         }
-
     },
     created () {
         this.fetchData()
@@ -185,10 +194,21 @@ export default {
             }
         },
         async fetchData () {
+            const loadingBox = this.$loading({
+                lock: true,
+                text: 'Loading',
+                spinner: 'el-icon-loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+            })
             try {
-                const { data, code } = await getMatchSchedule({ leagueType: 1 })
+                const { data, code, msg } = await getMatchList({
+                    leagueType: this.category,
+                    pageSize: 2000,
+                    pageNumber: 1,
+                    day: dayjs().format('YYYY-MM-DD')
+                })
                 if (code === statusCode.success) {
-                    this.competitionOptions = data.reduce((all, item) => {
+                    this.competitionOptions = data.list.reduce((all, item) => {
                         const showLabel = `${item.leagueChsShort} ${item.homeChs} ${item.matchId ? 'VS' : ''} ${item.awayChs}`
                         all.push({
                             ...item,
@@ -198,17 +218,21 @@ export default {
                         })
                         return all
                     }, [])
+                } else {
+                    Message.error(msg)
                 }
             } catch (e) {
                 console.log('出错了')
+            } finally {
+                loadingBox.close()
             }
         },
         async getAddress () {
-            const { data, code } = await getOBSAddress()
+            const { data, code, msg } = await getOBSAddress()
             if (code === statusCode.success) {
                 this.obs = data
             } else {
-                Message.error(data.msg)
+                Message.error(msg)
             }
         },
         async submit () {
@@ -258,6 +282,13 @@ export default {
         changeKey (key) {
             const flag = JSON.parse(this.form[key].updateKey.split('-')[1])
             this.form[key].updateKey = `${key}-${!flag}`
+        },
+        changeCategory () {
+            if (this.needValidateMatch) {
+                this.fetchData()
+            } else {
+                this.competitionOptions = []
+            }
         }
     }
 }
@@ -316,6 +347,9 @@ export default {
                 background-color: transparent!important;
                 border: 1px solid #E2E1E1;
                 border-radius: 2px;
+            }
+            .el-input__icon {
+                line-height: 30px;
             }
             .error{
                 left: 157px;

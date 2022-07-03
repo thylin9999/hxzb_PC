@@ -86,24 +86,28 @@ const state = {
         {
             id: 1,
             title: '足球热播',
+            text: '足球',
             key: 'football'
         },
         {
             id: 2,
             title: '篮球热播',
+            text: '篮球',
             key: 'basketball'
         },
         {
             id: 3,
             title: '电竞热播',
+            text: '电竞',
             key: 'eSports'
         },
         {
             id: 4,
             title: '其他',
+            text: '其他',
             key: 'other'
         }
-    ],
+    ]
 }
 const actions = {
 

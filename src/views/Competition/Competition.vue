@@ -3,6 +3,7 @@
     <timer-filter
         :type.sync="competitionType"
         :time.sync="filterTime"
+        @setToday="setToday"
     />
     <div class="content w-100 p-t-15 flex">
         <div class="left-bars flex justify-center p-t-10 bg-center bg-no-repeat bg-size-100">
@@ -16,7 +17,6 @@
                 >
                     <icon-png :width="21" :height="21" :icon="type.icon"/>
                     <span class="m-l-10">{{ type.title }}</span>
-<!--                    <span>12场</span>-->
                 </li>
             </ul>
         </div>
@@ -153,6 +153,9 @@ export default {
         this.fetchData()
     },
     methods: {
+        setToday () {
+            this.filterTime = dayjs().format('YYYY-MM-DD')
+        },
         changeMenu (menu) {
             this.statusType = menu.id
         },

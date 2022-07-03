@@ -1,6 +1,7 @@
 const url = {
-    userInfo: '/api/v1/user/info',
+    userInfo: '/api/member/details',
     login: '/api/member/login',
+    logout: '/api/member/logout',
     register: '/api/member/register',
     editUserInfo: '/api/member/editMember',
     getCode: '/api/sendSms/send',

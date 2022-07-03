@@ -205,9 +205,8 @@ export default {
                     params.code = this.form.code.value
                 }
                 const result = await request(params)
-                console.log(result, 'result')
-                const res = this.isRegister ? result.data : result
-                if (res.code === statusCode.success) {
+                const { code, msg } = this.isRegister ? result : result
+                if (code === statusCode.success) {
                     // 登录成功
                     if (this.isRegister) {
                         this.initForm()
@@ -225,7 +224,7 @@ export default {
                     }
                 } else {
                     Message({
-                        message: res.msg,
+                        message: msg,
                         type: 'error'
                     })
                     this.form.password.value = ''

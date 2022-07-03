@@ -4,8 +4,7 @@
   </div>
 </template>
 <script >
-import { mapState } from 'vuex'
-import { getFlowedHosts } from '@/api/Host/Host'
+import { mapState, mapActions } from 'vuex'
 
 export default {
     name: 'App',
@@ -34,13 +33,13 @@ export default {
         }
     },
     methods: {
+        ...mapActions('user', ['getUserInfo']),
         reload () {
             this.updateKey = +new Date().getTime()
         },
         async init () {
             try {
-                const res = await getFlowedHosts()
-                console.log(res)
+                await this.getUserInfo()
             } catch (e) {
                 console.log('出错了')
             }

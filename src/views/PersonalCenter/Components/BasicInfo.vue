@@ -32,15 +32,30 @@
             @validate="validateRow"
             :key="form.sign.updateKey"
         />
-        <input-with-error
-            class="m-b-30 "
-            showLabel
-            :label="form.birth.label"
-            :error-info="errorInfo.birth"
-            :row-info.sync="form.birth"
-            @validate="validateRow"
-            :key="form.birth.updateKey"
-        />
+<!--        <input-with-error-->
+<!--            class="m-b-30 "-->
+<!--            showLabel-->
+<!--            :label="form.birth.label"-->
+<!--            :error-info="errorInfo.birth"-->
+<!--            :row-info.sync="form.birth"-->
+<!--            @validate="validateRow"-->
+<!--            :key="form.birth.updateKey"-->
+<!--        />-->
+        <div class="row-outer flex align-center p-l-30 m-t-20 m-b-20">
+                <span class="label">
+                    {{ form.birth.label }}
+                </span>
+            <div class="content flex-1">
+                <el-date-picker
+                    class="time-picker w-100"
+                    v-model="form.birth.value"
+                    type="date"
+                    format="yyyy-MM-dd"
+                    :picker-options="pickerOptions"
+                    placeholder="选择日期">
+                </el-date-picker>
+            </div>
+        </div>
         <div class="row-outer flex align-center p-l-30 m-t-20 m-b-20">
             <span class="label">
 
@@ -57,11 +72,13 @@
 import HeaderTitle from '@/views/PersonalCenter/Components/HeaderTitle'
 import SubmitButton from '@/components/SubmitButton'
 import InputWithError from '@/components/Form/InputWithError'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import { editUserInfo } from '@/api/user'
 import { isRequire } from '@/utils/validator'
 import { isEmpty, omit } from '@/utils/lodashUtil'
-
+import { statusCode } from '@/utils/statusCode'
+import { Message } from 'element-ui'
+import dayjs from 'dayjs'
 export default {
     name: 'BasicInfo',
     components: {
@@ -84,16 +101,16 @@ export default {
                     label: '签名',
                     value: '',
                     key: 'sign',
-                    validators: [isRequire('签名')],
-                    validateLabel: ['isRequire'],
+                    validators: [],
+                    validateLabel: [],
                     updateKey: 'sign-false'
                 },
                 birth: {
                     label: '生日',
                     value: '',
                     key: 'birth',
-                    validators: [isRequire('生日')],
-                    validateLabel: ['isRequire'],
+                    validators: [],
+                    validateLabel: [],
                     updateKey: 'birth-false'
                 }
             },
@@ -104,32 +121,56 @@ export default {
             },
             userInfo: {
                 nickname: '',
-                sex: 3,
+                sex: null,
                 signature: '',
                 birthday: ''
             }
         }
     },
     computed: {
-        ...mapState('user', ['nickname', 'birth', 'sign'])
+        ...mapState('user', ['nickname', 'birth', 'sign', 'gender', 'token']),
+        pickerOptions () {
+            return {
+                disabledDate: date => {
+                    return dayjs().isBefore(dayjs(date), 'day')
+                }
+            }
+        }
     },
     mounted () {
         this.userInfo = {
             nickname: this.nickname,
             signature: this.sign,
             birthday: this.birth,
-            sex: 3
+            sex: this.gender
         }
+        this.form.nickname.value = this.nickname
+        this.form.sign.value = this.sign
+        this.form.birth.value = this.birth
     },
     methods: {
+        ...mapActions('user', ['getUserInfo']),
         async saveInfo () {
             const isValidate = this.validate()
             if (!isValidate) return
+            const loadingBox = this.$loading({
+                lock: true,
+                text: 'Loading',
+                spinner: 'el-icon-loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+            })
             try {
-                const data = await editUserInfo(this.finalData())
-                console.log(data, 'data')
+                const { code, msg } = await editUserInfo(this.finalData())
+                if (code === statusCode.success) {
+                    Message.success(msg)
+                    this.getUserInfo()
+                } else {
+                    Message.error(msg)
+                }
             } catch (e) {
                 console.log('出错了')
+            } finally {
+                loadingBox.close()
             }
         },
         finalData () {
@@ -213,6 +254,16 @@ export default {
                 left: 107px;
             }
         }
+    }
+    .time-picker{
+        width: 100% !important;
+        .el-input__inner {
+            line-height: 40px;
+            height: 40px;
+        }
+    }
+    .el-input__icon{
+        line-height: 40px!important;
     }
 }
 </style>

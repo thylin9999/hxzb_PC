@@ -91,7 +91,7 @@ import UploadWithError from '@/components/Form/UploadWithError'
 import { isRequire } from '@/utils/validator'
 import { isEmpty, omit } from '@/utils/lodashUtil'
 import { bookMatches } from '@/api/Host/Host'
-import { getMatchScheduleByDay } from '@/api/competition/competition'
+import { getMatchScheduleByDay, getMatchList } from '@/api/competition/competition'
 import { matchTypeMap } from '@/utils/utils'
 import { Message } from 'element-ui'
 import { statusCode } from '@/utils/statusCode'
@@ -170,13 +170,23 @@ export default {
     },
     methods: {
         async  fetchData () {
+            const loadingBox = this.$loading({
+                lock: true,
+                text: 'Loading',
+                spinner: 'el-icon-loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+            })
             try {
-                const { code, data } = await getMatchScheduleByDay({
+                const { code, data } = await getMatchList({
                     date: dayjs(this.showTime).format('YYYY-MM-DD'),
-                    leagueId: this.leagueId
+                    leagueType: this.leagueId,
+                    playing: 1000,
+                    pageNumber: 1,
+                    pageSize: 2000,
+                    day: dayjs(this.showTime).format('YYYY-MM-DD')
                 })
                 if (code === statusCode.success) {
-                    this.competitionOptions = data.reduce((all, item) => {
+                    this.competitionOptions = data.list.reduce((all, item) => {
                         all.push({
                             ...item,
                             id: item.matchId,
@@ -188,6 +198,8 @@ export default {
                 }
             } catch (e) {
                 console.log('出错了')
+            } finally {
+                loadingBox.close()
             }
         },
         selectTime () {
@@ -197,18 +209,18 @@ export default {
             const isValidate = this.validate()
             this.changeFile()
             const isCoverValidate = !!this.form.liveCover.value
-            console.log(this.coverError, isCoverValidate, '2')
             if (!isValidate || !isCoverValidate) return
-            const { code, msg } = await bookMatches({
+            const res = await bookMatches({
                 matchId: this.form.match.value,
                 title: this.form.title.value,
                 cover: this.form.liveCover.value,
                 leagueType: this.leagueId
             })
-            if (code === statusCode.success) {
-                Message.success(msg)
+            console.log(res, 'res')
+            if (res.data.code === statusCode.success) {
+                Message.success(res.data.msg)
             } else {
-                Message.error(msg)
+                Message.error(res.data.msg)
             }
         },
         validate () {

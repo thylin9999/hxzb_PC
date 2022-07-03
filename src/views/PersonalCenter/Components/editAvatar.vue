@@ -2,13 +2,18 @@
 <div class="edit-avatar">
     <HeaderTitle title="修改头像" />
     <div class="upload-div flex p-l-30 p-t-10">
-        <div class="preview m-r-10" >
-            <div class="template-img bg-center bg-no-repeat w-100 h-100" v-if="!url"></div>
+        <div class="preview m-r-20" >
+            <div
+                class="template-img border-radius-50 bg-center bg-size-100 bg-no-repeat w-100 h-100"
+                :style="{
+                    backgroundImage: `url(${placementUrl})`
+                }"
+                v-if="!url"></div>
             <el-image
                 v-else
-                class="w-100 h-100"
+                class="w-100 h-100 border-radius-50"
                 :src="url"
-                fit="contain"></el-image>
+                fit="cover"></el-image>
         </div>
         <div class="upload-button h-100 flex flex-end flex-column">
             <upload-with-tip @changeFile="changeFile"/>
@@ -29,6 +34,7 @@ import CancelButton from '@/components/CancelButton'
 import { uploadImage } from '@/api/Common'
 import { editUserInfo } from '@/api/user'
 import { statusCode } from '@/utils/statusCode'
+import { mapState, mapActions } from 'vuex'
 import { Message } from 'element-ui'
 export default {
     name: 'editAvatar',
@@ -44,14 +50,21 @@ export default {
             url: ''
         }
     },
+    computed: {
+        ...mapState('user', ['avatar']),
+        placementUrl () {
+            return this.avatar ? this.avatar : require('../../../assets/images/common/avart.png')
+        }
+    },
     methods: {
+        ...mapActions('user', ['getUserInfo']),
         async changeFile (file) {
             const formData = new FormData()
             formData.append('file', file)
-            console.log(file, formData)
-            const { data, code } = await uploadImage(formData)
+            const { data, code, msg } = await uploadImage(formData)
             if (code === statusCode.success) {
                 this.url = data.url
+                Message.success(msg)
             }
         },
         cancel () {
@@ -59,12 +72,20 @@ export default {
         },
         async submit () {
             if (this.url) {
+                const loadingBox = this.$loading({
+                    lock: true,
+                    text: 'Loading',
+                    spinner: 'el-icon-loading',
+                    background: 'rgba(0, 0, 0, 0.7)'
+                })
                 const { code, msg } = await editUserInfo({
                     avatar: this.url
                 })
                 if (code === statusCode.success) {
                     Message.success(msg)
+                    this.getUserInfo()
                 }
+                loadingBox.close()
             } else {
                 Message.error('请先上传头像再保存！')
             }
@@ -87,7 +108,7 @@ export default {
     vertical-align: bottom;
 }
 .template-img{
-    background-image: url('../../../assets/images/common/avart.png');
-    background-size: contain;
+    //background-image: url('../../../assets/images/common/avart.png');
+    //background-size: contain;
 }
 </style>

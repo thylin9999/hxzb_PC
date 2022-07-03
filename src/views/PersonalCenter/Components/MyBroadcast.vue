@@ -64,6 +64,7 @@ export default {
     methods: {
         async fetchData () {
             try {
+                console.log('1111111111111')
                 const { data } = await getBookedMatches()
                 this.list = data.list.reduce((all, item) => {
                     all.push({
