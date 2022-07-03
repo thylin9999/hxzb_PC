@@ -1,10 +1,17 @@
 <template>
 <div v-if="matches.length" class="matches text-white flex align-center justify-between wrap-1450 font-regular">
     <div class="left-list p-relative">
-        <span @click="fetchData" class="prev  p-absolute"></span>
-        <span @click="fetchData" class="next  p-absolute"></span>
-        <div class="ul-box overflow-x-auto">
+        <span @click="prev" :class="{
+            'is-active': leftMove
+        }" class="prev  p-absolute"></span>
+        <span @click="next"
+              :class="{
+                'is-active': rightMove
+              }"
+              class="next  p-absolute"></span>
+        <div ref="ulBox" class="ul-box overflow-x-auto">
             <ul
+                ref="matchUl"
                 class="list  overflow-x-auto  flex  flex-no-wrap"
                 :style="ulStyle"
             >
@@ -98,6 +105,8 @@ export default {
                 pageNumber: 1,
                 pageSize: 20
             },
+            leftMove: false,
+            rightMove: false,
             matches: []
         }
     },
@@ -122,7 +131,20 @@ export default {
     created () {
         this.fetchData()
     },
+    mounted () {
+
+    },
     methods: {
+        initScroll () {
+            this.$nextTick(() => {
+                const wrapperInfo = this.$refs.ulBox.getBoundingClientRect()
+                const wrapperWidth = wrapperInfo.width
+                const innerUlInfo = this.$refs.matchUl.getBoundingClientRect()
+                const innerUlWidth = innerUlInfo.width
+                this.rightMove = this.$refs.ulBox.scrollLeft + wrapperWidth + 10 < innerUlWidth
+                this.leftMove = this.$refs.ulBox.scrollLeft > 10
+            })
+        },
         async fetchData () {
             const { data } = await getHostMatches()
             if (data.list) {
@@ -134,6 +156,7 @@ export default {
                     })
                     return all
                 }, [])
+                this.initScroll()
             }
         },
         goToCompetition () {
@@ -153,6 +176,30 @@ export default {
                     Message.error('请先登录，无法预约！')
                     this.openLoginDialog()
                 }
+            }
+        },
+        prev () {
+            if (this.leftMove) {
+                const left = this.$refs.ulBox.scrollLeft
+                this.$refs.ulBox.scrollTo({
+                    left: left - 250,
+                    behavior: 'smooth'
+                })
+                setTimeout(() => {
+                    this.initScroll()
+                }, 300)
+            }
+        },
+        next () {
+            if (this.rightMove) {
+                const left = this.$refs.ulBox.scrollLeft
+                this.$refs.ulBox.scrollTo({
+                    left: left + 250,
+                    behavior: 'smooth'
+                })
+                setTimeout(() => {
+                    this.initScroll()
+                }, 300)
             }
         }
     }
@@ -260,12 +307,18 @@ export default {
         background-size: 100% 100%;
     }
     .prev {
-        background-image: url('../../assets/images/matches/left-arrow.png');
+        background-image: url('../../assets/images/common/prev-dis.png');
         left: -57px;
+        &.is-active {
+            background-image: url('../../assets/images/common/prev.png');
+        }
     }
     .next {
-        background-image: url('../../assets/images/matches/right-arrow.png');
-        right: 0px;
+        background-image: url('../../assets/images/common/next-dis.png');
+        right: 0;
+        &.is-active {
+            background-image: url('../../assets/images/common/next.png');
+        }
     }
 }
 .right-button{
