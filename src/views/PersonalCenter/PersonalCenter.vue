@@ -132,12 +132,18 @@ export default {
             if (!this.token) {
                 this.$router.push('/')
             }
+        },
+        tabId () {
+            this.changeMenu()
         }
     },
     created () {
-        this.currentMenu = this.menus.find(x => x.id === this.tabId * 1)
+        this.changeMenu()
     },
     methods: {
+        changeMenu () {
+            this.currentMenu = this.menus.find(x => x.id === this.tabId * 1)
+        },
         selectMenu (menu) {
             this.currentMenu = { ...menu }
             this.$router.push({
