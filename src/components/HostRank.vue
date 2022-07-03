@@ -120,7 +120,7 @@ export default {
         async followOrUnFollowHost (host) {
             if (!this.token) {
                 Message.error('请先登录，无法预约！')
-                this.openLoginDialog()
+                this.openLoginDialogMixin()
                 return
             }
             try {

@@ -28,7 +28,7 @@ export function startLive ({
         data: {
             leagueType: category, // 赛事类型
             live_cover: liveCover,
-            roomTitle: title,
+            room_title: title,
             type: liveType, // 分类
             match_id: matchId
         }

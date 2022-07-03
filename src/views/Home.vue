@@ -50,13 +50,17 @@ export default {
             current: 0,
             videoInfo: {},
             list: [],
-            competitions: []
+            competitions: [],
+            showDialog: false
         }
     },
     created () {
         this.fetchData()
     },
     methods: {
+        openLoginDialog () {
+            this.showDialog = true
+        },
         selectLive (item, i) {
             this.current = i
             this.videoInfo = item

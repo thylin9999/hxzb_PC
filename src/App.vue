@@ -1,13 +1,17 @@
 <template>
   <div id="app" :class="{'overflow-hidden': showDialog }">
     <router-view :key="updateKey"/>
+      <ModalLogin />
   </div>
 </template>
 <script >
 import { mapState, mapActions } from 'vuex'
-
+import ModalLogin from '@/views/User/ModalLogin'
 export default {
     name: 'App',
+    components: {
+        ModalLogin
+    },
     data () {
         return {
             updateKey: +new Date().getTime()

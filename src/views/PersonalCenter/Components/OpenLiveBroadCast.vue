@@ -101,6 +101,7 @@ import { mapState } from 'vuex'
 import dayjs from 'dayjs'
 export default {
     name: 'OpenLiveBroadCast',
+    inject: ['reload'],
     components: {
         HeaderTitle,
         InputWithError,
@@ -188,6 +189,7 @@ export default {
                 const { code, msg } = await closeLive()
                 if (code === statusCode.success) {
                     Message.success(msg)
+                    this.reload()
                 }
             } catch (e) {
                 console.log('出错了')
@@ -252,13 +254,16 @@ export default {
                 Message.error('请先获取推流地址，再点击开播！')
                 return
             }
-            const { code, data } = await startLive({
-                matchId: ['football', 'basketball'].includes(this.category) && this.form.match.value,
+            const params = {
                 liveType: this.liveType,
                 title: this.form.title.value,
                 liveCover: this.form.liveCover.value,
                 category: this.category
-            })
+            }
+            if (this.needValidateMatch) {
+                params.matchId = this.form.match.value
+            }
+            const { code, data } = await startLive(params)
             if (code === statusCode.success) {
                 Message.success('开播成功')
                 this.openBroadcastSuccess = true

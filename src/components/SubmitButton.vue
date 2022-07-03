@@ -1,7 +1,8 @@
 <template>
-    <span
+    <el-button
         class="font-16 font-400 text-center font-16 pointer"
-    >{{ title }}</span>
+        :loading="loading"
+    >{{ title }}</el-button>
 </template>
 
 <script>
@@ -11,6 +12,10 @@ export default {
         title: {
             type: String,
             default: ''
+        },
+        loading: {
+            type: Boolean,
+            default: false
         }
     }
 }
@@ -18,10 +23,11 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
-span {
+.el-button {
     line-height: 45px;
-    background-color: $background-color1;
-    color: $text-white;
+    background: $background-color1!important;
+    color: $text-white!important;
+    padding: 0!important;
     &:hover {
         opacity: 0.7;
     }

@@ -5,7 +5,7 @@
             <router-view class="content-router "></router-view>
         </div>
         <Footer v-if="isHome"/>
-        <login />
+<!--        <login />-->
     </div>
 </template>
 <script>

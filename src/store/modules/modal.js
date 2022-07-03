@@ -1,14 +1,13 @@
 const state = {
-    showDialog: false
+    showLoginDialog: false
 }
 
 const actions = {
-    openDialog ({ commit }) {
-        commit('SET', { showDialog: true })
-        console.log(state, 'stat')
+    openLoginDialog ({ commit }) {
+        commit('SET', { showLoginDialog: true })
     },
-    closeDialog ({ commit }) {
-        commit('SET', { showDialog: false })
+    closeLoginDialog ({ commit }) {
+        commit('SET', { showLoginDialog: false })
     }
 }
 const mutations = {
