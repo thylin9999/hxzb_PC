@@ -1,6 +1,10 @@
 <template>
 <div class="header flex align-center ">
-    <span class="logo d-inline-block bg-center bg-no-repeat"></span>
+    <span class="logo d-inline-block bg-center bg-no-repeat bg-size-100"
+        :style="{
+            backgroundImage: `url(${bgImg})`
+        }"
+    ></span>
     <div class="user-info flex flex-column justify-center m-l-15">
         <span class="font-22 font-medium text-333 m-b-5 nickname">{{ nickname }}</span>
         <div class="font-14 font-regular user-phone">
@@ -15,7 +19,10 @@ import { mapState } from 'vuex'
 export default {
     name: 'PersonHeader',
     computed: {
-        ...mapState('user', ['nickname', 'account'])
+        ...mapState('user', ['nickname', 'account', 'avatar']),
+        bgImg () {
+            return this.avatar ? this.avatar : require('../../assets/images/user.png')
+        }
     }
 }
 </script>
@@ -25,7 +32,7 @@ export default {
 .logo {
     width: 75px;
     height: 75px;
-    background-image: url('../../assets/images/user.png');
+    //background-image: url('../../assets/images/user.png');
     border-radius: 50%;
 }
 .user-info {

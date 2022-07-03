@@ -38,6 +38,7 @@
             v-model="showTime"
             type="date"
             @change="selectTime"
+            :picker-options="pickerOptions"
             placeholder="选择日期">
         </el-date-picker>
     </div>
@@ -49,6 +50,7 @@ import IconPng from '@/components/IconPng'
 import dayjs from 'dayjs'
 import { weekDay } from '@/utils/utils'
 const isoweek = require('dayjs/plugin/isoWeek')
+const isBetween = require('dayjs/plugin/isBetween')
 export default {
     name: 'TimerFilter',
     components: {
@@ -114,6 +116,14 @@ export default {
             return {
                 width: this.dates.length * 90 + 'px'
             }
+        },
+        pickerOptions () {
+            return {
+                disabledDate: date => {
+                    // return
+                    return !dayjs(date).isBetween(dayjs(this.dates[0].id), dayjs(this.dates[this.dates.length - 1].id), 'day', '[[')
+                }
+            }
         }
     },
     watch: {
@@ -126,9 +136,14 @@ export default {
     },
     created () {
         dayjs.extend(isoweek)
+        dayjs.extend(isBetween)
     },
     methods: {
         changeTab (tab) {
+            if (this.currentTab === tab.id) {
+                return
+            }
+            this.$emit('setToday')
             this.currentTab = tab.id
             this.$emit('update:type', this.currentTab)
         },
@@ -139,7 +154,10 @@ export default {
             const date = dayjs(new Date(value).getTime()).format('YYYY-MM-DD')
             this.$emit('update:time', date)
         },
-        prev() {
+        prev () {
+
+        },
+        next () {
 
         }
     }

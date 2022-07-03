@@ -1,12 +1,21 @@
 <template>
-    <div  class="mask" :key="modalUpdateKey" v-if="showDialog" >
+    <el-dialog
+        :visible="showDialog"
+        custom-class="modal-dialog"
+        append-to-body
+        destroy-on-close
+        lock-scroll
+        close-on-click-modal
+        close-on-press-escape
+        :key="modalUpdateKey"
+    >
         <div  class="modal" @click.stop>
             <span class="close-button p-absolute">
                 <slot name="close"/>
             </span>
             <slot/>
         </div>
-    </div>
+    </el-dialog>
 </template>
 
 <script>
@@ -20,26 +29,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.mask {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 999;
-    overflow: hidden;
-    background-color: rgba(0,0,0,0.5);
-}
+
 .modal {
-    position: absolute;
-    left: 50%;
-    top: 50%;
     z-index: 999;
-    transform: translate(-50%, -50%);
     width: 640px;
     .close-button {
         right: 10px;
         top: 10px;
+    }
+}
+::v-deep {
+    .el-dialog {
+        width: 640px;
+        margin: 0!important;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .el-dialog__header {
+        display: none;
+    }
+    .el-dialog__body {
+        width: 640px!important;
+        padding: 0!important;
     }
 }
 </style>

@@ -20,6 +20,13 @@ export function login ({ account = 'admin', password = '000000' }) {
         }
     })
 }
+
+export function logout () {
+    return request({
+        method: 'post',
+        url: url.logout
+    })
+}
 export function register ({ account = 'admin', code = 666666, password = '000000' }) {
     return request({
         method: 'POST',

@@ -13,11 +13,11 @@
                 </div>
                 <div class="app-info flex align-center">
                     <div class="buttons text-white">
-                        <div class="item m-b-20 border-radius-15 flex justify-center align-center w-100">
+                        <div class="item pointer m-b-20 border-radius-15 flex justify-center align-center w-100">
                             <icon-png :width="21" :height="22" icon="icons/apple" />
                             <span class="font-30 m-l-10">ios</span>
                         </div>
-                        <div class="item m-b-20 border-radius-15 flex justify-center align-center w-100">
+                        <div class="item pointer m-b-20 border-radius-15 flex justify-center align-center w-100">
                             <icon-png :width="21" :height="22" icon="icons/android" />
                             <span class="font-30 m-l-10">Android</span>
                         </div>

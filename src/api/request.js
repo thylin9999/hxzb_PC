@@ -39,7 +39,7 @@ instance.interceptors.response.use(response => {
         removeToken()
         this.$router.push('/')
     } else {
-        return response
+        return response.data
     }
 }, errorHandle)
 

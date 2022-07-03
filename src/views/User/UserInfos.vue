@@ -11,7 +11,7 @@
           <span class="el-dropdown-link flex align-center">
             <span class="flex align-center">
                 <div
-                    class="user-logo bg-center bg-no-repeat"
+                    class="user-logo bg-center bg-size-100 bg-no-repeat"
                     :style="{
                         backgroundImage: `url(${avatarLogo})`
 
@@ -102,7 +102,7 @@ export default {
     height: 35px;
     border-radius: 50%;
     //background-image: url('../../assets/images/user.png');
-    background-size: contain;
+    //background-size: contain;
 }
 .light-background {
     color: $text-white;

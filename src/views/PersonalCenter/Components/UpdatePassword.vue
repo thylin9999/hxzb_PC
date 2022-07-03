@@ -95,6 +95,9 @@ export default {
         async confirm () {
             const isValidate = this.validate()
             console.log(isValidate, 'isValidate')
+            if (!isValidate) {
+                return
+            }
             try {
                 const { code, data, msg } = await updatePassword({
                     password: this.form.newPassword.value,
