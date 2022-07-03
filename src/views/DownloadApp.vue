@@ -91,6 +91,7 @@ export default {
 .download-page {
     background: linear-gradient(0deg, #E6F3FF 0%, #FFFFFF 100%);
     padding-bottom: 125px;
+    margin: 0 auto;
     .outer-wrap{
         background-image: url('../assets/images/download/phone.png');
         background-size: contain;
