@@ -94,7 +94,7 @@ import UploadWithError from '@/components/Form/UploadWithError'
 import { isRequire } from '@/utils/validator'
 import { isEmpty, omit } from '@/utils/lodashUtil'
 import { startLive, getOBSAddress, closeLive } from '@/api/Host/Host'
-import { getMatchSchedule, getMatchList } from '@/api/competition/competition'
+import { getMatchList } from '@/api/competition/competition'
 import { Message } from 'element-ui'
 import { statusCode } from '@/utils/statusCode'
 import { mapState } from 'vuex'
@@ -162,7 +162,7 @@ export default {
         }
     },
     created () {
-        this.fetchData()
+        this.fetchData(true)
     },
     watch: {
         category (newVal, oldVal) {
@@ -193,7 +193,7 @@ export default {
                 console.log('出错了')
             }
         },
-        async fetchData () {
+        async fetchData (isFirst) {
             const loadingBox = this.$loading({
                 lock: true,
                 text: 'Loading',
@@ -203,7 +203,7 @@ export default {
             try {
                 const { data, code, msg } = await getMatchList({
                     leagueType: this.category,
-                    pageSize: 2000,
+                    pageSize: 20,
                     pageNumber: 1,
                     day: dayjs().format('YYYY-MM-DD')
                 })
@@ -218,6 +218,7 @@ export default {
                         })
                         return all
                     }, [])
+                    this.getAddress(isFirst)
                 } else {
                     Message.error(msg)
                 }
@@ -227,10 +228,17 @@ export default {
                 loadingBox.close()
             }
         },
-        async getAddress () {
+        async getAddress (isFirst) {
             const { data, code, msg } = await getOBSAddress()
             if (code === statusCode.success) {
                 this.obs = data
+                console.log(data, 'data')
+                if (data.live_status === 2) {
+                    this.openBroadcastSuccess = true
+                    this.form.title.value = data.room_title
+                    this.form.liveCover.value = data.live_cover
+                    this.form.match.value = data.match_id
+                }
             } else {
                 Message.error(msg)
             }

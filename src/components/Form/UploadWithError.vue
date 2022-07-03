@@ -55,6 +55,15 @@ export default {
             fileUrl: ''
         }
     },
+    watch: {
+        rowInfo: {
+            handler () {
+                this.fileUrl = this.rowInfo.value
+            },
+            immediate: true,
+            deep: true
+        }
+    },
     computed: {
         errorMessage () {
             const errors = this.rowInfo.validateLabel.reduce((all, key) => {
@@ -75,7 +84,6 @@ export default {
             const formData = new FormData()
             formData.append('file', file)
             const { data } = await uploadImage(formData)
-            // console.log(res, 'res')
             this.fileUrl = data.url
             this.$emit('update:rowInfo', {
                 ...this.rowInfo,

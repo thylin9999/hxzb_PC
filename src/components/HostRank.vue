@@ -17,9 +17,10 @@
                 >
                     <div class="icon p-relative bg-center flex justify-center align-center bg-no-repeat bg-size-100" :class="`rank-${index}`">
                         <div
-                            class="avatar border-radius-50  bg-center bg-no-repeat bg-size-100"
+                            class="avatar border-radius-50  bg-center bg-no-repeat "
+                            :class="{ 'bg-size-100': !host.hasNoBg, 'bg-auto': host.hasNoBg}"
                             :style="{
-                                backgroundImage: `url(${host.bgImg})`
+                                backgroundImage: `url(${host.bgImg})`,
                             }"
                         ></div>
                         <span class="p-absolute bg-center bg-no-repeat bg-size-100 name font-14 d-inline-block w-100 text-center" >{{ host.anchor_name }}</span>
@@ -107,7 +108,8 @@ export default {
                     all.push({
                         ...item,
                         isSubscribe: item.is_follow === 1,
-                        bgImg: item.logo ? item.logo : require('../assets/images/common/host-avatar.png')
+                        hasNoBg: !item.logo,
+                        bgImg: item.logo ? item.logo : require('../assets/images/common/host-empty.png')
                     })
                     return all
                 }, [])
@@ -169,6 +171,9 @@ export default {
         .avatar {
             width: 105px;
             height: 105px;
+            &.bg-auto{
+                background-size: 40px 50px;
+            }
         }
         .icon {
             width: 118px;
