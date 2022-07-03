@@ -13,10 +13,14 @@
         </li>
     </ul>
     <div class="date-list h-100 p-relative">
-        <icon-png @click="prev" class="prev pointer p-absolute" :width="27" :height="50" icon="common/prev"/>
-        <icon-png @click="next" class="next pointer p-absolute" :width="27" :height="50" icon="common/next"/>
-        <div class="date-box h-100 overflow-x-auto">
-            <ul class="flex h-100 flex-no-wrap " :style="ulStyle">
+        <icon-png @click.native="prev" :class="{
+            'is-active': leftMove
+        }" class="prev pointer p-absolute" :width="27" :height="50" :icon="prevIcon"/>
+        <icon-png @click.native="next" :class="{
+            'is-active': rightMove
+        }" class="next pointer p-absolute" :width="27" :height="50" :icon="nextIcon"/>
+        <div class="date-box h-100 overflow-x-auto" ref="ulBox">
+            <ul ref="matchUl" class="flex h-100 flex-no-wrap " :style="ulStyle">
                 <li
                     v-for="date in dates"
                     :key="date.id"
@@ -81,6 +85,8 @@ export default {
                     icon: 'icons/result'
                 }
             ],
+            leftMove: false,
+            rightMove: false,
             showTime: ''
         }
     },
@@ -124,9 +130,16 @@ export default {
                     return !dayjs(date).isBetween(dayjs(this.dates[0].id), dayjs(this.dates[this.dates.length - 1].id), 'day', '[[')
                 }
             }
+        },
+        prevIcon () {
+            return this.leftMove ? 'common/prev' : 'common/prev-dis'
+        },
+        nextIcon () {
+            return this.rightMove ? 'common/next' : 'common/next-dis'
         }
     },
     watch: {
+
         time: {
             handler () {
                 this.showTime = new Date(this.time)
@@ -138,7 +151,22 @@ export default {
         dayjs.extend(isoweek)
         dayjs.extend(isBetween)
     },
+    mounted () {
+        this.$nextTick(() => {
+            this.initScroll()
+        })
+    },
     methods: {
+        initScroll () {
+            this.$nextTick(() => {
+                const wrapperInfo = this.$refs.ulBox.getBoundingClientRect()
+                const wrapperWidth = wrapperInfo.width
+                const innerUlInfo = this.$refs.matchUl.getBoundingClientRect()
+                const innerUlWidth = innerUlInfo.width
+                this.rightMove = this.$refs.ulBox.scrollLeft + wrapperWidth + 10 < innerUlWidth
+                this.leftMove = this.$refs.ulBox.scrollLeft > 10
+            })
+        },
         changeTab (tab) {
             if (this.currentTab === tab.id) {
                 return
@@ -155,10 +183,28 @@ export default {
             this.$emit('update:time', date)
         },
         prev () {
-
+            if (this.leftMove) {
+                const left = this.$refs.ulBox.scrollLeft
+                this.$refs.ulBox.scrollTo({
+                    left: left - 250,
+                    behavior: 'smooth'
+                })
+                setTimeout(() => {
+                    this.initScroll()
+                }, 300)
+            }
         },
         next () {
-
+            if (this.rightMove) {
+                const left = this.$refs.ulBox.scrollLeft
+                this.$refs.ulBox.scrollTo({
+                    left: left + 250,
+                    behavior: 'smooth'
+                })
+                setTimeout(() => {
+                    this.initScroll()
+                }, 300)
+            }
         }
     }
 }
