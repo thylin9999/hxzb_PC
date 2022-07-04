@@ -33,11 +33,15 @@ instance.interceptors.response.use(response => {
     if (response && response.data.code === statusCode.success && !whiteList.includes(requestUrl)) {
         return response.data
     } else if (response.data.code === statusCode.isExpired) {
-        Message.error(response.data.msg)
-        Store.dispatch('user/logoutAction')
-        removeSessionStorageItem('userInfo')
-        removeToken()
-        this.$router.push('/')
+        const token = getToken()
+        if (token) {
+            Message.error(response.data.msg)
+            Store.dispatch('user/logoutAction')
+            removeSessionStorageItem('userInfo')
+            removeToken()
+            this.$router.push('/')
+        }
+        return response.data
     } else {
         return response.data
     }

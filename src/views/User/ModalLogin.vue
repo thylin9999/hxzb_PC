@@ -69,7 +69,7 @@
                     <template v-if="!isRegister">
                         <div class="flex justify-between align-center">
                             <span class="pointer" @click="changeType(1)">立即注册</span>
-                            <!--                            <span @click="forgetPassword"  class="pointer">忘记密码</span>-->
+                            <span @click="forgetPassword"  class="pointer">忘记密码</span>
                         </div>
                     </template>
                     <template v-else>
@@ -218,7 +218,7 @@ export default {
                         // 这里要保存用户的信息
                         this.closeLoginDialog()
                         this.initForm()
-                        this.$router.push({ path: '/' })
+                        // this.$router.push({ path: '/' })
                     }
                 } else {
                     Message({
