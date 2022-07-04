@@ -1,19 +1,19 @@
 <template>
-<div class="wrap-1450">
+<div class="wrap-1200">
     <title-row
         icon="gift"
         title="主播排行"
-        class="m-b-30 m-t-20"
+        class="m-b-15 "
     >
     <!--<more-button class="m-r-15"/>-->
     </title-row>
-    <div class="host-section flex justify-between align-center p-t-20 p-b-20 m-t-25 m-b-25 bg-white w-100">
+    <div class="host-section flex justify-between align-center p-t-20 p-b-20 m-b-25 bg-white w-100">
         <div class="first-three">
             <ul class="prizes flex align-center justify-between">
                 <li
                     v-for="(host, index) in firstRank"
                     :key="host.id"
-                    class="rank-item flex flex-column justify-center align-center"
+                    class="rank-item flex flex-column m-l-20 m-r-20 justify-center align-center"
                 >
                     <div class="icon p-relative bg-center flex justify-center align-center bg-no-repeat bg-size-100" :class="`rank-${index}`">
                         <div
@@ -26,7 +26,7 @@
                         <span class="p-absolute bg-center bg-no-repeat bg-size-100 name font-14 d-inline-block w-100 text-center" >{{ host.anchor_name }}</span>
                     </div>
                     <custom-span
-                        class="font-14 text-888 w-100 m-t-25 m-b-10"
+                        class="font-14 text-888 text-center w-100 m-t-25 m-b-10"
                         :content="host.sign"
                     />
                     <span
@@ -37,12 +37,12 @@
                 </li>
             </ul>
         </div>
-        <div class="left-host w-100">
+        <div class="left-host">
             <ul class="w-100">
                 <li
                     v-for="host in leftRank"
                     :key="host.id"
-                    class="flex justify-between host-item align-center"
+                    class="flex  host-item align-center"
                 >
                     <div class="left-section flex align-center">
                         <div
@@ -54,7 +54,7 @@
                          <div class="flex host-info flex-column ">
                              <span class="font-16 host-name font-regular">{{ host.anchor_name }}</span>
                              <custom-span
-                                class="font-14 text-888 w-100"
+                                class="font-12 m-t-10 text-888 w-100"
                                 :content="host.sign"
                              />
                          </div>
@@ -108,6 +108,7 @@ export default {
                     all.push({
                         ...item,
                         isSubscribe: item.is_follow === 1,
+                        sign: item.sign ? item.sign : '暂无介绍',
                         hasNoBg: !item.logo,
                         bgImg: item.logo ? item.logo : require('../assets/images/common/host-empty.png')
                     })
@@ -138,14 +139,13 @@ export default {
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
 .host-section {
-    height: 250px;
+    height: 220px;
 
     .first-three {
-        width: 895px;
+        width: 714px;
         border-right: 1px solid #B9B9B9;
-        padding: 0 75px;
         .rank-item {
-            width: 225px;
+            width: 192px;
         }
         .rank-0 {
             background-image: url('../assets/images/host/gold.png');
@@ -169,54 +169,60 @@ export default {
             }
         }
         .avatar {
-            width: 105px;
-            height: 105px;
+            width: 90px;
+            height: 90px;
             &.bg-auto{
-                background-size: 40px 50px;
+                background-size: 40px 55px;
             }
         }
         .icon {
-            width: 118px;
-            height: 130px;
+            width: 101px;
+            height: 106px;
         }
         .name {
             bottom: -10px;
-            width: 118px;
-            height: 38px;
-            line-height: 35px;
+            width: 104px;
+            height: 30px;
+            line-height: 30px;
         }
     }
     .left-host {
-        padding: 25px 35px 25px 40px;
+        width: calc(100% - 715px);
+        padding: 0 20px 0 30px;
         .host-item {
             margin: 12.5px 0;
 
         }
         .left-section {
+            width: calc(100%  - 120px);
             .host-info {
-                //width: 225px;
+                width: calc(100% - 65px);
             }
             .host-name{
-                line-height: 24px;
+                line-height: 16px;
                 color: #444343;
             }
             .icon {
-                width: 50px;
-                height: 50px;
+                width: 49.5px;
+                height: 47.5px;
             }
         }
     }
     .subscribe-button {
         color: #05195A;
         font-weight: 400;
-        line-height: 32px;
-        width: 135px;
-        height: 32px;
+        line-height: 30px;
+        width: 120px;
+        height: 30px;
         border-radius: 16px;
         border: 1px solid #05195A;
         &.is-subscribed {
             color: #6B6B6B;
             border: 1px solid #6B6B6B;
+        }
+        &:hover {
+            background-color: #05195A;
+            color: #fff;
         }
     }
 }

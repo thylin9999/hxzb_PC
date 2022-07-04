@@ -79,7 +79,7 @@
                 <div class="submit m-t-15 text-center">
                     <submit-button
                         class="w-100 font-16 d-inline-block text-center"
-                        :title="title" @click.native="submit"
+                        :title="buttonTitle" @click.native="submit"
                         :loading="isLoading"
                     />
                 </div>
@@ -152,7 +152,10 @@ export default {
     computed: {
         ...mapState('modal', ['showLoginDialog']),
         title () {
-            return this.isRegister ? '注册' : '登录'
+            return this.isResetPassword ? '忘记密码' : (this.isRegister ? '注册' : '登录')
+        },
+        buttonTitle () {
+            return this.isResetPassword ? '立即召回' : (this.isRegister ? '注册' : '登录')
         },
         showCode () {
             console.log(process.env.VUE_APP_NEED_CODE, 'VUE_APP_NEED_CODE')

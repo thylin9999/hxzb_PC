@@ -1,6 +1,6 @@
 <template>
     <div class="footer text-white">
-        <div class="wrap-1450 upper-section flex justify-between align-center">
+        <div class="wrap-1200 upper-section flex justify-between align-center">
             <div class="left-info flex flex-column">
                 <div class="about-app w-100 flex align-center">
                     <div class="left-logo">
@@ -10,14 +10,14 @@
                             <span>独家赛事</span>
                         </div>
                     </div>
-                    <ul class="right-subs flex-1 flex justify-between">
+                    <ul class="right-subs flex-1 flex justify-around">
                         <li
                             class="sub-item flex flex-column align-center pointer"
                             v-for="item in descriptions"
                             :key="item.id"
                             @click="goToDescription(item)"
                         >
-                            <div class="icon">
+                            <div class="icon flex align-center justify-center">
                                 <svg-icon class="w-100 h-100" :icon-class="item.icon"></svg-icon>
                             </div>
                             <span class="font-12 m-t-15">{{ item.text }}</span>
@@ -38,7 +38,7 @@
                 </div>
             </div>
         </div>
-        <div class="version-info m-t-15 p-b-15 wrap-1450 flex justify-between align-center font-12 font-regular">
+        <div class="version-info m-t-15 p-b-15 wrap-1200 flex justify-between align-center font-12 font-regular">
             <span>桂ICP备19009876号</span>
             <span>桂网文（2019）5333-055号</span>
             <span>增值电信业务经营许可证:桂B2-20200107</span>

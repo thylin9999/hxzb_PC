@@ -1,5 +1,5 @@
 <template>
-<div v-if="matches.length" class="matches text-white flex align-center justify-between wrap-1450 font-regular">
+<div v-if="matches.length" class="matches text-white flex align-center justify-between wrap-1200 font-regular">
     <div class="left-list p-relative">
         <span @click="prev" :class="{
             'is-active': leftMove

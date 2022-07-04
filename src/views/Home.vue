@@ -17,10 +17,10 @@
       </div>
       <div class="bg-gray2">
           <match-list class="m-t-n-10"/>
-          <hot-recommend class="wrap-1450" is-home/>
-          <div class="banner wrap-1450 bg-center bg-no-repeat bg-size-100" />
+          <hot-recommend class="wrap-1200" is-home/>
+          <div class="banner wrap-1200  bg-center bg-no-repeat bg-size-100" />
           <host-rank />
-          <host-list class="wrap-1450" is-home/>
+          <host-list class="wrap-1200" is-home/>
 <!--          这里暂时先不加-->
 <!--          <video-competition />-->
 <!--          <events />-->
@@ -140,9 +140,10 @@ export default {
     }
 }
 .banner {
-    height: 300px;
+    height: 250px;
     border-radius: 15px;
-    margin-top: 40px;
+    margin-top: 20px;
+    margin-bottom: 40px;
     background-image: url('../assets/images/home/banner.png');
 }
 

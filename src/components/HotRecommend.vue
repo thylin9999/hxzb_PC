@@ -12,7 +12,7 @@
             <li
                 v-for="(item, index) in list"
                 :key="item.id"
-                class="m-r-30"
+                class="m-r-20"
             >
                 <live-broad-card
                     :index="index"

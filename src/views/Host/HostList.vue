@@ -1,7 +1,7 @@
 <template>
-<div class="">
+<div class="hot-live">
     <div class="p-relative">
-        <title-row icon="sport" title="全部直播" class="m-b-30 m-t-20">
+        <title-row icon="sport" title="全部直播" class="m-b-30">
             <more-button v-if="isHome" @click.native="goToLiveBroadCast"/>
         </title-row>
         <match-types
@@ -17,7 +17,7 @@
                 <li
                     v-for="item in list"
                     :key="item.id"
-                    class="m-b-30"
+                    class="m-b-25 "
                 >
                     <live-broad-card
                         :info="item"
@@ -124,10 +124,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.hot-live {
+    margin-top: 40px;
+}
 .hosts{
     &.is-home {
         li {
-            margin-right: 30px;
+            margin-right: 20px;
         }
         li:nth-child(4n) {
             margin-right: 0;

@@ -31,7 +31,7 @@ export default {
 
 <style lang="scss" scoped>
 .header {
-    line-height: 40px;
+    line-height: 30px;
 }
 .icon {
     width: 35px;

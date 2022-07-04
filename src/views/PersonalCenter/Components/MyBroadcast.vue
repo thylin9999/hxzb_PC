@@ -79,11 +79,11 @@ export default {
         async cancel (row) {
             console.log(row, 'row')
             try {
-                const { data } = await cancelSubscribe(row.id)
-                if (data.code === statusCode.success) {
+                const { code, data, msg } = await cancelSubscribe(row.id)
+                if (code === statusCode.success) {
 
                 } else {
-                    Message.error(data.msg)
+                    Message.error(msg)
                 }
             } catch (e) {
                 console.log('出错了')

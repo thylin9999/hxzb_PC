@@ -1,5 +1,5 @@
 <template>
-<div class="card">
+<div class="card" :style="style">
     <div
         v-if="showTopImg"
         class="top-image bg-center p-relative bg-no-repeat bg-size-100"
@@ -24,26 +24,19 @@
           </div>
       </div>
     </div>
-    <div class="host flex  align-center p-t-10 p-b-10 bg-white p-l-10 p-r-15">
-        <span
-            class="avatar d-inline-block bg-center border-radius-50 bg-no-repeat bg-size-100"
-            :style="{
-                backgroundImage: info.img ? `url(${info.img})` : `url(${hostImg})`
-            }"
-        ></span>
-        <div class="title font-medium m-l-5">
+    <div class="host flex justify-between align-center p-t-10 p-b-10 bg-white p-l-15 p-r-15">
+        <span class="avatar d-inline-block bg-center bg-no-repeat bg-size-100"></span>
+        <div class="title font-medium ">
           <custom-span
-              class="font-16 font-500 text-5e"
+              class="font-20 font-500 text-5e"
               :content="info.room_title"
           />
-            <div class="name font-14 flex m-t-5 justify-between align-center">
+            <div class="name font-15 flex m-t-5 justify-between align-center">
                 <span class="">{{ info.nick }}</span>
 
                 <div class="views flex align-center">
-                    <span
-                        class="icon bg-center bg-no-repeat d-inline-block bg-size-100"
-                    ></span>
-                    <span class="m-l-5 font-15">{{ info.heat_num }}</span>
+                    <span class="icon bg-center bg-no-repeat d-inline-block bg-size-100"></span>
+                    <span class="m-l-5">{{ info.heat_num }}</span>
                 </div>
             </div>
         </div>
@@ -82,13 +75,17 @@ export default {
         topImg () {
             return require(`../assets/images/matches/top${this.index + 1}.png`)
         },
+        style () {
+            return {
+            // height: 265px;
+            //     height: this.showTopImg ? 370 / 19.2 + 'vw' : 265 / 19.2 + 'vw'
+                height: this.showTopImg ? '370px' : '265px'
+            }
+        },
         maskBg () {
             return {
                 backgroundImage: `url(${process.env.VUE_APP_START_BUTTON})`
             }
-        },
-        hostImg () {
-            return require('../assets/images/common/host-avatar.png')
         }
     },
     methods: {
@@ -108,9 +105,9 @@ export default {
 .card {
     border-radius: 10px;
     overflow: hidden;
-    width: 284px;
+    width: 340px;
     .live-cover {
-        height: 159px;
+        height: 190px;
         background-color: #f2f2f2;
         .mask {
             background-color: rgba(0,0,0,.7);
@@ -129,12 +126,12 @@ export default {
     }
     .host {
         .avatar{
-            width: 50px;
-            height: 50px;
-            //background-image: url('../assets/images/common/host-avatar.png');
+            width: 54px;
+            height: 54px;
+            background-image: url('../assets/images/common/host-avatar.png');
         }
         div.title {
-            width: calc(100% - 55px);
+            width: calc(100% - 84px);
             .name {
                 color: #A0A0A0;
             }
