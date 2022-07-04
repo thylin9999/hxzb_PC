@@ -250,7 +250,7 @@
       height: 38px;
       position: absolute;
       right: 65px;
-      bottom: 0;
+      bottom: -38px;
       z-index: 0;
 
       .control_box {
@@ -293,40 +293,21 @@
       height: 38px;
       position: absolute;
       left: 200px;
-      //bottom: -38px;
-      bottom: 0;
+      bottom: -38px;
       cursor: pointer;
     }
   }
 
-  .danmu_icon {
-    vertical-align: middle;
-    width: 60px;
-  }
-
   .video-player:hover {
-    //.control {  //默认一直展示
-    //  bottom: 0;
-    //  z-index: 0;
-    //}
+    .control {
+      bottom: 0;
+      z-index: 0;
+    }
 
     .showRefresh {
       bottom: 0;
     }
 
   }
-
-  .noble_1_color {
-    position: relative;
-    color: purple;
-  }
-
-  //.noble_1_color:before {
-  //  content: attr(text);
-  //  position: absolute;
-  //  z-index: 10;
-  //  color: purple;
-  //  background: linear-gradient(to left, red, transparent);
-  //}
 
 </style>

@@ -113,7 +113,7 @@ export default {
                         item = {
                             type: obj.type,
                             nickname: obj.nickname,
-                            msg: obj.msg,
+                            msg: obj.content.msg,
                             member_id: obj.member_id
                         }
                         that.chatList.push(item)
@@ -176,8 +176,6 @@ export default {
         clearInterval(this.connectTime)
         this.isLeave = true // 主动离开 不需重连
         this.closeWs()
-        this.isShowGiftSvga = false
-        this.svgaList = []
     }
 }
 </script>
