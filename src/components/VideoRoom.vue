@@ -20,6 +20,10 @@
                 </ul>
             </div>
         </div>
+        <div class="cancelMute" @click="cancelMute" v-if="muteButton">
+            <img class="iconMute" :src="require('@/assets/images/home/icon-mute.png')" alt="">
+            点击取消静音
+        </div>
     </div>
 </template>
 <script src="flv.min.js"></script>
@@ -45,6 +49,8 @@
         },
         data() {
             return {
+                volume:0,
+                muteButton:false,
                 liveCover: require("@/assets/images/common/live-cover.jpg"),
                 logo: require("@/assets/images/common/logo.png"),
                 refreshItem: true,
@@ -61,6 +67,13 @@
             }
         },
         async mounted() {
+            if(window.name == ''){
+                window.name = 'isReload'
+                this.volume = 0.5
+            }else if(window.name == 'isReload'){
+                this.volume = 0
+                this.muteButton = true
+            }
             this.roomInfo = this.videoInfo
             try {
                 setTimeout(() => {
@@ -72,6 +85,12 @@
             }
         },
         methods: {
+            cancelMute () {
+                if (this.dp) {
+                    this.dp.volume(0.5)
+                    this.muteButton = false
+                }
+            },
             handlePlay() {
                 this.$refs.dplayer.play()
                 this.isPlay = false
@@ -128,7 +147,7 @@
                             type: 'auto',
                         },
                     })
-                    this.dp.volume(0.5) // 设置初始声音
+                    this.dp.volume(this.volume) // 设置初始声音
                     setTimeout(() => {
                         this.dp.play()
                     }, 500)
@@ -295,6 +314,29 @@
       left: 200px;
       bottom: -38px;
       cursor: pointer;
+    }
+
+    .cancelMute {
+      cursor: pointer;
+      position: absolute;
+      bottom: 50px;
+      left: 0;
+      right: 0;
+      margin: auto;
+      width: 152px;
+      height: 52px;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 14px;
+      text-align: center;
+      line-height: 52px;
+      background-color: #ff5d23;
+
+      .iconMute {
+        width: 18px;
+        height: 18px;
+        vertical-align: text-bottom;
+      }
     }
   }
 
