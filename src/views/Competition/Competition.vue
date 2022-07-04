@@ -149,9 +149,7 @@ export default {
             immediate: true
         }
     },
-    created () {
-        this.fetchData()
-    },
+
     methods: {
         setToday () {
             this.filterTime = dayjs().format('YYYY-MM-DD')
@@ -190,8 +188,8 @@ export default {
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
 .competition-box {
-    //height: calc(100vh - 295px);
-    height: calc(100vh - 90px);
+    height: calc(100vh - 295px);
+    //height: calc(100vh - 90px);
 }
 .tabs {
     background-color: $text-white;
