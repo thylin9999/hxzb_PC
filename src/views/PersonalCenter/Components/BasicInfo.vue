@@ -176,7 +176,7 @@ export default {
         finalData () {
             return {
                 'nickname': this.form.nickname.value,
-                'birth': this.form.birth.value,
+                'birth': dayjs(this.form.birth.value).format('YYYY-MM-DD'),
                 'sign': this.form.sign.value,
                 'avatar': '',
                 'gender': this.userInfo.sex

@@ -210,17 +210,16 @@ export default {
             this.changeFile()
             const isCoverValidate = !!this.form.liveCover.value
             if (!isValidate || !isCoverValidate) return
-            const res = await bookMatches({
+            const { code, msg, data } = await bookMatches({
                 matchId: this.form.match.value,
                 title: this.form.title.value,
                 cover: this.form.liveCover.value,
                 leagueType: this.leagueId
             })
-            console.log(res, 'res')
-            if (res.data.code === statusCode.success) {
-                Message.success(res.data.msg)
+            if (code === statusCode.success) {
+                Message.success(msg)
             } else {
-                Message.error(res.data.msg)
+                Message.error(msg)
             }
         },
         validate () {
@@ -315,12 +314,12 @@ export default {
     .time-picker{
         width: 100% !important;
         .el-input__inner {
-            line-height: 40px;
-            height: 40px;
+            line-height: 45px;
+            height: 45px;
         }
     }
     .el-input__icon{
-        line-height: 40px!important;
+        line-height: 45px!important;
     }
 }
 </style>

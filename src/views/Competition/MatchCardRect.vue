@@ -136,6 +136,11 @@ export default {
                 if (code === statusCode.success) {
                     Message.success(msg)
                     this.$emit('updateAppointment', { id: this.match.matchId, value: this.match.appointment === 1 ? 2 : 1 })
+                } else {
+                    if (code === statusCode.isExpired) {
+                        this.openLoginDialogMixin()
+                    }
+                    Message.error(msg)
                 }
             } catch (e) {
                 console.log('出凑了')

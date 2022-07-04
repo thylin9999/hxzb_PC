@@ -67,7 +67,11 @@
                                 <span
                                     v-for="host in match.anchor_list"
                                     :key="host.id"
-                                    class="host"></span>
+                                    :style="{
+                                      backgroundImage: host.img ? `url(${host.img})` : 'url(' + require('../../assets/images/common/host-avatar.png') + ')'
+                                    }"
+                                    @click="viewLiveBroad(host)"
+                                    class="host border-radius-50 pointer"></span>
                             </div>
                         </div>
                         <span v-else class="wait text-center font-12 d-inline-block">未开始</span>
@@ -124,7 +128,7 @@ export default {
         },
         ulStyle () {
             return {
-                width: this.ulWidth / 19.2 + 'vw'
+                width: this.ulWidth + 'px'
             }
         }
     },
@@ -177,6 +181,13 @@ export default {
                     this.openLoginDialog()
                 }
             }
+        },
+        viewLiveBroad (host) {
+            const { href } = this.$router.resolve({
+                path: '/liveRoom',
+                query: { room_id: host.room_id }
+            })
+            window.open(href, '_blank')
         },
         prev () {
             if (this.leftMove) {
@@ -291,7 +302,7 @@ export default {
                     background-size: 100% 100%;
                     background-repeat: no-repeat;
                     background-position: center;
-                    background-image: url('../../assets/images/common/host-avatar.png');
+                    //background-image: url('../../assets/images/common/host-avatar.png');
                 }
             }
         }

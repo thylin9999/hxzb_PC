@@ -4,7 +4,7 @@
         <div class="content-section" :class="{'is-not-home': !isHome}">
             <router-view class="content-router "></router-view>
         </div>
-        <Footer v-if="isHome"/>
+        <Footer />
 <!--        <login />-->
     </div>
 </template>

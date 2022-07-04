@@ -44,7 +44,7 @@
 
 <script>
 import HeaderTitle from '@/views/PersonalCenter/Components/HeaderTitle'
-import { bookBroadcast, getBookedMatches, cancelSubscribe } from '@/api/Host/Host'
+import { getBookedMatches, cancelSubscribe } from '@/api/Host/Host'
 import { matchTypes } from '@/utils/utils'
 import { statusCode } from '@/utils/statusCode'
 import { Message } from 'element-ui'
@@ -64,7 +64,6 @@ export default {
     methods: {
         async fetchData () {
             try {
-                console.log('1111111111111')
                 const { data } = await getBookedMatches()
                 this.list = data.list.reduce((all, item) => {
                     all.push({
