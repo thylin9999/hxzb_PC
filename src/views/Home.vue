@@ -1,16 +1,17 @@
 <template>
   <div class="home">
       <div class="box">
-          <div class="video-box p-t-10">
-              <div class="video p-10 bg-black">
+          <div class="video-box">
+              <div class="video">
                   <div class="video_view">
                       <VideoHome :videoInfo="videoInfo"></VideoHome>
                   </div>
-                  <div class="videoList m-l-5">
-                      <div class="box1 item" :class="{select:current == i}" v-for="(item,i) in list" :key="i">
+                  <div class="videoList">
+                      <div class="item" :class="{select:current == i}" v-for="(item,i) in list" :key="i">
+                          <img v-if="current == i" class="icon_arr_r" :src="require('@/assets/images/home/icon-arr-r.png')" alt="">
                           <img @click="selectLive(item,i)" class="item_img" :src="item.live_cover || require('@/assets/images/common/host-avatar.png')" alt="">
                       </div>
-                      <div class="box1 item item_blank" v-for="tem in (6-list.length)" :key="1000-tem"></div>
+                      <div class="item item_blank" v-for="tem in (6-list.length)" :key="1000-tem"></div>
                   </div>
               </div>
           </div>
@@ -87,44 +88,53 @@ export default {
 @import '@/theme/default-vars.scss';
 .box{
   width: 100%;
+  height: 600px;
   background: url('../assets/images/home/bg.png') no-repeat;
   background-size: 100% 100%;
 }
 .video-box{
     width: 1200px;
     margin: auto;
-    height: 790px;
-    .bg-box {
-        top: -80px;
-        height: 755px;
-        background-size: 100% 100%;
-        background-image: url('https://cdn.podapi.com/image/slide/20220505/fa0f87d759b3a24eb6da9b27a5861232.jpg');
-        z-index: -1;
-    }
+    height: 574px;
+    padding-top: 5px;
+
     .video {
-        height: 750px;
+        height: 574px;
         z-index: 2;
         display: flex;
         border-radius: 15px;
+        background-color: rgba(11,9,9,.66);
+      overflow: hidden;
         .video_view{
-          width: 1200px;
-          height: 730px;
+          width: 1024px;
+          height: 574px;
         }
         .videoList{
-            width: 235px;
-            height: 730px;
+            width: 174px;
+            height: 574px;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             align-content: space-around;
           .item{
             border-radius: 5px;
-            width: 235px;
-            height: 120px;
+            width: 160px;
+            height: 86px;
             border: none;
+            position: relative;
             .item_img{
               width: 100%;
               height: 100%;
+            }
+            .icon_arr_r{
+              width: 8px;
+              height: 14px;
+              position: absolute;
+              left: -8px;
+              top: 0;
+              bottom: 0;
+              margin: auto;
+              z-index: 2;
             }
           }
           .select{

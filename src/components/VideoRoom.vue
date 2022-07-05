@@ -20,6 +20,10 @@
                 </ul>
             </div>
         </div>
+        <div class="cancelMute" @click="cancelMute" v-if="muteButton">
+            <img class="iconMute" :src="require('@/assets/images/home/icon-mute.png')" alt="">
+            点击取消静音
+        </div>
     </div>
 </template>
 <script src="flv.min.js"></script>
@@ -45,7 +49,9 @@
         },
         data() {
             return {
-                liveCover: require("@/assets/images/common/live-cover.jpg"),
+                volume:0,
+                muteButton:false,
+                liveCover: require("@/assets/images/common/video-cover.jpg"),
                 logo: require("@/assets/images/common/logo.png"),
                 refreshItem: true,
                 showQuality: false,
@@ -61,6 +67,13 @@
             }
         },
         async mounted() {
+            if(window.name == ''){
+                window.name = 'isReload'
+                this.volume = 0.5
+            }else if(window.name == 'isReload'){
+                this.volume = 0
+                this.muteButton = true
+            }
             this.roomInfo = this.videoInfo
             try {
                 setTimeout(() => {
@@ -72,6 +85,12 @@
             }
         },
         methods: {
+            cancelMute () {
+                if (this.dp) {
+                    this.dp.volume(0.5)
+                    this.muteButton = false
+                }
+            },
             handlePlay() {
                 this.$refs.dplayer.play()
                 this.isPlay = false
@@ -128,10 +147,20 @@
                             type: 'auto',
                         },
                     })
-                    this.dp.volume(0.5) // 设置初始声音
+                    this.dp.volume(this.volume) // 设置初始声音
                     setTimeout(() => {
                         this.dp.play()
                     }, 500)
+                    if(this.dp){
+                        let item = document.getElementsByClassName('dplayer-controller')[0]
+                        let link = document.createElement('div')
+                        link.innerHTML = "刷新"
+                        link.className = 'showRefresh-roomVideo'
+                        item.appendChild(link)
+                        link.addEventListener("click", function () {
+                            that.videoRefresh()
+                        })
+                    }
                 }
             },
             playVideo() {
@@ -177,7 +206,20 @@
         },
     };
 </script>
-
+<style lang="scss">
+    .showRefresh-roomVideo{
+        color: #fff;
+        text-align: center;
+        line-height: 38px;
+        font-size: 14px;
+        width: 58px;
+        height: 38px;
+        position: absolute;
+        left: 200px;
+        bottom: 0px;
+        cursor: pointer;
+    }
+</style>
 <style lang="scss">
   .dplayer-danloading {
     display: none !important;
@@ -232,15 +274,6 @@
       }
     }
 
-    .dankumu {
-      width: 100%;
-      height: 80%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 1;
-    }
-
     .control {
       color: #fff;
       text-align: center;
@@ -250,7 +283,7 @@
       height: 38px;
       position: absolute;
       right: 65px;
-      bottom: 0;
+      bottom:0px;
       z-index: 0;
 
       .control_box {
@@ -284,49 +317,28 @@
       }
     }
 
-    .showRefresh {
-      color: #fff;
-      text-align: center;
-      line-height: 38px;
-      font-size: 14px;
-      width: 58px;
-      height: 38px;
-      position: absolute;
-      left: 200px;
-      //bottom: -38px;
-      bottom: 0;
+    .cancelMute {
       cursor: pointer;
+      position: absolute;
+      bottom: 50px;
+      left: 0;
+      right: 0;
+      margin: auto;
+      width: 152px;
+      height: 52px;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 14px;
+      text-align: center;
+      line-height: 52px;
+      background-color: #ff5d23;
+
+      .iconMute {
+        width: 18px;
+        height: 18px;
+        vertical-align: text-bottom;
+      }
     }
   }
-
-  .danmu_icon {
-    vertical-align: middle;
-    width: 60px;
-  }
-
-  .video-player:hover {
-    //.control {  //默认一直展示
-    //  bottom: 0;
-    //  z-index: 0;
-    //}
-
-    .showRefresh {
-      bottom: 0;
-    }
-
-  }
-
-  .noble_1_color {
-    position: relative;
-    color: purple;
-  }
-
-  //.noble_1_color:before {
-  //  content: attr(text);
-  //  position: absolute;
-  //  z-index: 10;
-  //  color: purple;
-  //  background: linear-gradient(to left, red, transparent);
-  //}
 
 </style>
