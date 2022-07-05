@@ -20,7 +20,7 @@
                 </ul>
             </div>
         </div>
-        <div class="goRoom" @click="goRoom">进入直播间</div>
+        <div class="goRoom" @click="goRoom" v-if="roomInfo">进入直播间</div>
         <div class="cancelMute" @click="cancelMute" v-if="muteButton">
             <img class="iconMute" :src="require('@/assets/images/home/icon-mute.png')" alt="">
             点击取消静音
@@ -58,10 +58,7 @@
                 refreshItem: true,
                 danmus: [],
                 showQuality: false,
-                roomInfo: {
-                    rtmp_url: '',
-                    rtmp_live: ''
-                },
+                roomInfo: null,
                 timeOut: false,
                 dp: null,
                 qualityType: 'Original', // 'Original'  'HD'  'ordinary'

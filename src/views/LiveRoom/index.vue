@@ -23,14 +23,6 @@
             </div>
             <div class="right">
                 <Chat></Chat>
-                <!--                <div class="announces">直播公告：</div>-->
-                <!--                <div class="txt_top">直播间禁止任何传播违法、违规、低俗等信息行为，一经发现将给予封禁处理，请勿相信任何方式的诱导打赏，私下交易等行为，以防人身或财产损失</div>-->
-                <!--                <div class="chat">-->
-                <!--                </div>-->
-                <!--                <div class="send_model">-->
-                <!--                    <input class="send_inp" type="text" placeholder="发送聊天信息">-->
-                <!--                    <button class="send_btn">发送</button>-->
-                <!--                </div>-->
             </div>
         </div>
         <RecommendAndRank class="tj" style="width: 1200px"></RecommendAndRank>
