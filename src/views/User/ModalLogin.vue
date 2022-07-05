@@ -69,7 +69,7 @@
                     <template v-if="!isRegister">
                         <div class="flex justify-between align-center">
                             <span class="pointer" @click="changeType(1)">立即注册</span>
-                            <span @click="forgetPassword"  class="pointer">忘记密码</span>
+<!--                            <span @click="forgetPassword"  class="pointer">忘记密码</span>-->
                         </div>
                     </template>
                     <template v-else>
@@ -96,7 +96,7 @@ import { isRequire, phone } from '@/utils/validator'
 import { omit, isEmpty } from '../../utils/lodashUtil'
 import { statusCode } from '@/utils/statusCode'
 import { Message } from 'element-ui'
-import { register, getCode } from '@/api/user'
+import { register, getCode, findBackPwd } from '@/api/user'
 
 export default {
     name: 'Login',
@@ -155,7 +155,7 @@ export default {
             return this.isResetPassword ? '忘记密码' : (this.isRegister ? '注册' : '登录')
         },
         buttonTitle () {
-            return this.isResetPassword ? '立即召回' : (this.isRegister ? '注册' : '登录')
+            return this.isResetPassword ? '立即找回' : (this.isRegister ? '注册' : '登录')
         },
         showCode () {
             console.log(process.env.VUE_APP_NEED_CODE, 'VUE_APP_NEED_CODE')
@@ -197,12 +197,12 @@ export default {
             const isValidate = this.validate()
             if (isValidate) {
                 this.isLoading = true
-                const request = this.isRegister ? register : this.login
+                const request = this.isResetPassword ? findBackPwd : (this.isRegister ? register : this.login)
                 const params = {
                     account: this.form.account.value,
                     password: this.form.password.value
                 }
-                if (this.isRegister) {
+                if (this.isRegister || this.isResetPassword) {
                     params.code = this.form.code.value
                 }
                 const result = await request(params)
@@ -214,7 +214,7 @@ export default {
                         this.form.account.value = params.account
                         this.changeType(2)
                         Message({
-                            message: '注册成功',
+                            message: msg,
                             type: 'success'
                         })
                     } else {
@@ -266,7 +266,8 @@ export default {
             if (isValidate) {
                 this.isSend = true
                 const { msg, code } = await getCode({
-                    mobile: this.form.account.value
+                    mobile: this.form.account.value,
+                    msType: this.isResetPassword ? 2 : 1
                 })
                 if (code === statusCode.success) {
                     Message.success(msg)
@@ -279,6 +280,7 @@ export default {
         },
         changeType (type) {
             this.isRegister = type === 1
+            this.isResetPassword = false
         },
         forgetPassword () {
             this.isRegister = true

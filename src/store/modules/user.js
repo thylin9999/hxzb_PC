@@ -8,6 +8,7 @@ const state = {
     is_anchor: 1, // 1 非主播 2 主播
     token: null, // token
     memberId: null,
+    member_id: null,
     isAnchor: false,
     avatar: null, // 头像
     roomId: null

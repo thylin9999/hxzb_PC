@@ -53,6 +53,19 @@ export function editUserInfo ({ nickname, sign, birth, gender, avatar }) {
     })
 }
 
+// 找回密码
+export function findBackPwd ({ account = 'admin', code = 666666, password = '000000' }) {
+    return request({
+        method: 'post',
+        url: url.findBackPwd,
+        data: {
+            account,
+            password,
+            mobile_code: code
+        }
+    })
+}
+
 export function updatePassword ({ password, verPassword, oldPassword }) {
     return request({
         method: 'post',

@@ -5,7 +5,7 @@ const url = {
     register: '/api/member/register',
     editUserInfo: '/api/member/editMember',
     getCode: '/api/sendSms/send',
-    updatePassword: '/api/member/editPwd2'
-
+    updatePassword: '/api/member/editPwd2',
+    findBackPwd: '/api/member/editPwd'
 }
 export default url
