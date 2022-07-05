@@ -38,20 +38,15 @@ export default {
         }
     },
     computed: {
-        ...mapState('user', ['nickname', 'member_id'])
+        ...mapState('user', ['nickname', 'memberId', 'token'])
     },
     created () {
         this.connectWebSocket()
     },
-    mounted () {
-        console.log(this.nickname)
-        console.log(this.member_id)
-    },
     methods: {
         sendMessage () {
-            console.log(this.inpTxt.trim())
             if (!this.inpTxt.trim().length) return
-            if (!this.member_id) {
+            if (!this.token) {
                 Message('请先登录')
             } else {
                 this.send('1040')
@@ -62,7 +57,7 @@ export default {
                 const sendCon = {
                     type: num,
                     room_id: this.$route.query.room_id,
-                    member_id: this.member_id,
+                    member_id: this.memberId,
                     nickname: this.nickname,
                     msg: this.inpTxt
                 }
@@ -80,7 +75,7 @@ export default {
                         type: '1010',
                         room_id: that.$route.query.room_id,
                         nickname: that.nickname,
-                        member_id: that.member_id
+                        member_id: that.memberId
                     }
                     console.log('---websocke已连接成功---')
                     that.isConnect = true

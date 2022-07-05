@@ -102,7 +102,7 @@ export default {
         height: 574px;
         z-index: 2;
         display: flex;
-        border-radius: 15px;
+        border-radius: 5px;
         background-color: rgba(11,9,9,.66);
       overflow: hidden;
         .video_view{
