@@ -51,7 +51,7 @@
             return {
                 volume:0,
                 muteButton:false,
-                liveCover: require("@/assets/images/common/live-cover.jpg"),
+                liveCover: require("@/assets/images/common/video-cover.jpg"),
                 logo: require("@/assets/images/common/logo.png"),
                 refreshItem: true,
                 showQuality: false,
@@ -151,6 +151,16 @@
                     setTimeout(() => {
                         this.dp.play()
                     }, 500)
+                    if(this.dp){
+                        let item = document.getElementsByClassName('dplayer-controller')[0]
+                        let link = document.createElement('div')
+                        link.innerHTML = "刷新"
+                        link.className = 'showRefresh-roomVideo'
+                        item.appendChild(link)
+                        link.addEventListener("click", function () {
+                            that.videoRefresh()
+                        })
+                    }
                 }
             },
             playVideo() {
@@ -196,7 +206,20 @@
         },
     };
 </script>
-
+<style lang="scss">
+    .showRefresh-roomVideo{
+        color: #fff;
+        text-align: center;
+        line-height: 38px;
+        font-size: 14px;
+        width: 58px;
+        height: 38px;
+        position: absolute;
+        left: 200px;
+        bottom: 0px;
+        cursor: pointer;
+    }
+</style>
 <style lang="scss">
   .dplayer-danloading {
     display: none !important;
@@ -251,15 +274,6 @@
       }
     }
 
-    .dankumu {
-      width: 100%;
-      height: 80%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 1;
-    }
-
     .control {
       color: #fff;
       text-align: center;
@@ -269,7 +283,7 @@
       height: 38px;
       position: absolute;
       right: 65px;
-      bottom: -38px;
+      bottom:0px;
       z-index: 0;
 
       .control_box {
@@ -303,19 +317,6 @@
       }
     }
 
-    .showRefresh {
-      color: #fff;
-      text-align: center;
-      line-height: 38px;
-      font-size: 14px;
-      width: 58px;
-      height: 38px;
-      position: absolute;
-      left: 200px;
-      bottom: -38px;
-      cursor: pointer;
-    }
-
     .cancelMute {
       cursor: pointer;
       position: absolute;
@@ -338,18 +339,6 @@
         vertical-align: text-bottom;
       }
     }
-  }
-
-  .video-player:hover {
-    .control {
-      bottom: 0;
-      z-index: 0;
-    }
-
-    .showRefresh {
-      bottom: 0;
-    }
-
   }
 
 </style>

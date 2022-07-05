@@ -7,9 +7,9 @@
             </div>
         </div>
         <!--        <img class="big-play-btn" :src="logo" v-if="showPuse" @click="bigPause"/>-->
-        <div class="showRefresh btn">
-            <p @click="videoRefresh">刷新</p>
-        </div>
+<!--        <div class="showRefresh btn">-->
+<!--            <p @click="videoRefresh">刷新</p>-->
+<!--        </div>-->
         <div class="control" @mousemove="showQuality = true" @mouseleave="showQuality = false">
             <span class="btn"> {{ qualityType == 'Original' ? '超清' : qualityType == 'HD' ? '高清' : '普通' }}  </span>
             <div class="control_box" v-show="showQuality">
@@ -53,7 +53,7 @@
         data () {
             return {
                 muteButton:true,
-                liveCover: require('@/assets/images/common/live-cover.jpg'),
+                liveCover: require('@/assets/images/common/video-cover.jpg'),
                 logo: require('@/assets/images/common/logo.png'),
                 refreshItem: true,
                 danmus: [],
@@ -131,6 +131,7 @@
                 this.init()
             },
             async init () {
+                let that = this
                 if (this.roomInfo) {
                     let url = ''
                     if (this.playList) {
@@ -157,6 +158,16 @@
                     setTimeout(() => {
                         this.dp.play()
                     }, 500)
+                    if(this.dp){
+                        let item = document.getElementsByClassName('dplayer-controller')[0]
+                        let link = document.createElement('div')
+                        link.innerHTML = "刷新"
+                        link.className = 'showRefresh-homeVideo'
+                        item.appendChild(link)
+                        link.addEventListener("click", function () {
+                            that.videoRefresh()
+                        })
+                    }
                 }
             },
             playVideo () {
@@ -214,7 +225,20 @@
         },
     }
 </script>
-
+<style>
+    .showRefresh-homeVideo {
+        color: #fff;
+        text-align: center;
+        line-height: 38px;
+        font-size: 14px;
+        width: 58px;
+        height: 38px;
+        position: absolute;
+        left: 200px;
+        bottom: 0px;
+        cursor: pointer;
+    }
+</style>
 <style lang="scss">
   .dplayer-danloading {
     display: none !important;
@@ -287,7 +311,7 @@
       height: 38px;
       position: absolute;
       right: 65px;
-      bottom: -38px;
+      bottom: 0px;
       z-index: 0;
 
       .control_box {
@@ -319,19 +343,6 @@
           }
         }
       }
-    }
-
-    .showRefresh {
-      color: #fff;
-      text-align: center;
-      line-height: 38px;
-      font-size: 14px;
-      width: 58px;
-      height: 38px;
-      position: absolute;
-      left: 200px;
-      bottom: -38px;
-      cursor: pointer;
     }
 
     .goRoom {
@@ -379,15 +390,9 @@
   }
 
   .video-player:hover {
-    .control {
-      bottom: 0;
-      z-index: 0;
-    }
-
-    .showRefresh {
-      bottom: 0;
-    }
-
+    //.showRefresh {
+    //  bottom: 0;
+    //}
     .goRoom {
       display: block;
     }
