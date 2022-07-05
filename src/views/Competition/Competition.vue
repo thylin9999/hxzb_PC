@@ -1,5 +1,5 @@
 <template>
-<div class="wrap-1450 competition-box p-t-30">
+<div class="wrap-1200 competition-box p-t-30">
     <timer-filter
         :type.sync="competitionType"
         :time.sync="filterTime"

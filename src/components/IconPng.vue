@@ -32,8 +32,8 @@ export default {
         style () {
             return {
                 backgroundImage: `url(${this.bgUrl})`,
-                width: this.width / 19.2 + 'vw',
-                height: this.height / 19.2 + 'vw'
+                width: this.width + 'px',
+                height: this.height + 'px'
             }
         }
     }

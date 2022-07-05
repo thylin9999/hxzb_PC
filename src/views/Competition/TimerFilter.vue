@@ -1,5 +1,5 @@
 <template>
-<div class="wrap-1450 box flex align-center bg-white">
+<div class="wrap-1200 box flex align-center bg-white">
     <ul class="tabs flex align-center justify-center">
         <li
             v-for="tab in tabs"
