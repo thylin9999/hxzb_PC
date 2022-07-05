@@ -8,19 +8,22 @@
     <div class="content w-100 p-t-15 flex">
         <div class="left-bars flex justify-center p-t-10 bg-center bg-no-repeat bg-size-100">
             <ul class="">
-                <li
-                    v-for="type in matchTypes"
-                    :key="type.id"
-                    @click="changeType(type)"
-                    :class="{'is-active': type.id === matchType}"
-                    class="flex font-16 font-regular p-relative align-center pointer m-t-20 type-item justify-center text-white"
-                >
-                    <icon-png :width="21" :height="21" :icon="type.icon"/>
-                    <span class="m-l-10">{{ type.title }}</span>
-                </li>
+                <template v-for="type in matchTypes">
+                    <li
+                        v-if="type.id < 3"
+                        :key="type.id"
+                        @click="changeType(type)"
+                        :class="{'is-active': type.id === matchType}"
+                        class="flex font-16 font-regular p-relative align-center pointer m-t-20 type-item justify-center text-white"
+                    >
+                        <icon-png :width="21" :height="21" :icon="type.icon"/>
+                        <span class="m-l-10">{{ type.title }}</span>
+                    </li>
+                </template>
+
             </ul>
         </div>
-        <div class="matches h-100">
+        <div class="matches h-100 m-l-10">
             <div class="title flex align-center">
                 <span class="date font-500 font-medium">{{ filterTime | dateFilter}}</span>
                 <ul class="flex align-center">
@@ -223,11 +226,10 @@ export default {
         }
     }
     .matches {
-        margin-left: 35px;
         background-color: #E8E8E8;
         border-radius: 10px;
         padding: 26px 22px;
-        width: calc(100% - 245px);
+        width: calc(100% - 255px);
         .title {
             .date {
                 margin-right: 37px;

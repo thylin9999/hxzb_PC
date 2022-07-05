@@ -4,7 +4,7 @@
         <li
             v-for="tab in tabs"
             :key="tab.id"
-            class="flex flex-column pointer align-center m-r-30 m-l-30"
+            class="flex flex-column pointer align-center m-l-15 m-r-15"
             @click="changeTab(tab)"
             :class="{'is-active': tab.id === currentTab}"
         >
@@ -19,14 +19,14 @@
         <icon-png @click.native="next" :class="{
             'is-active': rightMove
         }" class="next pointer p-absolute" :width="27" :height="50" :icon="nextIcon"/>
-        <div class="date-box h-100 overflow-x-auto" ref="ulBox">
+        <div class="date-box p-l-10 h-100 overflow-x-auto" ref="ulBox">
             <ul ref="matchUl" class="flex h-100 flex-no-wrap " :style="ulStyle">
                 <li
                     v-for="date in dates"
                     :key="date.id"
                     :class="{'is-active': time === date.id}"
                     @click="changeTime(date)"
-                    class="flex h-100 flex-column pointer justify-center text-center date-item align-center font-22 font-regular font-400"
+                    class="flex h-100 flex-column m-r-10 pointer justify-center text-center date-item align-center font-22 font-regular font-400"
                 >
                     <span>{{ date.date}}</span>
                     <span class="m-t-5">{{ date.weekName}}</span>
@@ -120,7 +120,7 @@ export default {
         },
         ulStyle () {
             return {
-                width: this.dates.length * 90 + 'px'
+                width: this.dates.length * 110 + 'px'
             }
         },
         pickerOptions () {
@@ -216,7 +216,7 @@ export default {
     border-radius: 10px;
 }
 .tabs {
-    width: 245px;
+    width: 230px;
     li {
         .tab-name{
             font-size: 25px;
@@ -233,18 +233,18 @@ export default {
 
 }
 .date-list {
-    width: calc(100% - 335px);
-    padding: 0 35px;
+    width: calc(100% - 320px);
+    padding: 0 70px 0 35px;
     .prev {
-        left: 60px;
+        left: 0px;
         top: 30px;
     }
     .next {
-        right: 60px;
+        right: 30px;
         top: 30px;
     }
     .date-box {
-        width: 840px;
+        width: 100%;
         margin: 0 auto;
         ul {
             //width: 1800px;
@@ -252,7 +252,7 @@ export default {
 
     }
     .date-item {
-        width: 120px;
+        width: 100px;
         color: #142563;
         border-bottom: 3px solid transparent;
         &.is-active,&:hover {

@@ -12,6 +12,7 @@
             v-model="rowInfo.value"
             @blur="submit"
             @change="submit"
+            @keyup.enter.native="confirm"
         />
         <div class="code h-100 text-center" v-if=showCode @click="getCode">
             <span class="font-14 line-height-20 font-medium">{{ codeText }}</span>
@@ -104,6 +105,10 @@ export default {
         }, 200),
         getCode () {
             this.$emit('getCode')
+        },
+        confirm () {
+            console.log('11111')
+            this.$emit('keyUpEnter')
         }
     }
 }

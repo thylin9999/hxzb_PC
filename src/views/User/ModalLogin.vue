@@ -62,6 +62,7 @@
                         :icon="form.password.icon"
                         :row-info.sync="form.password"
                         @validate="validateRow"
+                        @keyUpEnter="submit"
                         :key="form.password.updateKey"
                     />
                 </div>
