@@ -1,10 +1,10 @@
 <template>
 <div class="card w-100 rect bg-white flex align-center">
-    <div class="left-info flex align-center justify-between">
+    <div class="left-info p-l-30 flex align-center justify-between">
         <div class="flex time-and-title flex-column justify-center font-regular align-center">
-            <span class="match-time m-b-15 font-400 ">{{ match.matchTime | filterTime}}</span>
+            <span class="match-time font-30 m-b-15 font-400 ">{{ match.matchTime | filterTime}}</span>
             <custom-span
-                class="match-title text-center"
+                class="match-title font-20 text-center"
                 :content="match.leagueChsShort"
             />
         </div>
@@ -15,13 +15,13 @@
                         backgroundImage: `url(${homeLogo})`
                     }"></div>
                     <custom-span
-                        class="font-regular w-100 text-center team-name m-t-10 font-20 font-400"
+                        class="font-regular w-100 text-center team-name m-t-10 font-18 font-400"
                         :content="match.homeChs"
                     />
                 </div>
                 <span class=" score text-center d-inline-block">{{ match.homeScore }}</span>
             </div>
-            <span class="vs text-center d-inline-block">vs</span>
+            <span class="vs text-center font-25 d-inline-block">vs</span>
             <div class="away team flex align-center">
                 <span class=" score text-center d-inline-block">{{ match.awayScore }}</span>
                 <div class="flex icon-and-name flex-column align-center justify-center">
@@ -31,47 +31,49 @@
                     }"
                     ></div>
                     <custom-span
-                        class="font-regular team-name w-100 text-center m-t-10 font-20 font-400"
+                        class="font-regular team-name w-100 text-center m-t-10 font-18 font-400"
                         :content="match.awayChs"
                     />
                 </div>
             </div>
         </div>
     </div>
-    <div class="right-host flex justify-between">
-        <div class="hosts">
-            <ul class="flex">
+    <div class="right-host p-r-30 flex justify-between">
+        <div class="hosts overflow-x-auto">
+            <ul class="flex flex-no-wrap">
                 <li
                     v-for="host in match.anchor_list"
                     :key="host.id"
+                    class="host-item flex pointer flex-column justify-center align-center"
+                    @click="goToLiveRoom(host)"
                 >
-                    <div class="icon"
+                    <div class="icon bg-no-repeat bg-center bg-size-100"
                         :style="{
                             backgroundImage: `url(${host.img})`
                         }"
                     ></div>
-                    <span>{{ host.name}}</span>
+                    <CustomSpan class="font-12 text-73 m-t-10" :content="host.nick"/>
                 </li>
             </ul>
         </div>
-        <div class="button m-r-20">
+        <div class="button ">
             <template v-if="isFinish">
                 <div class="is-subscribe flex align-center justify-center w-100 h-100">
-                    <icon-png :width="25" :height="27" icon="matches/appointment"/>
-                    <span class="font-20 m-l-10 font-400 font-regular">已结束</span>
+                    <icon-png :width="19" :height="20" icon="matches/appointment"/>
+                    <span class="font-16 m-l-10 font-400 font-regular">已结束</span>
                 </div>
             </template>
             <template v-else>
                 <div class="is-subscribe pointer flex align-center justify-center w-100 h-100" v-if="isGoing">
-                    <icon-png :width="25" :height="27" icon="matches/appointment"/>
-                    <span class="font-20 m-l-10 font-400 font-regular">比赛中</span>
+                    <icon-png :width="19" :height="20" icon="matches/appointment"/>
+                    <span class="font-16 m-l-10 font-400 font-regular">比赛中</span>
                 </div>
                 <div
                     class="un-subscribe pointer flex align-center justify-center w-100 h-100"
                     @click="subscribeMatch"
                     v-else>
-                    <icon-png :width="27" :height="25" icon="matches/going"/>
-                    <span class="font-20 m-l-10 font-400 font-regular">{{ isSubscribe ? '已预约' : '预约'}}</span>
+                    <icon-png :width="20" :height="19" icon="matches/going"/>
+                    <span class="font-16 m-l-10 font-400 font-regular">{{ isSubscribe ? '已预约' : '预约'}}</span>
                 </div>
             </template>
 
@@ -145,7 +147,15 @@ export default {
             } catch (e) {
                 console.log('出凑了')
             }
+        },
+        goToLiveRoom (host) {
+            const { href } = this.$router.resolve({
+                path: '/liveRoom',
+                query: { room_id: host.room_id }
+            })
+            window.open(href, '_blank')
         }
+
     }
 }
 </script>
@@ -158,22 +168,20 @@ export default {
     border-radius: 10px;
 }
 .left-info {
-    width: 590px;
+    width: 50%;
     border-right: 1px solid #C3C3C3;
     .time-and-title {
-        width: 230px;
+        width: 100px;
     }
     .match-time {
-        font-size: 45px;
         color: #272727;
     }
     .match-title {
-        font-size: 25px;
         font-weight: 400;
         color: #272727;
     }
     .battle-info {
-        width: calc(100% - 230px);
+        width: calc(100% - 100px);
         .vs {
             width: 30px;
         }
@@ -190,8 +198,8 @@ export default {
             }
         }
         .icon {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
         }
         .team-name {
@@ -200,10 +208,25 @@ export default {
     }
 }
 .right-host {
-    width: calc(100% - 590px);
+    width: 50%;
     .button {
-        width: 120px;
-        height: 55px;
+        width: 100px;
+        height: 40px;
+    }
+    .hosts{
+        width: calc(100% - 150px);
+        margin: 0 auto;
+        .host-item{
+            width: 45px;
+            .icon {
+                width: 45px;
+                height: 45px;
+                border-radius: 50%;
+            }
+            span {
+                color: #737373;
+            }
+        }
     }
     .un-subscribe {
         background-color: #142563;
