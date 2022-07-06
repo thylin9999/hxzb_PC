@@ -114,6 +114,12 @@ export default {
         iconName () {
             return this.isFutureMatch ? (this.isSubscribe ? 'matches/appointment' : 'matches/going') : 'matches/going'
         },
+        isGoing () {
+            return !this.isFutureMatch && !this.isEnd
+        },
+        isEnd () {
+            return this.match.state * 1 === -1
+        },
         isFutureMatch () { // 未来的赛事
             return this.match.state * 1 === 0
         },
@@ -129,11 +135,15 @@ export default {
     },
     methods: {
         async subscribeMatch () {
+            if (!this.isFutureMatch) {
+                return
+            }
             try {
                 const { code, msg } = await addSubscribeMatch(this.match.matchId)
                 if (code === statusCode.success) {
                     Message.success(msg)
-                    this.$emit('updateAppointment', { id: this.match.matchId, value: this.match.appointment === 1 ? 2 : 1 })
+                    this.$emit('refresh')
+                    // this.$emit('updateAppointment', { id: this.match.matchId, value: this.match.appointment === 1 ? 2 : 1 })
                 } else {
                     if (code === statusCode.isExpired) {
                         this.openLoginDialogMixin()

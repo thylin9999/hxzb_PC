@@ -50,7 +50,7 @@
                         <match-card-rect
                             :match="item"
                             :is-finish="competitionType===2"
-                            @updateAppointment="updateAppointment"
+                            @refresh="fetchData"
                         />
                     </li>
                 </ul>
@@ -179,6 +179,7 @@ export default {
                 this.list = data.list.reduce((all, item) => {
                     all.push({
                         ...item
+                        // state: 1
                     })
                     return all
                 }, [])
