@@ -81,8 +81,8 @@ export default {
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
 .footer {
-    height: 205px;
-    background-color: $background-black;
+    height: 175px;
+    //background-color: $background-black;
     background-color: #0F3F6A;
     .upper-section {
         height: calc(100% - 50px);
@@ -101,12 +101,7 @@ export default {
         .icon {
             width: 55px;
             height: 55px;
-            //border-radius: 50%;
-            //background-color: $background-gray;
         }
-    }
-    .version-info{
-        //margin-top: 35px;
     }
     .download-buttons {
         width: 145px;
@@ -118,8 +113,8 @@ export default {
     .qrcode {
         padding: 3px;
         .code {
-            width: 125px;
-            height: 125px;
+            width: 105px;
+            height: 105px;
             background-color: #eee;
         }
     }

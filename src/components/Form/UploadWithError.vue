@@ -3,7 +3,7 @@
         <div v-if="showLabel" class="label">
             <span>{{ label }}</span>
         </div>
-        <div class=" flex align-center flex-1" >
+        <div class=" flex flex-1" style="align-items: end;">
             <div
                 v-if="rowInfo.value"
                 class="show-image bg-no-repeat bg-center bg-size-100"
@@ -21,6 +21,7 @@
                 </span>
                 <input class="d-inline-block opacity-0 w-100 h-100" type="file" @change="beforeSubmit">
             </div>
+            <span class="font-12">推荐图片封面尺寸为 340 * 190</span>
         </div>
         <span v-if="showError" class="p-absolute error font-12 ">直播封面不能为空</span>
     </div>
@@ -115,8 +116,8 @@ export default {
     color: $text-error;
 }
 .show-image {
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 112px;
     .delete-mask {
         display: none;
         line-height: 100px;

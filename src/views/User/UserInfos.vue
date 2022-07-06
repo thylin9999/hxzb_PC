@@ -1,6 +1,6 @@
 <template>
 <div class="user font-16 font-medium light-background" :class="{'light-background': isLightHeader}">
-    <div v-if="!token" class="user-buttons font-20 font-400 text-center">
+    <div v-if="!token" class="user-buttons font-18 font-400 text-center">
         <span class="pointer" @click="openLogin">登录</span>
         <span class="">/</span>
         <span class="pointer" @click="openRegister">注册</span>
@@ -95,7 +95,7 @@ export default {
     border-radius: 20px;
     border: 1px solid #FCFFA7;
     width: 135px;
-    line-height: 40px;
+    line-height: 30px;
 }
 .user-logo {
     width: 35px;

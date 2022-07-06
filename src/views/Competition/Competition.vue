@@ -4,13 +4,13 @@
         :type.sync="competitionType"
         :time.sync="filterTime"
         @setToday="setToday"
+        @choseTime="fetchData"
     />
     <div class="content w-100 p-t-15 flex">
         <div class="left-bars flex justify-center p-t-10 bg-center bg-no-repeat bg-size-100">
             <ul class="">
                 <template v-for="type in matchTypes">
                     <li
-                        v-if="type.id < 3"
                         :key="type.id"
                         @click="changeType(type)"
                         :class="{'is-active': type.id === matchType}"
@@ -55,6 +55,7 @@
                     </li>
                 </ul>
                 <el-empty
+                    class="h-100"
                     v-else
                     :image-size="108"
                     description="暂无数据" />
@@ -70,6 +71,7 @@ import IconPng from '@/components/IconPng'
 import MatchCardRect from '@/views/Competition/MatchCardRect'
 import { getMatchList, getHostMatches } from '@/api/competition/competition'
 import dayjs from 'dayjs'
+import debounce from 'lodash.debounce'
 import { mapState } from 'vuex'
 export default {
     name: 'Competition',
@@ -111,12 +113,12 @@ export default {
                 id: 2,
                 title: '全部赛事'
             }]
-            // if (this.isToday && this.competitionType === 1) {
-            //     list.unshift({
-            //         id: 1,
-            //         title: '正在直播'
-            //     })
-            // }
+            if (this.isToday && this.competitionType === 1) {
+                list.unshift({
+                    id: 1,
+                    title: '进行中'
+                })
+            }
             return list
         },
         fetchDataParams () {
@@ -132,7 +134,7 @@ export default {
                 pageNumber: 1,
                 pageSize: 2000,
                 leagueId: null, // 联赛id，
-                playing: this.competitionType === 1 ? (this.matchType === 4 ? 2000 : 1000) : 3000,
+                playing: this.competitionType === 1 ? ((this.matchType === 4 || this.statusType === 1) ? 2000 : 1000) : 3000,
                 leagueType: this.matchType === 4 ? null : this.matchType, // 赛事分类，足球，篮球等
                 day: this.filterTime
             }
@@ -143,11 +145,13 @@ export default {
             handler () {
                 this.fetchData()
             },
-            deep: true
+            deep: true,
+            immediate: true
         },
         isToday: {
             handler () {
                 this.statusType = this.menus[0].id
+                // this.fetchData()
             },
             immediate: true
         }
@@ -159,6 +163,7 @@ export default {
         },
         changeMenu (menu) {
             this.statusType = menu.id
+            // this.fetchData()
         },
         changeType (type) {
             this.matchType = type.id
@@ -166,19 +171,23 @@ export default {
         changeTab (tab) {
             console.log(tab, 'tab')
         },
-        async fetchData () {
+        fetchData: debounce(async function () {
             const request = this.matchType === 3 ? getHostMatches : getMatchList
             try {
                 this.isLoading = true
                 const { data } = await request(this.apiParams)
-                console.log(data, 'data')
-                this.list = data.list
+                this.list = data.list.reduce((all, item) => {
+                    all.push({
+                        ...item
+                    })
+                    return all
+                }, [])
             } catch (e) {
                 console.log('出错了')
             } finally {
                 this.isLoading = false
             }
-        },
+        }, 100),
         updateAppointment ({ id, value }) {
             const temp = this.list.find(x => x.matchId === id)
             temp.appointment = value
@@ -191,7 +200,7 @@ export default {
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
 .competition-box {
-    height: calc(100vh - 295px);
+    height: calc(100vh - 245px);
     //height: calc(100vh - 90px);
 }
 .tabs {

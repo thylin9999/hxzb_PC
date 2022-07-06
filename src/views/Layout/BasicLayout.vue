@@ -59,7 +59,7 @@ export default {
 @import '@/theme/default-vars.scss';
 .basic-layout {
     .content-section {
-        min-height: calc(100% - 285px);
+        min-height: calc(100% - 245px);
         &.is-not-home {
             background-color: $background-gray2;
         }

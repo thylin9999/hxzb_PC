@@ -1,8 +1,8 @@
 <template>
-<div class="card w-100 rect bg-white flex align-center">
-    <div class="left-info p-l-30 flex align-center justify-between">
+<div class="card w-100 m-b-15 rect bg-white flex align-center">
+    <div class="left-info p-l-15 flex align-center justify-between">
         <div class="flex time-and-title flex-column justify-center font-regular align-center">
-            <span class="match-time font-30 m-b-15 font-400 ">{{ match.matchTime | filterTime}}</span>
+            <span class="match-time font-25 m-b-15 font-400 ">{{ match.matchTime | filterTime}}</span>
             <custom-span
                 class="match-title font-20 text-center"
                 :content="match.leagueChsShort"
@@ -15,7 +15,7 @@
                         backgroundImage: `url(${homeLogo})`
                     }"></div>
                     <custom-span
-                        class="font-regular w-100 text-center team-name m-t-10 font-18 font-400"
+                        class="font-regular w-100 text-center team-name m-t-10 font-16 font-400"
                         :content="match.homeChs"
                     />
                 </div>
@@ -31,20 +31,20 @@
                     }"
                     ></div>
                     <custom-span
-                        class="font-regular team-name w-100 text-center m-t-10 font-18 font-400"
+                        class="font-regular team-name w-100 text-center m-t-10 font-16 font-400"
                         :content="match.awayChs"
                     />
                 </div>
             </div>
         </div>
     </div>
-    <div class="right-host p-r-30 flex justify-between">
+    <div class="right-host p-r-20 flex justify-between">
         <div class="hosts overflow-x-auto">
             <ul class="flex flex-no-wrap">
                 <li
                     v-for="host in match.anchor_list"
                     :key="host.id"
-                    class="host-item flex pointer flex-column justify-center align-center"
+                    class="host-item m-r-5 flex pointer flex-column justify-center align-center"
                     @click="goToLiveRoom(host)"
                 >
                     <div class="icon bg-no-repeat bg-center bg-size-100"
@@ -57,25 +57,15 @@
             </ul>
         </div>
         <div class="button ">
-            <template v-if="isFinish">
-                <div class="is-subscribe flex align-center justify-center w-100 h-100">
-                    <icon-png :width="19" :height="20" icon="matches/appointment"/>
-                    <span class="font-16 m-l-10 font-400 font-regular">已结束</span>
-                </div>
-            </template>
-            <template v-else>
-                <div class="is-subscribe pointer flex align-center justify-center w-100 h-100" v-if="isGoing">
-                    <icon-png :width="19" :height="20" icon="matches/appointment"/>
-                    <span class="font-16 m-l-10 font-400 font-regular">比赛中</span>
-                </div>
-                <div
-                    class="un-subscribe pointer flex align-center justify-center w-100 h-100"
-                    @click="subscribeMatch"
-                    v-else>
-                    <icon-png :width="20" :height="19" icon="matches/going"/>
-                    <span class="font-16 m-l-10 font-400 font-regular">{{ isSubscribe ? '已预约' : '预约'}}</span>
-                </div>
-            </template>
+            <div
+                class=" pointer is-subscribe flex align-center justify-center w-100 h-100"
+                :class="{
+                    'un-subscribe': isFutureMatch && !isSubscribe,
+                }"
+                @click="subscribeMatch">
+                <icon-png class="m-r-5" v-if="isFutureMatch" :width="20" :height="19" :icon="iconName"/>
+                <span class="font-16 font-400 font-regular ">{{ buttonString }}</span>
+            </div>
 
         </div>
     </div>
@@ -118,8 +108,14 @@ export default {
     },
 
     computed: {
-        isGoing () {
-            return !matchStatus[this.match.state]
+        buttonString () {
+            return this.isFutureMatch ? (this.isSubscribe ? '已预约' : '预约') : matchStatus[this.match.state]
+        },
+        iconName () {
+            return this.isFutureMatch ? (this.isSubscribe ? 'matches/appointment' : 'matches/going') : 'matches/going'
+        },
+        isFutureMatch () { // 未来的赛事
+            return this.match.state * 1 === 0
         },
         isSubscribe () {
             return this.match.appointment * 1 === 1
@@ -162,9 +158,8 @@ export default {
 
 <style lang="scss" scoped>
 .card {
-    height: 136px;
-    padding: 22px 0;
-    margin-bottom: 18px;
+    height: 115px;
+    padding: 12px 0;
     border-radius: 10px;
 }
 .left-info {
@@ -198,8 +193,8 @@ export default {
             }
         }
         .icon {
-            width: 45px;
-            height: 45px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
         }
         .team-name {
