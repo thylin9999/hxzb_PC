@@ -40,7 +40,7 @@
                                 <span
                                     class="team-flag border-radius-50 m-r-10 bg-no-repeat bg-center bg-size-100 d-inline-block"
                                     :style="{
-                                        backgroundImage: `url(${match.homeLogo})`
+                                        backgroundImage: match.homeLogo ? `url(${match.homeLogo})` : `url(${matchLogo})`
                                     }"
                                 ></span>
                                 <span class="font-18">{{ match.homeChs}}</span>
@@ -52,7 +52,7 @@
                                 <span
                                     class="team-flag m-r-10 bg-no-repeat bg-center bg-size-100 d-inline-block"
                                     :style="{
-                                        backgroundImage: `url(${match.awayLogo})`
+                                        backgroundImage: match.awayLogo ? `url(${match.awayLogo})` : `url(${matchLogo})`
                                     }"
                                 ></span>
                                 <span class="font-15">{{ match.awayChs }}</span>
@@ -111,6 +111,7 @@ export default {
             },
             leftMove: false,
             rightMove: false,
+            matchLogo: require('../../assets/images/common/match-logo.png'),
             matches: []
         }
     },

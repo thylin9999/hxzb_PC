@@ -40,9 +40,9 @@
                             <div class="team  flex justify-between align-center">
                                 <div class="flex align-center">
                                 <span
-                                    class="team-flag m-r-10 bg-no-repeat bg-center bg-size-100 d-inline-block"
+                                    class="team-flag m-r-10 bg-no-repeat border-radius-50 bg-center bg-size-100 d-inline-block"
                                     :style="{
-                                        backgroundImage: `url(${match.homeLogo})`
+                                        backgroundImage: match.homeLogo ? `url(${match.homeLogo})` : `url(${matchLogo})`
                                     }"
                                 ></span>
                                     <span class="font-18">{{ match.homeChs}}</span>
@@ -52,9 +52,9 @@
                             <div class="team  flex justify-between align-center">
                                 <div class="flex align-center">
                                 <span
-                                    class="team-flag m-r-10 bg-no-repeat bg-center bg-size-100 d-inline-block"
+                                    class="team-flag m-r-10 bg-no-repeat border-radius-50 bg-center bg-size-100 d-inline-block"
                                     :style="{
-                                        backgroundImage: `url(${match.awayLogo})`
+                                        backgroundImage: match.awayLogo ? `url(${match.awayLogo})` : `url(${matchLogo})`
                                     }"
                                 ></span>
                                     <span class="font-15">{{ match.awayChs }}</span>
@@ -105,6 +105,7 @@ export default {
                 pageSize: 20
             },
             matches: [],
+            matchLogo: require('../../assets/images/common/match-logo.png'),
             leftMove: false,
             rightMove: false
         }
