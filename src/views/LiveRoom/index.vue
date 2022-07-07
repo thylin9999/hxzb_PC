@@ -10,10 +10,32 @@
                     </div>
                     <div class="hot"><img :src="require('@/assets/images/room/hot.png')" alt=""> {{ anchorInfo.heat }}
                     </div>
-                    <div class="watch_phone">手机观看</div>
+                    <div class="watch_phone" @mousemove="showModule = true" @mouseleave="showModule = false">手机观看
+                        <div v-if="showModule"
+                             class="showModule scale clear">
+                            <div class="txt_call">精彩解说，尽在海豹直播！</div>
+                            <div class="txt_share_box">
+                                <span>分享到：</span>
+                                <div class="img_share_box">
+                                    <img :src="require('@/assets/images/room/qq.png')" class="btn" alt=""
+                                         @click="shareClick('qq')">
+                                    <img :src="require('@/assets/images/room/qq_zoom.png')" class="btn" alt=""
+                                         @click="shareClick('qqZone')">
+                                </div>
+                            </div>
+                            <div class="box_copy">
+                                <input disabled type="text" class="inp_url" v-model="shareUrl">
+                                <span class="btn copy" @click="copy">点击分享</span>
+                            </div>
+                            <div class="qr_share">
+                                <QR :widthT="95"></QR>
+                                <p class="txt">微信扫码分享</p>
+                            </div>
+                        </div>
+                    </div>
                     <div class="book_box">
                         {{ anchorInfo.follow }}人 | <span class="book_btn" v-throttle="[()=>followHost(),3000]"
-                                                         >{{ anchorInfo.is_follow ? '已订阅' : '订阅'
+                    >{{ anchorInfo.is_follow ? '已订阅' : '订阅'
                         }} </span>
                     </div>
                 </div>
@@ -30,6 +52,7 @@
 </template>
 
 <script>
+import QR from '@/views/Layout/QR'
 import Chat from './chat/index'
 import RecommendAndRank from '@/components/RecommendAndRank'
 import VideoRoom from '@/components/VideoRoom'
@@ -42,12 +65,15 @@ import { mapState } from 'vuex'
 export default {
     name: 'liveRoom',
     components: {
+        QR,
         Chat,
         RecommendAndRank,
         VideoRoom
     },
     data () {
         return {
+            shareUrl: 'http://h5.wuhaicj.com/#/home',
+            showModule: false,
             matchInfo: null,
             roomInfo: null,
             anchorInfo: null
@@ -97,6 +123,38 @@ export default {
             } catch (e) {
                 console.log('出错了')
             }
+        },
+        shareClick (type) {
+            const title = '海豹直播'
+            const summary = '海豹直播将为您呈现全球经典赛事解说'
+            const image = require('@/assets/logo.png')
+            const url = window.location.href// 获取当前网页地址
+            let sharesinastring = null // 跳转的url地址;
+            if (type === 'qq') { // 扫码  移动端
+                let _shareUrl = 'https://connect.qq.com/widget/shareqq/index.html?'
+                _shareUrl += 'url=' + encodeURIComponent('http://h5.wuhaicj.com/#/home' || url)
+                _shareUrl += '&title=' + encodeURIComponent(title || '自定义')
+                window.open(_shareUrl, '_blank')// qq
+            }
+            if (type === 'qqZone') {
+                sharesinastring = `https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=${url}&title=${title}&pics=${image}&summary=${summary}`
+                window.open(sharesinastring, '_blank')// qq空间
+            }
+        },
+        copy () { // 复制内容
+            const domUrl = document.createElement('input')
+            domUrl.value = this.shareUrl
+            domUrl.id = 'creatDom'
+            document.body.appendChild(domUrl)
+            domUrl.select() // 选择对象
+            document.execCommand('Copy') // 执行浏览器复制命令
+            const creatDom = document.getElementById('creatDom')
+            creatDom.parentNode.removeChild(creatDom)
+            Message({
+                type: 'success',
+                message: '已成功复制到剪切板',
+                duration: 1000
+            })
         }
     }
 }
@@ -166,20 +224,94 @@ export default {
                 }
 
                 .watch_phone {
-                    color: #9f9f9f;
+                    cursor: pointer;
                     border-radius: 5px;
                     padding: 10px 20px;
                     font-size: 12px;
                     position: absolute;
                     bottom: 10px;
                     right: 190px;
-                }
-
-                .watch_phone:hover {
+                    cursor: pointer;
                     color: #fff;
-                    font-size: 12px;
-                    position: absolute;
                     background-color: #fa5406;
+
+                    .showModule {
+                        position: absolute;
+                        top: 32px;
+                        left: -180px;
+                        width: 360px;
+                        height: 180px;
+                        padding: 15px 16px 20px;
+                        border-radius: 4px;
+                        box-shadow: 0 8px 10px 0 rgba(40, 38, 45, 0.2);
+                        background-color: #fff;
+                        z-index: 9999;
+
+                        .txt_call {
+                            float: left;
+                            width: 100%;
+                            height: 20px;
+                            font-size: 16px;
+                            color: #28262d;
+                            text-align: center;
+                            line-height: 25px;
+                        }
+
+                        .txt_share_box {
+                            width: 60%;
+                            height: 90px;
+                            position: absolute;
+                            top: 50px;
+                            font-size: 14px;
+
+                            .img_share_box {
+                                display: flex;
+                                justify-content: space-evenly;
+                            }
+                        }
+
+                        .box_copy {
+                            float: left;
+                            position: absolute;
+                            bottom: 25px;
+                            left: 20px;
+
+                            .inp_url {
+                                height: 32px;
+                                border: solid 1px rgba(40, 38, 45, 0.2);
+                                border-top-left-radius: 4px;
+                                border-bottom-left-radius: 4px;
+                                border-right: none;
+                                background-color: #fff;
+                                box-sizing: border-box;
+                                text-indent: 20px;
+                            }
+
+                            .copy {
+                                color: #fff;
+                                display: inline-block;
+                                padding: 8px 13px;
+                                border-top-right-radius: 4px;
+                                border-bottom-right-radius: 4px;
+                                border-left: 0;
+                                background-image: linear-gradient(to right, #cb172d 0%, #af0f23 100%);
+                            }
+                        }
+
+                        .qr_share {
+                            width: 100px;
+                            height: 100px;
+                            position: absolute;
+                            bottom: 36px;
+                            right: 16px;
+
+                            .txt {
+                                width: 100%;
+                                color: #000000;
+                                text-align: center;
+                            }
+                        }
+                    }
                 }
 
                 .book_box {
