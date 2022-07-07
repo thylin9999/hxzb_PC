@@ -47,7 +47,7 @@
                 <Chat></Chat>
             </div>
         </div>
-        <RecommendAndRank class="tj" style="width: 1200px"></RecommendAndRank>
+        <RecommendAndRank class="tj wrap-1200" is-live></RecommendAndRank>
     </div>
 </template>
 

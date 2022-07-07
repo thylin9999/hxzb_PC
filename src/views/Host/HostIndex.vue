@@ -1,13 +1,13 @@
 <template>
 <div class="live-broad-cast">
-    <div class="wrap-1800">
+    <div class="w-100 p-l-15 p-r-15">
         <MatchListRow />
     </div>
-    <hot-recommend class="wrap-1800"/>
+    <hot-recommend class="w-100"/>
     <div class="w-100 banner m-b-30 bg-no-repeat bg-center bg-size-100" :style="{
         backgroundImage: `url(${banner})`
     }"></div>
-    <host-list class="wrap-1800"/>
+    <host-list class=""/>
 </div>
 </template>
 
@@ -32,7 +32,7 @@ export default {
 
 <style lang="scss" scoped>
 .banner {
-    height: 300px;
+    height: 15.6vw;
     margin-top: 55px;
 }
 ::v-deep {

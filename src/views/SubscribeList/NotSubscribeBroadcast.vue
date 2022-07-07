@@ -7,16 +7,6 @@
         v-loading="isLoading">
         <div v-if="tableData.length" class="host-list">
             <ul v-if="tableData.length" class="w-100 flex flex-wrap">
-<!--                <li-->
-<!--                    class=" p-t-25 p-b-25 item"-->
-<!--                    v-for="host in tableData"-->
-<!--                    :key="host.id"-->
-<!--                >-->
-<!--                    <host-card-->
-<!--                        :host-info="host"-->
-<!--                        @refresh="fetchData"-->
-<!--                    />-->
-<!--                </li>-->
                 <li
                     v-for="host in tableData"
                     :key="host.id"
@@ -52,7 +42,6 @@
 
 <script>
 import TitleRow from '@/components/TitleRow'
-import HostCard from '@/components/HostCard'
 import { getOfflineHost } from '@/api/Host/Host'
 import CustomSpan from '@/components/CustomSpan'
 
@@ -60,7 +49,6 @@ export default {
     name: 'NotSubscribeBroadcast',
     components: {
         TitleRow,
-        HostCard,
         CustomSpan
     },
     data () {
@@ -103,7 +91,7 @@ export default {
 
 <style lang="scss" scoped>
 .list {
-    min-height: 300px;
+    //min-height: 300px;
     .item {
         width: 290px;
     }

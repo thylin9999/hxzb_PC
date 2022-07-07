@@ -205,7 +205,7 @@ export default {
             try {
                 const { data, code, msg } = await getMatchList({
                     leagueType: this.category,
-                    pageSize: 2000,
+                    pageSize: 20,
                     pageNumber: 1,
                     day: dayjs().format('YYYY-MM-DD')
                 })

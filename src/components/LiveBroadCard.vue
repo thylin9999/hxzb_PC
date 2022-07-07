@@ -80,7 +80,8 @@ export default {
             return this.hasCover ? this.info.live_cover : require('../assets/images/common/host-blank.png')
         },
         topImg () {
-            return require(`../assets/images/matches/top${this.index + 1}.png`)
+            const num = this.index > 4 ? 4 : this.index
+            return require(`../assets/images/matches/top${num + 1}.png`)
         },
         maskBg () {
             return {

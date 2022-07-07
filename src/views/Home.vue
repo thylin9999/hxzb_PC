@@ -152,7 +152,6 @@ export default {
 .banner {
     height: 250px;
     border-radius: 15px;
-    margin-top: 20px;
     margin-bottom: 40px;
     background-image: url('../assets/images/home/banner.png');
 }

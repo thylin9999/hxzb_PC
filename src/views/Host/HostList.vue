@@ -1,5 +1,5 @@
 <template>
-<div class="hot-live">
+<div class="hot-live" :class="{'is-not-home-box': !isHome}">
     <div class="p-relative">
         <title-row icon="sport" title="全部直播" class="m-b-30">
             <more-button v-if="isHome" @click.native="goToLiveBroadCast"/>
@@ -18,6 +18,7 @@
                     v-for="item in list"
                     :key="item.id"
                     class="m-b-25 "
+                    :class="{'m-b-25': isHome, 'm-r-20': !isHome}"
                 >
                     <live-broad-card
                         :info="item"
@@ -126,6 +127,9 @@ export default {
 <style lang="scss" scoped>
 .hot-live {
     margin-top: 40px;
+    &.is-not-home-box {
+        padding: 0 50px;
+    }
 }
 .hosts{
     &.is-home {
@@ -138,15 +142,22 @@ export default {
     }
     &.is-not-home {
         li {
-            margin-right: 25px;
-        }
-        li:nth-child(5n) {
-            margin-right: 0;
+            margin-right: 20px;
         }
     }
 }
 .match-types {
     left: 200px;
     top: 5px;
+}
+@media screen and (max-width: 1350px) {
+    .is-not-home-box {
+        padding: 0 10px!important;
+    }
+}
+@media screen and (max-width: 1225px) {
+    .is-not-home-box {
+        padding: 0 !important;
+    }
 }
 </style>

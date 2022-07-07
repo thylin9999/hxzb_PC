@@ -1,12 +1,12 @@
 <template>
-    <div class="p-t-30">
+    <div class="p-t-30" :class="{'is-live-broadcast': isLive}">
         <div class="host-recommend w-100 m-b-20">
             <title-row class="title-icon" icon="hot" title="直播推荐" />
 
             <div class="competition-list  m-t-15">
                 <ul class="w-100 flex flex-wrap" v-if="list.length">
                     <li
-                        class="m-r-25 p-t-15 p-b-15"
+                        class=" p-t-15 p-b-15"
                         v-for="host in list"
                         :key="host.id"
                     >
@@ -31,6 +31,12 @@ import { getOnlineBroadcast } from '@/api/competition/competition'
 
 export default {
     name: 'RecommendAndRank',
+    props: {
+        isLive: {
+            type: Boolean,
+            default: false
+        }
+    },
     components: {
         TitleRow,
         LiveBroadCard
@@ -62,7 +68,19 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
-
+.competition-list {
+    li {
+        margin-right: 25px;
+    }
+}
+.is-live-broadcast {
+    li {
+        margin-right: 20px;
+        &:nth-child(4n) {
+            margin-right: 0!important;
+        }
+    }
+}
 ::v-deep {
     .title-icon{
         .icon {
@@ -70,5 +88,6 @@ export default {
             height: 39px;
         }
     }
+
 }
 </style>

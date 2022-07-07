@@ -34,7 +34,7 @@ export function getHotBroadcast ({ pageNumber = 1, pageSize = 5 }) {
 }
 
 // 热门直播
-export function getHotRooms ({ pageNumber = 1, pageSize = 5, type = 0 }) {
+export function getHotRooms ({ pageNumber = 1, pageSize = 2000, type = 0 }) {
     return request({
         method: 'post',
         url: url.getHotRooms,
