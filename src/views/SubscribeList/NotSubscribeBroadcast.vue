@@ -1,5 +1,5 @@
 <template>
-<div class="wrap-1800 p-t-15 ">
+<div class=" p-t-15 ">
     <title-row class="title-row m-b-25" icon="un-live" title="未开播" />
     <div
         class="list bg-white p-t-15 p-b-25"
@@ -7,15 +7,41 @@
         v-loading="isLoading">
         <div v-if="tableData.length" class="host-list">
             <ul v-if="tableData.length" class="w-100 flex flex-wrap">
+<!--                <li-->
+<!--                    class=" p-t-25 p-b-25 item"-->
+<!--                    v-for="host in tableData"-->
+<!--                    :key="host.id"-->
+<!--                >-->
+<!--                    <host-card-->
+<!--                        :host-info="host"-->
+<!--                        @refresh="fetchData"-->
+<!--                    />-->
+<!--                </li>-->
                 <li
-                    class=" p-t-25 p-b-25 item"
                     v-for="host in tableData"
                     :key="host.id"
+                    class="flex  host-item align-center"
                 >
-                    <host-card
-                        :host-info="host"
-                        @refresh="fetchData"
-                    />
+                    <div class="left-section flex align-center">
+                        <div
+                            class="icon border-radius-50 m-r-10 bg-no-repeat bg-center bg-size-100"
+                            :style="{
+                                backgroundImage: `url(${host.logo})`
+                            }"
+                        ></div>
+                        <div class="flex host-info flex-column ">
+                            <span class="font-16 host-name font-regular">{{ host.anchor_name }}</span>
+                            <custom-span
+                                class="font-12 m-t-10 text-888 w-100"
+                                :content="host.sign || replaceSign"
+                            />
+                        </div>
+                    </div>
+                    <span
+                        class="subscribe-button text-center font-16 pointer"
+                        :class="{'is-subscribed': host.isSubscribe }"
+                        v-throttle="[()=>followOrUnFollowHost(host),3000]"
+                    >{{ host.isSubscribe ? '已订阅' : '订阅'}}</span>
                 </li>
             </ul>
         </div>
@@ -28,21 +54,29 @@
 import TitleRow from '@/components/TitleRow'
 import HostCard from '@/components/HostCard'
 import { getOfflineHost } from '@/api/Host/Host'
+import CustomSpan from '@/components/CustomSpan'
 
 export default {
     name: 'NotSubscribeBroadcast',
     components: {
         TitleRow,
-        HostCard
+        HostCard,
+        CustomSpan
     },
     data () {
         return {
             tableData: [],
             isLoading: false
+
         }
     },
     created () {
         this.fetchData()
+    },
+    computed: {
+        replaceSign () {
+            return '暂无主播简介'
+        }
     },
     methods: {
         async fetchData () {
@@ -72,7 +106,44 @@ export default {
     min-height: 300px;
     .item {
         width: 290px;
-        padding-left: 85px;
+    }
+}
+.host-list {
+    padding: 0 20px 0 30px;
+    .host-item {
+        margin: 12.5px 50px 12.5px 0;
+
+    }
+    .left-section {
+        width: calc(100%  - 120px);
+        .host-info {
+            width: calc(100% - 65px);
+        }
+        .host-name{
+            line-height: 16px;
+            color: #444343;
+        }
+        .icon {
+            width: 49.5px;
+            height: 47.5px;
+        }
+    }
+}
+.subscribe-button {
+    color: #05195A;
+    font-weight: 400;
+    line-height: 30px;
+    width: 120px;
+    height: 30px;
+    border-radius: 16px;
+    border: 1px solid #05195A;
+    &.is-subscribed {
+        color: #6B6B6B;
+        border: 1px solid #6B6B6B;
+    }
+    &:hover {
+        background-color: #05195A;
+        color: #fff;
     }
 }
 ::v-deep {

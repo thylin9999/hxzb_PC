@@ -1,13 +1,12 @@
 <template>
-    <div class="wrap-1800 p-t-30">
-
+    <div class="p-t-30">
         <div class="host-recommend w-100 m-b-20">
             <title-row class="title-icon" icon="hot" title="直播推荐" />
 
-            <div class="competition-list p-15 m-t-15">
+            <div class="competition-list  m-t-15">
                 <ul class="w-100 flex flex-wrap" v-if="list.length">
                     <li
-                        class="m-l-5 m-r-5 p-t-15 p-b-15"
+                        class="m-r-25 p-t-15 p-b-15"
                         v-for="host in list"
                         :key="host.id"
                     >

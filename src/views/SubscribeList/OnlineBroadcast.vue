@@ -1,5 +1,5 @@
 <template>
-<div class="wrap-1800 p-t-15 ">
+<div class=" p-t-15">
     <title-row icon="tv" title="正在直播" />
     <div class="online-broadcast"
          v-loading="isLoading"
@@ -69,11 +69,8 @@ export default {
 }
 .online-broadcast {
     li {
-        width: 340px;
+        width: 284px;
         margin-right: 25px;
-        &:nth-child(5n) {
-            margin-right: 0;
-        }
     }
 }
 ::v-deep {
@@ -81,4 +78,5 @@ export default {
         padding: 0!important;
     }
 }
+
 </style>
