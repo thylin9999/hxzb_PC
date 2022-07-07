@@ -22,6 +22,31 @@ export function phone (value) {
     }
 }
 
+export function throttle (fn, wait = 1000) {  //节流
+    let last = 0
+    return function () {
+        let now = Date.now()
+        if (now - last > wait) {
+            fn.apply(this, arguments)
+            last = now
+        }
+    }
+}
+
+export function debounce(fn, wait = 1000) {  //防抖
+    let timer = null
+    return function () {
+        let now = !timer
+        timer && clearTimeout(timer)
+        timer = setTimeout(() => {
+            timer = null
+        }, wait)
+        if (now) {
+            fn.apply(this, arguments)
+        }
+    }
+}
+
 export const errorMessage = {
     isRequire: '不能为空',
     phone: '请输入正确的手机号码'

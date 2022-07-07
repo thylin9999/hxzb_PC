@@ -28,7 +28,7 @@
                             <div class="p-absolute match-status flex align-center text-center" :class="{'is-waiting': !match.isGoing}">
                                 <span class="book-icon d-inline-block m-r-5 bg-center bg-no-repeat bg-size-100" v-if="!match.isGoing"></span>
                                 <span
-                                    @click="book(match)"
+                                    v-throttle="[()=>book(match),3000]"
                                     class=" font-12 pointer"
                                     :class="{'text-white': match.isSubscribe, 'pointer': !match.isSubscribe }"
                                 >{{
@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import { getMatchList, getHostMatches, addSubscribeMatch } from '@/api/competition/competition'
+import { getHostMatches, addSubscribeMatch } from '@/api/competition/competition'
 import dayjs from 'dayjs'
 import CustomSpan from '@/components/CustomSpan'
 import { Message } from 'element-ui'

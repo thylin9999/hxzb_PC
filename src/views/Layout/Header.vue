@@ -13,7 +13,7 @@
                     :class="{ 'is-active': currentId === menu.id}"
                     @click="changeTab(menu)"
                 >
-                    <span class="font-18">{{ menu.text }}</span>
+                    <span class="font-16">{{ menu.text }}</span>
                 </li>
             </ul>
         </div>
@@ -106,7 +106,7 @@ export default {
     width: 1200px;
     margin: auto;
     .logo {
-        height: 50px;
+        height: 40px;
     }
     .menus {
         li {

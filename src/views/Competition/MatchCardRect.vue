@@ -62,7 +62,7 @@
                 :class="{
                     'un-subscribe': isFutureMatch && !isSubscribe,
                 }"
-                @click="subscribeMatch">
+                v-throttle="[()=>subscribeMatch(),3000]">
                 <icon-png class="m-r-5" v-if="isFutureMatch" :width="20" :height="19" :icon="iconName"/>
                 <span class="font-16 font-400 font-regular ">{{ buttonString }}</span>
             </div>

@@ -12,8 +12,8 @@
                     </div>
                     <div class="watch_phone">手机观看</div>
                     <div class="book_box">
-                        {{ anchorInfo.follow }}人 | <span class="book_btn"
-                                                         @click="followHost">{{ anchorInfo.is_follow ? '已订阅' : '订阅'
+                        {{ anchorInfo.follow }}人 | <span class="book_btn" v-throttle="[()=>followHost(),3000]"
+                                                         >{{ anchorInfo.is_follow ? '已订阅' : '订阅'
                         }} </span>
                     </div>
                 </div>

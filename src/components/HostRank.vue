@@ -32,7 +32,7 @@
                     <span
                         class="subscribe-button text-center font-16 pointer"
                         :class="{'is-subscribed': host.isSubscribe }"
-                        @click="followOrUnFollowHost(host)"
+                        v-throttle="[()=>followOrUnFollowHost(host),3000]"
                     >{{ host.isSubscribe ? '已订阅' : '订阅'}}</span>
                 </li>
             </ul>
@@ -62,7 +62,7 @@
                     <span
                         class="subscribe-button text-center font-16 pointer"
                         :class="{'is-subscribed': host.isSubscribe }"
-                        @click="followOrUnFollowHost(host)"
+                        v-throttle="[()=>followOrUnFollowHost(host),3000]"
                     >{{ host.isSubscribe ? '已订阅' : '订阅'}}</span>
                 </li>
             </ul>
