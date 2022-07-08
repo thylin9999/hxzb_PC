@@ -4,11 +4,15 @@
             <div class="left">
                 <div class="top">
                     <img class="img_title" :src="anchorInfo.logo" alt="">
-                    <div class="vs" v-if="matchInfo">{{ matchInfo.homeChs }} VS {{ matchInfo.awayChs }}</div>
-                    <div class="anchor"><img :src="require('@/assets/images/room/man.png')" alt="">
+                    <div class="room_title" v-if="roomInfo">{{ roomInfo.room_title }}</div>
+                    <div class="sign_list">
+                      <div class="anchor"><img class="icon" :src="require('@/assets/images/room/man.png')" alt="">
                         {{ anchorInfo.anchor_name }}
-                    </div>
-                    <div class="hot"><img :src="require('@/assets/images/room/hot.png')" alt=""> {{ anchorInfo.heat }}
+                      </div>
+                      <div class="hot"><img class="icon" :src="require('@/assets/images/room/hot.png')" alt=""> {{ anchorInfo.heat }}
+                      </div>
+                      <div class="room_no">No：<span class="no">{{anchorInfo.member_id}}</span> </div>
+                      <div class="sign sigh_item">专业</div>
                     </div>
                     <div class="watch_phone" @mousemove="showModule = true" @mouseleave="showModule = false">手机观看
                         <div v-if="showModule"
@@ -25,11 +29,11 @@
                             </div>
                             <div class="box_copy">
                                 <input disabled type="text" class="inp_url" v-model="shareUrl">
-                                <span class="btn copy" @click="copy">点击分享</span>
+                                <span class="btn copy" @click="copy">复制链接</span>
                             </div>
                             <div class="qr_share">
                                 <QR :widthT="95"></QR>
-                                <p class="txt">微信扫码分享</p>
+                                <p class="txt">扫码分享</p>
                             </div>
                         </div>
                     </div>
@@ -40,7 +44,9 @@
                     </div>
                 </div>
                 <div class="video_box">
-                    <VideoRoom :videoInfo="roomInfo" class="video_con"></VideoRoom>
+                    <VideoRoom v-if="roomInfo.live_status == 2" :videoInfo="roomInfo"></VideoRoom>
+                    <CloseRecom v-else class="closeRecommend"></CloseRecom>
+                    <div class="leaveStatus" v-if="roomInfo.live_status == 1 ">主播已离开</div>
                 </div>
             </div>
             <div class="right">
@@ -61,6 +67,8 @@ import { liveRoom } from '@/api/competition/competition'
 import { Message } from 'element-ui'
 import { followHost } from '@/api/Host/Host'
 import { mapState } from 'vuex'
+import CloseRecom from './closeRecom'
+import { Copy } from '@/utils/validator'
 
 export default {
     name: 'liveRoom',
@@ -68,7 +76,8 @@ export default {
         QR,
         Chat,
         RecommendAndRank,
-        VideoRoom
+        VideoRoom,
+        CloseRecom
     },
     data () {
         return {
@@ -142,19 +151,7 @@ export default {
             }
         },
         copy () { // 复制内容
-            const domUrl = document.createElement('input')
-            domUrl.value = this.shareUrl
-            domUrl.id = 'creatDom'
-            document.body.appendChild(domUrl)
-            domUrl.select() // 选择对象
-            document.execCommand('Copy') // 执行浏览器复制命令
-            const creatDom = document.getElementById('creatDom')
-            creatDom.parentNode.removeChild(creatDom)
-            Message({
-                type: 'success',
-                message: '已成功复制到剪切板',
-                duration: 1000
-            })
+            Copy(this.shareUrl)
         }
     }
 }
@@ -189,38 +186,64 @@ export default {
                     border-radius: 50%;
                 }
 
-                .vs {
-                    font-size: 17px;
+                .room_title {
+                    font-size: 18px;
                     position: absolute;
                     top: 20px;
-                    left: 90px;
+                    left: 110px;
                     color: #333;
+                    font-weight: 600;
                 }
 
-                .anchor {
+                .sign_list{
+                  position: absolute;
+                  overflow: hidden;
+                  bottom: 20px;
+                  left: 90px;
+                  font-size: 12px;
+                  color: #9f9f9f;
+                  .anchor {
                     height: 20px;
-                    max-width: 120px;
                     padding-left: 20px;
                     font-size: 12px;
-                    position: absolute;
-                    bottom: 20px;
-                    left: 90px;
                     color: #9f9f9f;
                     overflow: hidden;
+                    float: left;
+                  }
 
-                    .txt {
-                        color: #555;
-                    }
-                }
-
-                .hot {
+                  .hot {
+                    padding-left: 10px;
+                    float: left;
                     height: 20px;
-                    padding-left: 30px;
+                    font-size: 14px;
+                  }
+
+                  .icon{
+                    width: 14px;
+                    height: 14px;
+                    vertical-align: center;
+                    line-height: 20px;
+                  }
+                  .room_no{
+                    height: 20px;
+                    float: left;
+                    line-height: 14px;
+                    padding-left: 15px;
+                    .no{
+                      color: #333;
+                    }
+                  }
+
+                  .sigh_item{
+                    float: left;
+                    padding: 4px 8px;
+                    background: rgba(51,85,255,.1);
+                    color: #37f;
+                    border-radius: 2px;
                     font-size: 12px;
-                    position: absolute;
-                    bottom: 18px;
-                    left: 190px;
-                    color: #9f9f9f;
+                    margin-left: 10px;
+                    line-height: 11px;
+                  }
                 }
 
                 .watch_phone {
@@ -230,7 +253,7 @@ export default {
                     font-size: 12px;
                     position: absolute;
                     bottom: 10px;
-                    right: 190px;
+                    right: 135px;
                     cursor: pointer;
                     color: #fff;
                     background-color: #fa5406;
@@ -277,8 +300,8 @@ export default {
                             left: 20px;
 
                             .inp_url {
-                                height: 32px;
-                                border: solid 1px rgba(40, 38, 45, 0.2);
+                                height: 31px;
+                                border: solid 1px #ccc;
                                 border-top-left-radius: 4px;
                                 border-bottom-left-radius: 4px;
                                 border-right: none;
@@ -290,11 +313,11 @@ export default {
                             .copy {
                                 color: #fff;
                                 display: inline-block;
-                                padding: 8px 13px;
+                                padding: 9px 13px 8px;
                                 border-top-right-radius: 4px;
                                 border-bottom-right-radius: 4px;
                                 border-left: 0;
-                                background-image: linear-gradient(to right, #cb172d 0%, #af0f23 100%);
+                                background-color: #689fee;
                             }
                         }
 
@@ -333,6 +356,36 @@ export default {
             .video_box {
                 width: 100%;
                 height: 490px;
+                position: relative;
+                background-color: #000;
+                .closeRecommend{
+                  position: absolute;
+                  width: 100%;
+                  bottom: 50px;
+                }
+                .leaveStatus {
+                  letter-spacing: 2px;
+                  cursor: pointer;
+                  position: absolute;
+                  top: 90px;
+                  left: 0;
+                  right: 0;
+                  margin: auto;
+                  width: 152px;
+                  height: 52px;
+                  border-radius: 5px;
+                  color: #fff;
+                  font-size: 15px;
+                  text-align: center;
+                  line-height: 52px;
+                  background-color: #ff5d23;
+
+                  .iconMute {
+                    width: 18px;
+                    height: 18px;
+                    vertical-align: text-bottom;
+                  }
+                }
             }
         }
 
