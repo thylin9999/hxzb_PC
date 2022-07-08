@@ -9,6 +9,7 @@
                 v-if="!item.hide"
                 :key="item.key"
                 class="flex item flex-column pointer align-center justify-center font-14 p-relative"
+                @click="command(item)"
             >
                 <div class="icon">
                     <svg-icon  :icon-class="item.key"></svg-icon>
@@ -27,6 +28,7 @@
 
 <script>
 import QR from '@/views/Layout/QR'
+import { Copy } from '@/utils/validator'
 import { mapState } from 'vuex'
 export default {
     name: 'SideBar',
@@ -35,24 +37,6 @@ export default {
     },
     data () {
         return {
-            // list: [
-            //     {
-            //         key: 'download',
-            //         title: '下载'
-            //     },
-            //     {
-            //         key: 'broadcast',
-            //         title: '开播'
-            //     },
-            //     {
-            //         key: 'share',
-            //         title: '分享'
-            //     },
-            //     {
-            //         key: 'service',
-            //         title: '客服'
-            //     }
-            // ]
         }
     },
     computed: {
@@ -80,6 +64,25 @@ export default {
                     title: '客服'
                 }
             ]
+        }
+    },
+    methods: {
+        command (item) {
+            if (item.key === 'broadcast') {
+                this.$router.push({
+                    name: 'PersonalCenter',
+                    params: {
+                        tabId: 6
+                    }
+                })
+            } else if (item.key === 'share') {
+                // 分享链接
+                const { origin } = window.location
+                Copy(origin)
+            } else if (item.key === 'service') {
+                // 客服地址
+                window.open('https://tb.53kf.com/code/client/b8ccba789e8f30713194b500e84013f22/1', '_blank')
+            }
         }
     }
 }
@@ -114,13 +117,13 @@ export default {
         width: 200px;
         height: 280px;
         top: 0;
-        right: 50px;
+        right: 60px;
         background-image: url('../../assets/images/common/download-code-bg.png');
         display: none;
         .box {
-            width: 150px;
-            height: 150px;
-            margin: 80px auto 0;
+            width: 145px;
+            height: 145px;
+            margin: 75px auto 0;
         }
     }
 }
