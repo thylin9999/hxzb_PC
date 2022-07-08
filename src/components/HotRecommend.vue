@@ -61,8 +61,8 @@ export default {
                 this.isLoading = true
                 const { data } = await getHotRooms({})
                 // 首页展示4条，直播页面展示5条
-                // this.list = this.isHome ? data.list.slice(0, 4) : data.list
-                this.list = data.list.concat(data.list)
+                this.list = this.isHome ? data.list.slice(0, 4) : data.list
+                // this.list = data.list.concat(data.list)
             } catch (e) {
                 console.log('出粗了')
             } finally {

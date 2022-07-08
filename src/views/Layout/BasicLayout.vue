@@ -5,22 +5,21 @@
             <router-view class="content-router "></router-view>
         </div>
         <Footer />
-<!--        <login />-->
+        <SideBar />
     </div>
 </template>
 <script>
 import Header from './Header.vue'
 import Footer from '@/views/Layout/Footer'
-import Login from '@/views/User/Login'
 import { mapState, mapMutations } from 'vuex'
 import { getItem } from '@/utils/cookie'
-
+import SideBar from '@/views/Layout/SideBar'
 export default {
     name: 'BasicLayout',
     components: {
         Header,
         Footer,
-        Login
+        SideBar
     },
     data () {
         return {
