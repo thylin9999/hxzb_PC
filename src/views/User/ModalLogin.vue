@@ -106,6 +106,7 @@ export default {
         SubmitButton,
         InputWithError
     },
+    inject: ['reload'],
     data () {
         return {
             form: {
@@ -222,6 +223,7 @@ export default {
                         // 这里要保存用户的信息
                         this.closeLoginDialog()
                         this.initForm()
+                        this.reload()
                         // this.$router.push({ path: '/' })
                     }
                 } else {

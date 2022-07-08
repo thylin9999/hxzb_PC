@@ -40,8 +40,11 @@ export default {
             default: false
         }
     },
+    inject: ['reload'],
     data () {
-        return {}
+        return {
+            isHome: false
+        }
     },
     computed: {
         ...mapState('user', ['token', 'nickname', 'avatar', 'is_anchor']),
@@ -51,6 +54,15 @@ export default {
         isAnchor () {
             return this.is_anchor === 2 // 1 非主播， 2，主播
         }
+    },
+    watch: {
+        '$route': {
+            handler () {
+                this.isHome = this.$route.meta.subId === 1
+            }
+        },
+        deep: true,
+        immediate: true
     },
     methods: {
         ...mapActions('user', ['logoutAction']),
@@ -73,7 +85,11 @@ export default {
                 this.goToUserCenter()
             } else {
                 this.logoutAction()
-                this.$router.push('/')
+                if (this.$route.name === 'Home') {
+                    this.reload()
+                } else {
+                    this.$router.push('/')
+                }
             }
         },
         openLiveCast () {
