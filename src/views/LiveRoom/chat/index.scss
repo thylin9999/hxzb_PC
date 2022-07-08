@@ -29,7 +29,7 @@
       background-color: #f3f5f9;
 
       .chat_list {
-        width: 90%;
+        width: 100%;
         margin: auto;
         //overflow: scroll;
 
@@ -38,18 +38,44 @@
           font-size: 14px;
           padding: 2px 0;
 
-          .come {
-            .nickname {
-              color: #1c73e9;
+          .msg_item {
+            .msg_box {
+              width: 90%;
+              margin: auto;
+
+              .msg_title {
+                color: #1c73e9;
+              }
+
+              .notice {
+                color: #b26f20;
+              }
+
+              .nickname {
+                color: #1c73e9;
+              }
             }
           }
+        }
+
+        .announce {
+          padding: 5px 0;
+          background-color: #fffaf6;
         }
       }
     }
 
-    .chat_con::-webkit-scrollbar { width: 0 !important }
-    .chat_con { -ms-overflow-style: none; }
-    .chat_con { overflow: -moz-scrollbars-none; }
+    .chat_con::-webkit-scrollbar {
+      width: 0 !important
+    }
+
+    .chat_con {
+      -ms-overflow-style: none;
+    }
+
+    .chat_con {
+      overflow: -moz-scrollbars-none;
+    }
 
     .send_bot {
       width: 100%;

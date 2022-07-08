@@ -129,7 +129,7 @@ export default {
                     case '1120': // 系统提示
                         item = {
                             type: '1120',
-                            msg: '系统提示：' + obj.msg
+                            msg: obj.content.msg
                         }
                         that.chatList.push(item)
                         that.$nextTick(() => {

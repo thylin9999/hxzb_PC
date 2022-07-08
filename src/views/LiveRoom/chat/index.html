@@ -12,17 +12,28 @@
         <div class="chat_con clear" ref="element">
             <ul class="chat_list">
                 <li v-for="(item,i) in chatList" :key="i" class="chat_item clear">
-                    <div v-if="item.type === '1120'" class="item">{{ item.msg }}</div>  <!-- 系统提示 -->
-                    <div v-if="item.type === '1090'" class="item">{{ item.msg }}</div>  <!-- 主播下播 暂时没有-->
-                    <div v-if="item.type === '2010'" class="item">{{ item.msg }}</div>  <!-- 发言频繁 -->
-                    <div v-if="item.type === '1010'" class="item come">
-                        <span class="nickname">{{ item.nickname }}:</span>
+                    <!-- 系统提示 -->
+                    <div v-if="item.type === '1120'" class="msg_item announce">
+                      <div class="msg_box">
+                        <span class="msg_title notice">系统提示：</span>
+                        <sapn>{{ item.msg }}</sapn>
+                      </div>
+                    </div>
+                    <!-- 进入直播间 -->
+
+                    <div v-if="item.type === '1010'" class="msg_item">
+                      <div class="msg_box">
+                        <span class="nickname msg_title">{{ item.nickname }}：</span>
                         <span>{{ item.msg }}</span>
-                    </div>  <!-- 进入直播间 -->
-                    <div v-if="item.type == '1040'" class="item come">
-                        <span class="nickname">{{ item.nickname }}:</span>
+                      </div>
+                    </div>
+                    <!-- 发言 -->
+                    <div v-if="item.type === '1040'" class="msg_item">
+                      <div class="msg_box">
+                        <span class="nickname msg_title">{{ item.nickname }}：</span>
                         <span>{{ item.msg }}</span>
-                    </div>  <!-- 发言 -->
+                      </div>
+                    </div>
                 </li>
             </ul>
         </div>

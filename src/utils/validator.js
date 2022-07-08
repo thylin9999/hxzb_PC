@@ -1,6 +1,8 @@
 /* eslint-disable */
 
 
+import {Message} from "element-ui";
+
 export function isRequire (label) {
     return (value) => {
         const message = value ? null : label + errorMessage.isRequire
@@ -45,6 +47,21 @@ export function debounce(fn, wait = 1000) {  //防抖
             fn.apply(this, arguments)
         }
     }
+}
+export function Copy(copyValue) {  //复制
+    const domUrl = document.createElement('input')
+    domUrl.value = copyValue
+    domUrl.id = 'creatDom'
+    document.body.appendChild(domUrl)
+    domUrl.select() // 选择对象
+    document.execCommand('Copy') // 执行浏览器复制命令
+    const creatDom = document.getElementById('creatDom')
+    creatDom.parentNode.removeChild(creatDom)
+    Message({
+        type: 'success',
+        message: '复制成功',
+        duration: 1000
+    })
 }
 
 export const errorMessage = {

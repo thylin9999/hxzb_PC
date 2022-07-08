@@ -10,8 +10,8 @@
         <div class="showRefresh btn" @mousemove="showRefresh = true" @mouseleave="showRefresh = false">
             <p @click="videoRefresh">刷新</p>
         </div>
-        <div class="control" @mousemove="showQuality = true" @mouseleave="showQuality = false">
-            <span class="btn"> {{qualityType == 'Original' ? '原画质' : qualityType == 'HD' ? '高清' : '普通'}}  </span>
+        <div class="control" @mousemove="showQuality = true" @mouseleave="showQuality = false" v-if="roomInfo.live_status == 2">
+            <span class="btn"> {{qualityType == 'Original' ? '超清' : qualityType == 'HD' ? '高清' : '一般'}}  </span>
             <div class="control_box" v-show="showQuality">
                 <ul class="quality_list">
                     <span class="btn" @click="changeQuality('Original')">超清</span>
@@ -20,10 +20,10 @@
                 </ul>
             </div>
         </div>
-        <div class="cancelMute" @click="cancelMute" v-if="muteButton">
-            <img class="iconMute" :src="require('@/assets/images/home/icon-mute.png')" alt="">
-            点击取消静音
-        </div>
+      <div class="cancelMute" @click="cancelMute" v-if="muteButton && roomInfo.live_status == 2">
+        <img class="iconMute" :src="require('@/assets/images/home/icon-mute.png')" alt="">
+        点击取消静音
+      </div>
     </div>
 </template>
 <script src="flv.min.js"></script>
@@ -56,10 +56,7 @@
                 refreshItem: true,
                 showQuality: false,
                 showRefresh: false,
-                roomInfo: {
-                    rtmp_url: '',
-                    rtmp_live: ''
-                },
+                roomInfo: {},
                 timeOut: false,
                 dp: null,
                 qualityType: 'Original', // 'Original'  'HD'  'ordinary'
@@ -67,6 +64,8 @@
             }
         },
         async mounted() {
+            this.roomInfo = this.videoInfo
+            if(this.videoInfo.live_status == 1) return
             if(window.name == ''){
                 window.name = 'isReload'
                 this.volume = 0.5
@@ -74,7 +73,6 @@
                 this.volume = 0
                 this.muteButton = true
             }
-            this.roomInfo = this.videoInfo
             try {
                 setTimeout(() => {
                     this.showPuse = true;
