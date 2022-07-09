@@ -1,7 +1,7 @@
 <template>
   <div id="app" :class="{'overflow-hidden': showDialog }">
-    <router-view :key="updateKey"/>
-      <ModalLogin />
+    <router-view />
+      <ModalLogin :key="modalUpdateKey"/>
   </div>
 </template>
 <script >

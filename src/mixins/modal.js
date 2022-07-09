@@ -9,10 +9,16 @@ export const modalMixin = {
     methods: {
         ...mapActions('modal', ['openLoginDialog', 'closeLoginDialog']),
         openLoginDialogMixin () {
-            this.modalUpdateKey = +new Date().getTime()
             this.openLoginDialog()
+            // setTimeout(() => {
+            //     console.log('2323322323')
+            //     this.modalUpdateKey = +new Date().getTime()
+            // }, 300)
         },
         closeLoginDialogMixin () {
+            // setTimeout(() => {
+            //     this.modalUpdateKey = +new Date().getTime()
+            // }, 300)
             this.modalUpdateKey = +new Date().getTime()
             this.closeLoginDialog()
         }

@@ -7,7 +7,6 @@
         lock-scroll
         close-on-click-modal
         close-on-press-escape
-        :key="modalUpdateKey"
     >
         <div  class="modal" @click.stop>
             <span class="close-button p-absolute">

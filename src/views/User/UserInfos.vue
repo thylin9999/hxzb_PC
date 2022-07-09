@@ -67,10 +67,10 @@ export default {
     methods: {
         ...mapActions('user', ['logoutAction']),
         openLogin () {
-            this.openLoginDialog()
+            this.openLoginDialogMixin()
         },
         openRegister () {
-            this.openLoginDialog()
+            this.openLoginDialogMixin()
         },
         goToUserCenter () {
             this.$router.push({

@@ -70,7 +70,7 @@
                     <template v-if="!isRegister">
                         <div class="flex justify-between align-center">
                             <span class="pointer" @click="changeType(1)">立即注册</span>
-<!--                            <span @click="forgetPassword"  class="pointer">忘记密码</span>-->
+                            <span @click="forgetPassword"  class="pointer">忘记密码</span>
                         </div>
                     </template>
                     <template v-else>
@@ -100,7 +100,7 @@ import { Message } from 'element-ui'
 import { register, getCode, findBackPwd } from '@/api/user'
 
 export default {
-    name: 'Login',
+    name: 'ModalLogin',
     components: {
         Qrcode,
         SubmitButton,
@@ -160,7 +160,6 @@ export default {
             return this.isResetPassword ? '立即找回' : (this.isRegister ? '注册' : '登录')
         },
         showCode () {
-            console.log(process.env.VUE_APP_NEED_CODE, 'VUE_APP_NEED_CODE')
             return true
         },
         style () {
@@ -170,21 +169,6 @@ export default {
         },
         codeText () {
             return this.isSend ? `${this.leftTime}s` : '获取验证码'
-        }
-    },
-    watch: {
-        isSend () {
-            if (this.isSend) {
-                this.timer = setInterval(() => {
-                    if (this.leftTime <= 0) {
-                        clearInterval(this.timer)
-                        this.isSend = false
-                        this.leftTime = 60
-                    } else {
-                        this.leftTime--
-                    }
-                }, 1000)
-            }
         }
     },
     methods: {
@@ -262,12 +246,28 @@ export default {
             this.changeKey(key)
             return isEmpty(this.errorInfo[key])
         },
+        startInterval () {
+            if (this.isSend) {
+                console.log('几个timer', this.timer, this.leftTime)
+                window.clearInterval(this.timer)
+                this.timer = setInterval(() => {
+                    if (this.leftTime <= 0) {
+                        clearInterval(this.timer)
+                        this.isSend = false
+                        this.leftTime = 60
+                    } else {
+                        this.leftTime--
+                    }
+                }, 1000)
+            }
+        },
         async getCode () {
-            if (this.isSend) return
+            if (this.isSend && this.timer) return
             const isValidate = this.validateRow('account')
             // 获取验证码操作
             if (isValidate) {
                 this.isSend = true
+                this.startInterval()
                 const { msg, code } = await getCode({
                     mobile: this.form.account.value,
                     msType: this.isResetPassword ? 2 : 1
@@ -282,6 +282,8 @@ export default {
             this.form[key].updateKey = `${key}-${!flag}`
         },
         changeType (type) {
+            this.clearCache()
+
             this.isRegister = type === 1
             this.isResetPassword = false
         },
@@ -289,14 +291,18 @@ export default {
             this.isRegister = true
             this.isResetPassword = true
         },
-        closeModal () {
-            this.initForm()
+        clearCache () {
             this.isRegister = false
             this.isSend = false
             this.isResetPassword = false
             this.isLoading = false
             this.leftTime = 60
+            window.clearInterval(this.timer)
             this.timer = null
+        },
+        closeModal () {
+            this.initForm()
+            this.clearCache()
             this.closeLoginDialogMixin()
         }
     }
