@@ -150,14 +150,14 @@ export default {
     }
 }
 .top-image {
-  margin: 0 auto 20px;
-  width: 290px;
-  height: 84px;
+  margin-bottom: 5px;
+  width: 145px;
+  height: 42px;
 }
 .top-text {
-  font-size: 35px;
-  line-height: 60px;
-  left: 135px;
+  font-size: 24px;
+  line-height: 36px;
+  left: 47px;
   top: 0;
 }
 .top1 {
