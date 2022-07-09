@@ -14,7 +14,8 @@ export default {
         },
         url: {
             type: String,
-            default: 'http://h5.wuhaicj.com'
+            // eslint-disable-next-line no-undef
+            default: _appDownloadrl
         }
     },
     name: '',

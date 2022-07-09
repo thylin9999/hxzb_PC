@@ -18,9 +18,7 @@ export default {
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
 .qrcode {
-    padding: 3px;
     background-color: $text-white;
-    //background-image: url('../assets/images/app-code.jpg');
     .code {
         background-color: #eee;
     }
