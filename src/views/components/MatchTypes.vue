@@ -73,7 +73,7 @@ export default {
     color: #A0A0A0;
     &.is-active {
         background-image: url('../../assets/images/common/tab-active.png');
-        color: #3C3F5B;
+        color:#3373ff;
     }
 }
 </style>

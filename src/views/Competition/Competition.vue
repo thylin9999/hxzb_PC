@@ -1,12 +1,12 @@
 <template>
-<div class="wrap-1200 competition-box p-t-30">
+<div class="wrap-1200 competition-box p-t-10">
     <timer-filter
         :type.sync="competitionType"
         :time.sync="filterTime"
         @setToday="setToday"
         @choseTime="fetchData"
     />
-    <div class="content w-100 p-t-15 flex">
+    <div class="content w-100 p-t-10 flex">
         <div class="left-bars flex justify-center p-t-10 bg-center bg-no-repeat bg-size-100">
             <ul class="">
                 <template v-for="type in matchTypes">
@@ -244,7 +244,7 @@ export default {
         .title {
             .date {
                 margin-right: 37px;
-                font-size: 35px;
+                font-size: 30px;
                 color: #343434;
             }
             .menu-item {

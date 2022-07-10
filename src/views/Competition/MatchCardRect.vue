@@ -1,10 +1,10 @@
 <template>
-<div class="card w-100 m-b-15 rect bg-white flex align-center">
+<div class="card w-100 m-b-5 rect bg-white flex align-center">
     <div class="left-info p-l-15 flex align-center justify-between">
         <div class="flex time-and-title flex-column justify-center font-regular align-center">
-            <span class="match-time font-25 m-b-15 font-400 ">{{ match.matchTime | filterTime}}</span>
+            <span class="match-time font-18 m-b-15 font-400 ">{{ match.matchTime | filterTime}}</span>
             <custom-span
-                class="match-title font-20 text-center"
+                class="match-title font-18 text-center"
                 :content="match.leagueChsShort"
             />
         </div>
@@ -15,7 +15,7 @@
                         backgroundImage: `url(${homeLogo})`
                     }"></div>
                     <custom-span
-                        class="font-regular w-100 text-center team-name m-t-10 font-16 font-400"
+                        class="font-regular w-100 text-center team-name m-t-10 font-15 font-400"
                         :content="match.homeChs"
                     />
                 </div>
@@ -168,9 +168,9 @@ export default {
 
 <style lang="scss" scoped>
 .card {
-    height: 115px;
-    padding: 12px 0;
-    border-radius: 10px;
+    height: 80px;
+    padding: 6px 0;
+    border-radius: 3px;
 }
 .left-info {
     width: 50%;
@@ -194,17 +194,16 @@ export default {
             width: calc(50% - 15px);
             .score {
                 width: 50px;
-                font-size: 34px;
+                font-size: 25px;
                 color: #272727;
-                font-weight: 600;
             }
             .icon-and-name{
                 width: calc(100% - 50px);
             }
         }
         .icon {
-            width: 40px;
-            height: 40px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
         }
         .team-name {

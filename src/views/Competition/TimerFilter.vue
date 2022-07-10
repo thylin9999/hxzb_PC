@@ -8,17 +8,17 @@
             @click="changeTab(tab)"
             :class="{'is-active': tab.id === currentTab}"
         >
-            <icon-png :icon="tab.id === currentTab ? tab.icon + '-active' : tab.icon" :width="31" :height="32"/>
+            <icon-png :icon="tab.id === currentTab ? tab.icon + '-active' : tab.icon" :width="26" :height="27"/>
             <span class="tab-name m-t-5">{{ tab.title }}</span>
         </li>
     </ul>
     <div class="date-list h-100 p-relative">
         <icon-png @click.native="prev" :class="{
             'is-active': leftMove
-        }" class="prev pointer p-absolute" :width="27" :height="50" :icon="prevIcon"/>
+        }" class="prev pointer p-absolute" :width="14" :height="25" :icon="prevIcon"/>
         <icon-png @click.native="next" :class="{
             'is-active': rightMove
-        }" class="next pointer p-absolute" :width="27" :height="50" :icon="nextIcon"/>
+        }" class="next pointer p-absolute" :width="14" :height="25" :icon="nextIcon"/>
         <div class="date-box p-l-10 h-100 overflow-x-auto" ref="ulBox">
             <ul ref="matchUl" class="flex h-100 flex-no-wrap " :style="ulStyle">
                 <li
@@ -26,7 +26,7 @@
                     :key="date.id"
                     :class="{'is-active': time === date.id}"
                     @click="changeTime(date)"
-                    class="flex h-100 flex-column m-r-10 pointer justify-center text-center date-item align-center font-22 font-regular font-400"
+                    class="flex h-100 flex-column m-r-10 pointer justify-center text-center date-item align-center font-18 font-regular font-400"
                 >
                     <span>{{ date.date}}</span>
                     <span class="m-t-5">{{ date.weekName}}</span>
@@ -212,15 +212,14 @@ export default {
 
 <style lang="scss" scoped>
 .box {
-    height: 107px;
-    border-radius: 10px;
+    height: 80px;
+    border-radius: 3px;
 }
 .tabs {
     width: 230px;
     li {
         .tab-name{
-            font-size: 25px;
-            font-weight: 600;
+            font-size: 20px;
             color: #919191;
 
         }
@@ -249,8 +248,11 @@ export default {
         ul {
             //width: 1800px;
         }
-
     }
+   .date-box::-webkit-scrollbar {
+     height: 5px;
+   }
+
     .date-item {
         width: 100px;
         color: #142563;

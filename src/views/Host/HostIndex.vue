@@ -4,9 +4,9 @@
         <MatchListRow />
     </div>
     <hot-recommend class="w-100"/>
-    <div class="w-100 banner m-b-30 bg-no-repeat bg-center bg-size-100" :style="{
-        backgroundImage: `url(${banner})`
-    }"></div>
+<!--    <div class="w-100 banner m-b-30 bg-no-repeat bg-center bg-size-100" :style="{-->
+<!--        backgroundImage: `url(${banner})`-->
+<!--    }"></div>-->
     <host-list class=""/>
 </div>
 </template>
