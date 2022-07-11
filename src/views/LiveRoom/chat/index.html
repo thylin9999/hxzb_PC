@@ -52,7 +52,7 @@
                     @keydown.enter="sendMessage"
             >
             </input>
-            <div class="send btn" @click="sendMessage">发送</div>
+            <div class="send btn" v-throttle="[()=>sendMessage(),3000]">发送</div>
         </div>
     </div>
 </div>

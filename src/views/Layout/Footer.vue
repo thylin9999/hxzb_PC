@@ -39,9 +39,9 @@
             </div>
         </div>
         <div class="version-info m-t-15 p-b-15 wrap-1200 flex justify-between align-center font-12 font-regular">
-            <span>桂ICP备19009876号</span>
-            <span>桂网文（2019）5333-055号</span>
-            <span>增值电信业务经营许可证:桂B2-20200107</span>
+            <span>鲁ICP备2022010800号-5</span>
+<!--            <span>桂网文（2019）5333-055号</span>-->
+<!--            <span>增值电信业务经营许可证:桂B2-20200107</span>-->
             <span>Copyright @ 2019-2022 海豹. ALL Rights Reserved</span>
         </div>
     </div>
