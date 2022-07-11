@@ -151,9 +151,9 @@ export default {
 }
 .banner {
     height: 100px;
-    border-radius: 15px;
+    border-radius: 5px;
     margin-bottom: 40px;
-    background-image: url('../assets/images/home/banner.png');
+    background-image: url('../assets/images/home/banner.jpg');
 }
 
 </style>
