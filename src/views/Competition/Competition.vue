@@ -26,25 +26,38 @@
         <div class="matches h-100 m-l-10">
             <div class="title flex align-center">
                 <span class="date font-500 font-medium">{{ filterTime | dateFilter}}</span>
-                <ul class="flex align-center">
-                    <li
-                        v-for="menu in menus"
-                        :key="menu.id"
-                        @click="changeMenu(menu)"
-                        class="font-16 pointer menu-item text-center bg-center bg-no-repeat bg-size-100"
-                        :class="{'is-active': menu.id === statusType }"
-                    >
-                        {{ menu.title }}
-                    </li>
-                </ul>
+                <template v-if="competitionType === 1">
+                    <ul class="flex align-center" v-if="matchType !== 3">
+                        <li
+                            v-for="menu in menus"
+                            :key="menu.id"
+                            @click="changeMenu(menu)"
+                            class="font-16 pointer menu-item text-center bg-center bg-no-repeat bg-size-100"
+                            :class="{'is-active': menu.id === statusType }"
+                        >
+                            {{ menu.title }}
+                        </li>
+                    </ul>
+                    <ul class="flex align-center" v-else>
+                        <li
+                            v-for="statusType in statusTypes"
+                            :key="statusType.id"
+                            @click="changeHotMatchType(statusType)"
+                            class="font-16 pointer menu-item text-center bg-center bg-no-repeat bg-size-100"
+                            :class="{'is-active': statusType.id === hotMatchType }"
+                        >
+                            {{ statusType.title }}
+                        </li>
+                    </ul>
+                </template>
             </div>
             <div class="match-list w-100 m-t-20 overflow-y-auto"
                  v-loading="isLoading"
                  element-loading-background="transparent"
             >
-                <ul v-if="list.length">
+                <ul v-if="showData.length">
                     <li
-                        v-for="item in list"
+                        v-for="item in showData"
                         :key="item.id"
                     >
                         <match-card-rect
@@ -98,6 +111,7 @@ export default {
                 total: 0,
                 currentPage: 1
             },
+            hotMatchType: 1, // 热门比赛的分类， 1， 进行中，2 未开始
             statusType: 1, // 赛事状态
             list: [],
             isLoading: false
@@ -113,6 +127,21 @@ export default {
                 id: 2,
                 title: '全部赛事'
             }]
+            if (this.isToday && this.competitionType === 1) {
+                list.unshift({
+                    id: 1,
+                    title: '进行中'
+                })
+            }
+            return list
+        },
+        statusTypes () {
+            const list = [
+                {
+                    id: 2,
+                    title: '未开始'
+                }
+            ]
             if (this.isToday && this.competitionType === 1) {
                 list.unshift({
                     id: 1,
@@ -138,6 +167,13 @@ export default {
                 leagueType: this.matchType === 4 ? null : this.matchType, // 赛事分类，足球，篮球等
                 day: this.filterTime
             }
+        },
+        showData () {
+            return this.matchType === 3
+                ? this.list.filter(x => {
+                    return x.state === this.hotMatchType - 2 // 未开
+                })
+                : this.list
         }
     },
     watch: {
@@ -151,6 +187,7 @@ export default {
         isToday: {
             handler () {
                 this.statusType = this.menus[0].id
+                this.hotMatchType = this.statusTypes[0].id
                 // this.fetchData()
             },
             immediate: true
@@ -189,6 +226,9 @@ export default {
                 this.isLoading = false
             }
         }, 100),
+        changeHotMatchType (statusType) {
+            this.hotMatchType = statusType.id
+        },
         updateAppointment ({ id, value }) {
             const temp = this.list.find(x => x.matchId === id)
             temp.appointment = value
@@ -201,9 +241,7 @@ export default {
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
 .competition-box {
-    //height: calc(100vh - 245px);
     height: 950px;
-    //height: calc(100vh - 90px);
 }
 .tabs {
     background-color: $text-white;
