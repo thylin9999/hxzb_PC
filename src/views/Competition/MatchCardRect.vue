@@ -80,6 +80,7 @@ import { addSubscribeMatch } from '@/api/competition/competition'
 import { matchStatus } from '@/utils/utils'
 import { Message } from 'element-ui'
 import { statusCode } from '@/utils/statusCode'
+import { mapState } from 'vuex'
 export default {
     name: 'MatchCardRect',
     props: {
@@ -108,6 +109,7 @@ export default {
     },
 
     computed: {
+        ...mapState('user', ['token']),
         buttonString () {
             return this.isFutureMatch ? (this.isSubscribe ? '已预约' : '预约') : matchStatus[this.match.state]
         },
@@ -136,6 +138,10 @@ export default {
     methods: {
         async subscribeMatch () {
             if (!this.isFutureMatch) {
+                return
+            }
+            if (!this.token) {
+                this.openLoginDialogMixin()
                 return
             }
             try {

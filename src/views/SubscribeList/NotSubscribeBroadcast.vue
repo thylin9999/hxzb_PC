@@ -42,9 +42,10 @@
 
 <script>
 import TitleRow from '@/components/TitleRow'
-import { getOfflineHost } from '@/api/Host/Host'
+import { followHost, getOfflineHost } from '@/api/Host/Host'
 import CustomSpan from '@/components/CustomSpan'
-
+import { Message } from 'element-ui'
+import { mapState } from 'vuex'
 export default {
     name: 'NotSubscribeBroadcast',
     components: {
@@ -62,6 +63,7 @@ export default {
         this.fetchData()
     },
     computed: {
+        ...mapState('user', ['token']),
         replaceSign () {
             return '暂无主播简介'
         }
@@ -83,6 +85,20 @@ export default {
                 console.log('出错了')
             } finally {
                 this.isLoading = false
+            }
+        },
+        async followOrUnFollowHost (host) {
+            if (!this.token) {
+                Message.error('请先登录，无法预约！')
+                this.openLoginDialogMixin()
+                return
+            }
+            try {
+                const { msg } = await followHost(host.member_id)
+                Message.success(msg)
+                this.fetchData()
+            } catch (e) {
+                console.log('出错了')
             }
         }
     }

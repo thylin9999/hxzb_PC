@@ -155,25 +155,41 @@ export default {
                 competitionType: this.competitionType,
                 filterTime: this.filterTime,
                 matchType: this.matchType,
-                statusType: this.statusType
+                statusType: this.statusType,
+                hotMatchType: this.hotMatchType
             }
         },
         apiParams () {
+            let playing = 3000
+            if (this.competitionType === 1) {
+                if (this.matchType === 3) {
+                    // 热门赛事
+                    playing = this.hotMatchType === 1 ? 2000 : 1000
+                } else {
+                    if (this.matchType === 4 || this.statusType === 1) {
+                        playing = 2000
+                    } else {
+                        playing = 1000
+                    }
+                }
+            }
             return {
                 pageNumber: 1,
                 pageSize: 2000,
                 leagueId: null, // 联赛id，
-                playing: this.competitionType === 1 ? ((this.matchType === 4 || this.statusType === 1) ? 2000 : 1000) : 3000,
+                // playing: this.competitionType === 1 ? ((this.matchType === 4 || this.statusType === 1) ? 2000 : 1000) : 3000,
+                playing,
                 leagueType: this.matchType === 4 ? null : this.matchType, // 赛事分类，足球，篮球等
                 day: this.filterTime
             }
         },
         showData () {
-            return this.matchType === 3
-                ? this.list.filter(x => {
-                    return x.state === this.hotMatchType - 2 // 未开
-                })
-                : this.list
+            // return this.matchType === 3
+            //     ? this.list.filter(x => {
+            //         return x.state === this.hotMatchType - 2 // 未开
+            //     })
+            //     : this.list
+            return this.list
         }
     },
     watch: {
@@ -213,13 +229,13 @@ export default {
             try {
                 this.isLoading = true
                 const { data } = await request(this.apiParams)
-                this.list = data.list.reduce((all, item) => {
+                this.list = data.list ? data.list.reduce((all, item) => {
                     all.push({
                         ...item
                         // state: 1
                     })
                     return all
-                }, [])
+                }, []) : []
             } catch (e) {
                 console.log('出错了')
             } finally {

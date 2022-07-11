@@ -97,29 +97,32 @@ export function getMatchList ({
     })
 }
 // 热门赛程
+// export function getHostMatches (data) {
+//     return request({
+//         method: 'post',
+//         url: url.getHostMatches,
+//         data: {
+//             day: data ? data.day : null
+//         }
+//     })
+// }
 export function getHostMatches (data) {
+    // const params = data.playing ? {
+    //     day: data ? data.day : null,
+    //     playing: data.playing
+    // } : {
+    //     day: data ? data.day : null,
+    //     pageSize: 2000
+    // }
     return request({
         method: 'post',
         url: url.getHostMatches,
         data: {
-            day: data ? data.day : null
+            day: data ? data.day : null,
+            playing: data.playing ? data.playing : 3000
         }
     })
 }
-// export function getHostMatches (data) {
-//     const params = data.pageSize ? {
-//         day: data ? data.day : null,
-//         pageSize: data.pageSize
-//     } : {
-//         day: data ? data.day : null,
-//         pageSize: 2000
-//     }
-//     return request({
-//         method: 'post',
-//         url: url.getHostMatches,
-//         data: params
-//     })
-// }
 // 卡片预约赛事
 export function addSubscribeMatch (matchId) {
     return request({
