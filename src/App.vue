@@ -14,7 +14,7 @@ export default {
     },
     data () {
         return {
-            updateKey: +new Date().getTime()
+            updateKey: +new Date().getTime() + 'router-view'
         }
     },
     provide () {
@@ -39,7 +39,7 @@ export default {
     methods: {
         ...mapActions('user', ['getUserInfo']),
         reload () {
-            this.updateKey = +new Date().getTime()
+            this.updateKey = +new Date().getTime() + 'router-view'
         },
         async init () {
             try {

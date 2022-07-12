@@ -22,7 +22,6 @@ import './icons/index'
 import vueComTestAlvin from 'vue-com-test-alvin'
 
 import { i18n } from './utils/lang/index'
-console.log('test分支')
 Vue.use(vueComTestAlvin)
 // 全局mixin
 Vue.mixin(modalMixin)
