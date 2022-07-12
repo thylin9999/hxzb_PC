@@ -119,7 +119,7 @@ export function getHostMatches (data) {
         url: url.getHostMatches,
         data: {
             day: data ? data.day : null,
-            playing: data.playing ? data.playing : 3000
+            playing: data && data.playing ? data.playing : 3000
         }
     })
 }
