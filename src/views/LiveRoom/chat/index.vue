@@ -1,5 +1,59 @@
-<template src="./index.html"></template>
+<template>
+    <div class="chat_box">
+        <div class="content">
+            <div class="announcement">
+                <!-- 系统提示：任何群、广告均为诈骗，违规者封号处理!-->
+                <marquee height="24" style="color: #d8ad66;" behavior=scroll>
+                    <img :src="trumpet" width="14" height="14" alt="">
+                    <!-- 这里可以填写走马灯内容 -->
+                    系统提示：任何群、广告均为诈骗，违规者封号处理!
+                </marquee>
+            </div>
+            <!-- 主要的聊天室内容-->
+            <div class="chat_con clear" ref="element">
+                <ul class="chat_list">
+                    <li v-for="(item,i) in chatList" :key="i" class="chat_item clear">
+                        <!-- 系统提示 -->
+                        <div v-if="item.type === '1120'" class="msg_item announce">
+                            <div class="msg_box">
+                                <span class="msg_title notice">系统提示：</span>
+                                <span>{{ item.msg }}</span>
+                            </div>
+                        </div>
+                        <!-- 进入直播间 -->
 
+                        <div v-if="item.type === '1010'" class="msg_item">
+                            <div class="msg_box">
+                                <span class="nickname msg_title">{{ item.nickname }}：</span>
+                                <span>{{ item.msg }}</span>
+                            </div>
+                        </div>
+                        <!-- 发言 -->
+                        <div v-if="item.type === '1040'" class="msg_item">
+                            <div class="msg_box">
+                                <span class="nickname msg_title">{{ item.nickname }}：</span>
+                                <span>{{ item.msg }}</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="send_bot">
+                <input
+                    ref="inputBox"
+                    class="inp"
+                    type="text"
+                    placeholder="开始聊天"
+                    v-model="inpTxt"
+                    maxlength="30"
+                    show-word-limit
+                    @keydown.enter="sendMessage"
+                >
+                <div class="send btn" v-throttle="[()=>sendMessage(),3000]">发送</div>
+            </div>
+        </div>
+    </div>
+</template>
 <script>
 import { Message } from 'element-ui'
 
@@ -176,5 +230,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  @import "./index";
+  @import "./index.scss";
 </style>
