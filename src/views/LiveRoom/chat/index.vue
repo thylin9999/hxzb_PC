@@ -67,8 +67,8 @@ export default {
         },
         connectWebSocket () {
             const that = this
-            const Global = window.Global
-            this.webSocket = new WebSocket(`ws://${Global.ws}`)
+            // eslint-disable-next-line no-undef
+            this.webSocket = new WebSocket(_requestWS)
             this.webSocket.onopen = function (e) {
                 if (e.type === 'open') {
                     const sendCon = {
