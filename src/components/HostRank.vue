@@ -7,67 +7,74 @@
     >
     <!--<more-button class="m-r-15"/>-->
     </title-row>
-    <div class="host-section flex justify-between align-center p-t-20 p-b-20 m-b-25 bg-white w-100">
-        <div class="first-three">
-            <ul class="prizes flex align-center justify-between">
-                <li
-                    v-for="(host, index) in firstRank"
-                    :key="host.id"
-                    class="rank-item flex flex-column m-l-20 m-r-20 justify-center align-center"
-                >
-                    <div class="icon p-relative bg-center flex justify-center align-center bg-no-repeat bg-size-100" :class="`rank-${index}`">
-                        <div
-                            class="avatar border-radius-50  bg-center bg-no-repeat "
-                            :class="{ 'bg-size-100': !host.hasNoBg, 'bg-auto': host.hasNoBg}"
-                            :style="{
+    <div v-if="hosts.length" class="host-section flex justify-between align-center p-t-20 p-b-20 m-b-25 bg-white w-100">
+        <template >
+            <div class="first-three">
+                <ul class="prizes flex align-center justify-between">
+                    <li
+                        v-for="(host, index) in firstRank"
+                        :key="host.id"
+                        class="rank-item flex flex-column m-l-20 m-r-20 justify-center align-center"
+                    >
+                        <div class="icon p-relative bg-center flex justify-center align-center bg-no-repeat bg-size-100" :class="`rank-${index}`">
+                            <div
+                                class="avatar border-radius-50  bg-center bg-no-repeat "
+                                :class="{ 'bg-size-100': !host.hasNoBg, 'bg-auto': host.hasNoBg}"
+                                :style="{
                                 backgroundImage: `url(${host.bgImg})`,
                             }"
-                        ></div>
-                        <span class="p-absolute bg-center bg-no-repeat bg-size-100 name font-14 d-inline-block w-100 text-center" >{{ host.anchor_name }}</span>
-                    </div>
-                    <custom-span
-                        class="font-14 text-888 text-center w-100 m-t-25 m-b-10"
-                        :content="host.sign"
-                    />
-                    <span
-                        class="subscribe-button text-center font-16 pointer"
-                        :class="{'is-subscribed': host.isSubscribe }"
-                        v-throttle="[()=>followOrUnFollowHost(host),3000]"
-                    >{{ host.isSubscribe ? '已订阅' : '订阅'}}</span>
-                </li>
-            </ul>
-        </div>
-        <div class="left-host">
-            <ul class="w-100">
-                <li
-                    v-for="host in leftRank"
-                    :key="host.id"
-                    class="flex  host-item align-center"
-                >
-                    <div class="left-section flex align-center">
-                        <div
-                            class="icon border-radius-50 m-r-10 bg-no-repeat bg-center bg-size-100"
-                            :style="{
+                            ></div>
+                            <span class="p-absolute bg-center bg-no-repeat bg-size-100 name font-14 d-inline-block w-100 text-center" >{{ host.anchor_name }}</span>
+                        </div>
+                        <custom-span
+                            class="font-14 text-888 text-center w-100 m-t-25 m-b-10"
+                            :content="host.sign"
+                        />
+                        <span
+                            class="subscribe-button text-center font-16 pointer"
+                            :class="{'is-subscribed': host.isSubscribe }"
+                            v-throttle="[()=>followOrUnFollowHost(host),3000]"
+                        >{{ host.isSubscribe ? '已订阅' : '订阅'}}</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="left-host">
+                <ul class="w-100">
+                    <li
+                        v-for="host in leftRank"
+                        :key="host.id"
+                        class="flex  host-item align-center"
+                    >
+                        <div class="left-section flex align-center">
+                            <div
+                                class="icon border-radius-50 m-r-10 bg-no-repeat bg-center bg-size-100"
+                                :style="{
                                 backgroundImage: `url(${host.bgImg})`
                             }"
-                        ></div>
-                         <div class="flex host-info flex-column ">
-                             <span class="font-16 host-name font-regular">{{ host.anchor_name }}</span>
-                             <custom-span
-                                class="font-12 m-t-10 text-888 w-100"
-                                :content="host.sign"
-                             />
-                         </div>
-                    </div>
-                    <span
-                        class="subscribe-button text-center font-16 pointer"
-                        :class="{'is-subscribed': host.isSubscribe }"
-                        v-throttle="[()=>followOrUnFollowHost(host),3000]"
-                    >{{ host.isSubscribe ? '已订阅' : '订阅'}}</span>
-                </li>
-            </ul>
-        </div>
+                            ></div>
+                            <div class="flex host-info flex-column ">
+                                <span class="font-16 host-name font-regular">{{ host.anchor_name }}</span>
+                                <custom-span
+                                    class="font-12 m-t-10 text-888 w-100"
+                                    :content="host.sign"
+                                />
+                            </div>
+                        </div>
+                        <span
+                            class="subscribe-button text-center font-16 pointer"
+                            :class="{'is-subscribed': host.isSubscribe }"
+                            v-throttle="[()=>followOrUnFollowHost(host),3000]"
+                        >{{ host.isSubscribe ? '已订阅' : '订阅'}}</span>
+                    </li>
+                </ul>
+            </div>
+        </template>
+
     </div>
+    <el-empty
+        v-else
+        :image-size="108"
+        description="暂无数据" />
 </div>
 </template>
 
