@@ -81,7 +81,8 @@ export default {
     },
     data () {
         return {
-            shareUrl: 'http://h5.wuhaicj.com/#/home',
+            // eslint-disable-next-line no-undef
+            shareUrl: _requestApiUrl,
             showModule: false,
             matchInfo: null,
             roomInfo: null,
@@ -141,7 +142,8 @@ export default {
             let sharesinastring = null // 跳转的url地址;
             if (type === 'qq') { // 扫码  移动端
                 let _shareUrl = 'https://connect.qq.com/widget/shareqq/index.html?'
-                _shareUrl += 'url=' + encodeURIComponent('http://h5.wuhaicj.com/#/home' || url)
+                // eslint-disable-next-line no-undef
+                _shareUrl += 'url=' + encodeURIComponent(_requestApiUrl || url)
                 _shareUrl += '&title=' + encodeURIComponent(title || '自定义')
                 window.open(_shareUrl, '_blank')// qq
             }

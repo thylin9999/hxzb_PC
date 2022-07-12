@@ -15,7 +15,7 @@ export default {
         url: {
             type: String,
             // eslint-disable-next-line no-undef
-            default: _appDownloadrl
+            default: _appDownloadUlr
         }
     },
     name: '',
