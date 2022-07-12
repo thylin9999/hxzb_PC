@@ -1,3 +1,4 @@
 
-// eslint-disable-next-line no-unused-vars
-const _appDownloadrl = 'http://h5.wuhaicj.com'
+/*eslint-disable */
+const _appDownloadrl = 'http://cri1jba.cn'
+const _requestApiUrl = 'http://api.hljhwyy.cn'
