@@ -26,7 +26,7 @@ Vue.use(vueComTestAlvin)
 // 全局mixin
 Vue.mixin(modalMixin)
 Vue.config.productionTip = false
-
+console.log('dev分支')
 // 注册全局节流指令
 Vue.directive('throttle', {
     bind (el, binding) {
