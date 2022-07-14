@@ -1,5 +1,5 @@
 <template>
-<div class="user-center wrap-1450  p-t-20">
+<div class="user-center wrap-1400  p-t-20">
    <div class="p-t-10 p-b-10 p-l-15  bg-white ">
        <person-header />
    </div>
@@ -160,7 +160,7 @@ export default {
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
 .user-center{
-    height: calc(100vh - 90px);
+    //height: calc(100vh - 90px);
     background-color: $background-gray2;
 }
 .content {
