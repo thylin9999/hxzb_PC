@@ -2,6 +2,7 @@ import axios from 'axios'
 import { statusCode } from '@/utils/statusCode'
 import { removeToken, removeSessionStorageItem, getToken } from '@/utils/cookie'
 import { Message } from 'element-ui'
+import Router from '../router/index'
 import Store from '../store/index'
 import url from './user/url'
 const instance = axios.create({
@@ -26,6 +27,7 @@ instance.interceptors.request.use(config => {
     return config
 }, errorHandle)
 
+let isAuthorization = true
 instance.interceptors.response.use(response => {
     // 响应拦截器
     const requestUrl = response.config.url
@@ -36,13 +38,19 @@ instance.interceptors.response.use(response => {
     if (response && response.data.code === statusCode.success && !whiteList.includes(requestUrl)) {
         return response.data
     } else if (response.data.code === statusCode.isExpired) {
-        const token = getToken()
-        if (token) {
+        // const token = getToken()
+        if (isAuthorization) {
+            isAuthorization = false
             Message.error(response.data.msg)
-            Store.dispatch('user/logoutAction')
+            // Store.dispatch('user/logoutAction')
             removeSessionStorageItem('userInfo')
             removeToken()
-            this.$router.push('/')
+            Store.commit('user/SET', { token: null, userName: null, age: null, nickname: null, is_anchor: 1, avatar: null })
+            // this.$router.push('/')
+            Router.push('/')
+            setTimeout(() => {
+                isAuthorization = true
+            }, 3000)
         }
         return response.data
     } else {
