@@ -111,7 +111,8 @@ export default {
         async fetchData () {
             try {
                 const { data } = await getHostRank()
-                this.hosts = data.reduce((all, item) => {
+                console.log(data, 'data')
+                this.hosts = data ? data.reduce((all, item) => {
                     all.push({
                         ...item,
                         isSubscribe: item.is_follow === 1,
@@ -120,7 +121,7 @@ export default {
                         bgImg: item.logo ? item.logo : require('../assets/images/common/host-empty.png')
                     })
                     return all
-                }, [])
+                }, []) : []
             } catch (e) {
                 console.log('出错了')
             }
