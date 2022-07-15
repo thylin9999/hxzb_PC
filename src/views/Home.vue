@@ -71,10 +71,12 @@ export default {
         async fetchData () {
             try {
                 const { data } = await getHotRooms({})
-                this.videoInfo = data.list[0]
-                // 首页展示4条，直播页面展示5条
-                this.list = data.list.slice(0, 6)
-                this.selectLive(this.videoInfo, 0)
+                if (data) {
+                    this.videoInfo = data.list[0]
+                    // 首页展示4条，直播页面展示5条
+                    this.list = data.list.slice(0, 6)
+                    this.selectLive(this.videoInfo, 0)
+                }
             } catch (e) {
                 console.log('出粗了')
             } finally {
