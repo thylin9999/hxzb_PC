@@ -8,12 +8,21 @@
       <title><%= htmlWebpackPlugin.options.title %></title>
       <script  src="<%= BASE_URL %>config.js"></script>
 
-          </head>
+  </head>
   <script>
       window.Global = {  //全局配置
           api:'',
           ws:'ws.qiangjinmkd.cn/'
       }
+  </script>
+  <script>
+      var _hmt = _hmt || [];
+      (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a527bc9818a702ea82b70057e06ed535";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+      })();
   </script>
   <body>
     <noscript>
