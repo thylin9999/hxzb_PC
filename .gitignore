@@ -24,3 +24,4 @@ pnpm-debug.log*
 *.sw?
 
 dist.zip
+public/config.js
