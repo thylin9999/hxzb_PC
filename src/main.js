@@ -56,7 +56,7 @@ Vue.directive('debounce', {
     }
 })
 
-console.log('mian')
+console.log('mian---->>>>>>>>>>>alvin吸怪')
 
 new Vue({
     router,
