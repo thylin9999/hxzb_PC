@@ -2,7 +2,7 @@
 <div class="download-page max-screen">
     <div class="w-100 outer-wrap bg-no-repeat">
         <div class="upper-div m-auto  w-100 max-screen">
-            <div class="left-info wrap-1450">
+            <div class="left-info">
                 <div class="logo-text bg-no-repeat  bg-size-auto m-b-20"></div>
                 <div class="font-regular m-b-20 font-400 d-inline-block site  font-48">haibao18.cn</div>
                 <p class="font-regular font-45 font-400 m-b-30">专业体育比赛直播·精彩触手可及</p>
@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <div class="wrap-1450 down-section">
+        <div class=" down-section">
             <div class="flex justify-between align-center">
                 <div
                     v-for="item in list"
@@ -100,6 +100,11 @@ export default {
     .upper-div {
         padding-top: 280px;
         color: #0E3F6A;
+        .left-info {
+            width: 100%;
+            max-width: 1450px;
+            margin: 0 auto;
+        }
         .logo-text{
             width: 290px;
             height: 80px;
@@ -140,6 +145,9 @@ export default {
         }
     }
     .down-section {
+        width: 100%;
+        max-width: 1450px;
+        margin: 0 auto;
         margin-top: 400px;
         .item {
             .icon {
