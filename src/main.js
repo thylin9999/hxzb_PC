@@ -56,6 +56,8 @@ Vue.directive('debounce', {
     }
 })
 
+console.log('mian')
+
 new Vue({
     router,
     store,
