@@ -6,6 +6,7 @@
 // const _requestWS = 'ws://ws.wuhaicj.com/'
 
 /*线上环境*/
+const mUrl = 'https://m.haibao18.cn/'
 const _appDownloadUlr = 'https://cri1jba.cn/haibao_100.apk'
 const _requestApiUrl = 'https://api.hljhwyy.cn'
 const _requestWS = 'wss://ws.qiangjinmkd.cn'
