@@ -110,6 +110,18 @@ export function getBookedMatches (matchId) {
     })
 }
 
+export function getMyBroadcastHistory ({ pageNumber = 1, pageSize = 20, status = 1 }) {
+    return request({
+        method: 'post',
+        url: url.broadcastHistory,
+        data: {
+            pageNum: pageNumber,
+            pageSize: 2000,
+            status // 进行中， 2. 已结束
+        }
+    })
+}
+
 export function cancelSubscribe (matchId) {
     return request({
         method: 'post',
