@@ -20,6 +20,12 @@
             v-loading="isLoading"
         >
             <el-table-column
+                v-if="!isBooked"
+                prop="id"
+                align="center"
+                label="比赛id"
+                min-width="180" />
+            <el-table-column
                 prop="type"
                 align="center"
                 label="比赛类型"
