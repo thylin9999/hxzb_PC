@@ -86,7 +86,7 @@ export default {
             } else {
                 this.logoutAction()
                 if (this.$route.name === 'Home') {
-                    this.reload()
+                    // this.reload()
                 } else {
                     this.$router.push('/')
                 }

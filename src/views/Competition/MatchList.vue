@@ -30,7 +30,7 @@
                                 class=" font-12 pointer"
                                 :class="{'text-white': match.isSubscribe, 'pointer': !match.isSubscribe }"
                             >{{
-                                match.isGoing ? '比赛中' : match.isSubscribe ? '已预约' : '预约'
+                                match.isGoing ? match.matchStatusString : match.isSubscribe ? '已预约' : '预约'
                                 }}</span>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                                 ></span>
                                 <span class="font-18">{{ match.homeChs}}</span>
                             </div>
-                            <span class="score">{{ match.homeScore}}</span>
+                            <span class="score">{{  match.isFuture ? '-' : match.homeScore}}</span>
                         </div>
                         <div class="team  flex justify-between align-center">
                             <div class="flex align-center">
@@ -57,7 +57,7 @@
                                 ></span>
                                 <span class="font-15">{{ match.awayChs }}</span>
                             </div>
-                            <span class="score">{{ match.awayScore }}</span>
+                            <span class="score">{{ match.isFuture ? '-' : match.awayScore }}</span>
                         </div>
                     </div>
                     <div class="match-footer m-t-15 flex justify-center align-center">
@@ -157,7 +157,9 @@ export default {
                     all.push({
                         ...match,
                         isSubscribe: match.appointment * 1 === 1,
-                        isGoing: !matchStatus[match.state]
+                        isGoing: match.state !== 0,
+                        isFuture: match.state === 0,
+                        matchStatusString: matchStatus[match.state]
                     })
                     return all
                 }, [])

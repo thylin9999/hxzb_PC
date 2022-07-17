@@ -71,6 +71,7 @@ const actions = {
             removeSessionStorageItem('userInfo')
             // 删除用户信息
             commit('SET', { token: null, userName: null, age: null, nickname: null, is_anchor: 1, avatar: null })
+            window.location.reload()
         }
     }
 }

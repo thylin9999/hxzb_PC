@@ -207,7 +207,8 @@ export default {
                         // 这里要保存用户的信息
                         this.closeLoginDialog()
                         this.initForm()
-                        this.reload()
+                        window.location.reload()
+                        // this.reload()
                         // this.$router.push({ path: '/' })
                     }
                 } else {
@@ -248,7 +249,6 @@ export default {
         },
         startInterval () {
             if (this.isSend) {
-                console.log('几个timer', this.timer, this.leftTime)
                 window.clearInterval(this.timer)
                 this.timer = setInterval(() => {
                     if (this.leftTime <= 0) {
