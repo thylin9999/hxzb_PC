@@ -16,6 +16,8 @@ const url = {
     bookBroadcast: '/api/preordain/lists',
     bookMatches: '/api/preordain/add', // 预约比赛
 
+    // 预约列表，一键开播
+    bookOpenBroadcast: '/api/live/startPreordain',
     broadcastHistory: '/api/live/liveHistory',
 
     getBookedMatches: '/api/preordain/lists', // 未开始的直播

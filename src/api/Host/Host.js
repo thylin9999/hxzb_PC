@@ -110,6 +110,16 @@ export function getBookedMatches (matchId) {
     })
 }
 
+export function bookOpenBroadcast (id) {
+    return request({
+        method: 'post',
+        url: url.bookOpenBroadcast,
+        data: {
+            id
+        }
+    })
+}
+
 export function getMyBroadcastHistory ({ pageNumber = 1, pageSize = 20, status = 1 }) {
     return request({
         method: 'post',

@@ -10,11 +10,14 @@
             @click="changeType(item)"
         >{{ item.title }}</li>
     </ul>
-    <div class="table p-l-15 m-t-15 p-r-15">
+    <div class="table w-100 p-l-15 m-t-15 p-r-15">
         <el-table
+            :key="currentType"
             height="100%"
             :data="list"
             border
+            fit
+            v-loading="isLoading"
         >
             <el-table-column
                 prop="type"
@@ -27,9 +30,15 @@
                 label="直播标题"
                 min-width="180" />
             <el-table-column
-                prop="matchTime"
+                :prop="isBooked ? 'matchTime' : 'start_time'"
                 align="center"
                 label="开始时间"
+                min-width="180" />
+            <el-table-column
+                v-if="isFinished"
+                prop="end_time"
+                align="center"
+                label="结束时间"
                 min-width="180" />
             <el-table-column
                 prop="announcement"
@@ -41,7 +50,7 @@
                 prop="leagueType"
                 align="center"
                 label="操作"
-                min-width="250" >
+                :min-width="isGoing ? 150 : 250" >
                 <template slot-scope="scope">
                     <template v-if="isBooked">
                         <el-button  small @click="cancel(scope.row)">取消预约</el-button>
@@ -59,7 +68,7 @@
 
 <script>
 import HeaderTitle from '@/views/PersonalCenter/Components/HeaderTitle'
-import { getBookedMatches, cancelSubscribe, getMyBroadcastHistory, startLive, closeLive } from '@/api/Host/Host'
+import { getBookedMatches, bookOpenBroadcast, cancelSubscribe, getMyBroadcastHistory, closeLive } from '@/api/Host/Host'
 import { matchTypes } from '@/utils/utils'
 import { statusCode } from '@/utils/statusCode'
 import { Message } from 'element-ui'
@@ -72,19 +81,20 @@ export default {
         return {
             list: [],
             currentType: 3,
+            isLoading: false,
             menus: [
                 {
                     id: 3,
                     title: '未开始'
+                },
+                {
+                    id: 1,
+                    title: '直播中'
+                },
+                {
+                    id: 2,
+                    title: '已结束'
                 }
-                // {
-                //     id: 1,
-                //     title: '直播中'
-                // },
-                // {
-                //     id: 2,
-                //     title: '已结束'
-                // }
             ]
         }
     },
@@ -117,6 +127,7 @@ export default {
     methods: {
         async fetchData () {
             try {
+                this.isLoading = true
                 const request = this.currentType === 3 ? getBookedMatches : getMyBroadcastHistory
                 const { data } = await request(this.apiParams)
                 if (data) {
@@ -133,7 +144,7 @@ export default {
                         this.list = data.list.reduce((all, item) => {
                             all.push({
                                 ...item,
-                                type: matchTypes[item.league_id],
+                                type: matchTypes[item.type],
                                 title: item.room_title,
                                 matchTime: new Date(item.start_time)
                             })
@@ -145,6 +156,8 @@ export default {
                 }
             } catch (e) {
                 console.log('出错了')
+            } finally {
+                this.isLoading = false
             }
         },
         changeType (item) {
@@ -179,17 +192,10 @@ export default {
         async startBroadcast (row) {
             // 一键开播
 
-            const params = {
-                liveType: 1, // 直播类型， 全部
-                title: row.title,
-                liveCover: row.live_cover,
-                category: row.leagueType, // 分类，足球，篮球，电竞等
-                matchId: row.matchId
-            }
-            const { code, data } = await startLive(params)
+            const { code } = await bookOpenBroadcast(row.id)
             if (code === statusCode.success) {
                 Message.success('开播成功')
-                console.log(data, 'data')
+                this.fetchData()
             }
         }
     }
@@ -201,7 +207,7 @@ export default {
     height: 500px;
 }
 .table {
-    height: calc(100% - 95px);
+    height: calc(100% - 165px);
 }
 .item-type {
     width: 150px;
