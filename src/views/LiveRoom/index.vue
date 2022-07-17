@@ -82,7 +82,7 @@ export default {
     data () {
         return {
             // eslint-disable-next-line no-undef
-            shareUrl: _requestApiUrl,
+            shareUrl: window.location.href,
             showModule: false,
             matchInfo: null,
             roomInfo: null,
