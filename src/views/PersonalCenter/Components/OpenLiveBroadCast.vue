@@ -26,13 +26,16 @@
                 </el-radio-group>
             </div>
         </div>
-        <div class="row-outer flex align-center p-l-30 m-t-20 m-b-20" v-if="['football','basketball'].includes(category)">
+        <div class="row-outer league-type-row flex align-center p-l-30 m-t-20 m-b-20" >
             <span class="label">
                 直播类型
             </span>
             <div class="content">
-                <el-radio-group v-model="liveType">
-                    <el-radio label="all">全部</el-radio>
+                <el-radio-group v-model="liveType" @change="changeLeagueType">
+                    <el-radio
+                        v-for="type in leagueTypeOptions"
+                        :key="type.id"
+                        :label="type.id">{{ type.label}}</el-radio>
                 </el-radio-group>
             </div>
         </div>
@@ -94,7 +97,7 @@ import UploadWithError from '@/components/Form/UploadWithError'
 import { isRequire } from '@/utils/validator'
 import { isEmpty, omit } from '@/utils/lodashUtil'
 import { startLive, getOBSAddress, closeLive } from '@/api/Host/Host'
-import { getMatchList } from '@/api/competition/competition'
+import { getLeagues, getMatchList } from '@/api/competition/competition'
 import { Message } from 'element-ui'
 import { statusCode } from '@/utils/statusCode'
 import { mapState } from 'vuex'
@@ -137,6 +140,13 @@ export default {
                 }
             },
             liveType: 'all',
+            leagueTypeOptions: [
+                {
+                    id: 'all',
+                    label: '全部',
+                    value: 'all'
+                }
+            ],
             category: 1,
             errorInfo: {
                 title: {},
@@ -166,14 +176,20 @@ export default {
         this.fetchData(true)
     },
     watch: {
-        category (newVal, oldVal) {
-            if (newVal) {
-                this.form.title.value = ''
-                this.form.match.value = ''
-                this.errorInfo.match = {}
-                // this.form.match.validators = this.matchRules
-            }
+        category: {
+            handler () {
+                if (this.category) {
+                    this.form.title.value = ''
+                    this.form.match.value = ''
+                    this.errorInfo.match = {}
+                    this.getLeagues()
+                }
+            },
+            immediate: true
         }
+        // liveType () {
+        //     this.fetchData()
+        // }
     },
     methods: {
         beforeSubmit () {
@@ -205,6 +221,7 @@ export default {
             try {
                 const { data, code, msg } = await getMatchList({
                     leagueType: this.category,
+                    leagueId: this.liveType === 'all' ? null : this.liveType,
                     pageSize: 2000,
                     pageNumber: 1,
                     day: dayjs().format('YYYY-MM-DD')
@@ -220,7 +237,9 @@ export default {
                         })
                         return all
                     }, [])
-                    this.getAddress(isFirst)
+                    if (isFirst) {
+                        this.getAddress(isFirst)
+                    }
                 } else {
                     Message.error(msg)
                 }
@@ -234,12 +253,12 @@ export default {
             const { data, code, msg } = await getOBSAddress()
             if (code === statusCode.success) {
                 this.obs = data
-                console.log(data, 'data')
                 if (data.live_status === 2) {
                     this.openBroadcastSuccess = true
                     this.form.title.value = data.room_title
                     this.form.liveCover.value = data.live_cover
                     this.form.match.value = data.match_id
+                    this.liveType = data.league_id
                 }
             } else {
                 Message.error(msg)
@@ -302,6 +321,33 @@ export default {
             } else {
                 this.competitionOptions = []
             }
+        },
+        changeLeagueType () {
+            this.fetchData()
+        },
+        async getLeagues () {
+            try {
+                this.leagueTypeOptions = [
+                    {
+                        id: 'all',
+                        label: '全部',
+                        value: 'all'
+                    }
+                ]
+                const { data, code } = await getLeagues(this.category)
+                if (code === statusCode.success) {
+                    data.forEach(item => {
+                        this.leagueTypeOptions.push({
+                            ...item,
+                            id: item.leagueId,
+                            value: item.leagueId,
+                            label: item.nameChsShort
+                        })
+                    })
+                }
+            } catch (e) {
+                console.log('出错了')
+            }
         }
     }
 }
@@ -317,7 +363,13 @@ export default {
     }
     .content {
         line-height: 40px;
-        height: 40px;
+        //height: 40px;
+    }
+}
+.league-type-row {
+    width: 100% !important;
+    .content {
+        width: calc(100% - 150px);
     }
 }
 .obs {
@@ -338,12 +390,17 @@ export default {
     .row-outer {
         .el-input__inner {
             line-height: 40px;
-            height: 40px;
+            //height: 40px;
         }
         .save-button {
             width: 145px;
             font-size: 16px;
             font-family: PingFang-SC-Medium;
+        }
+        .el-radio {
+            line-height: 40px;
+            width: 70px;
+            display: inline-block;
         }
     }
     .info {

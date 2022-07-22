@@ -24,13 +24,16 @@
                     </el-radio-group>
                 </div>
             </div>
-            <div class="row-outer flex align-center p-l-30 m-t-20 m-b-20">
+            <div class="row-outer league-type-row flex align-center p-l-30 m-t-20 m-b-20">
                 <span class="label">
                     直播类型
                 </span>
                 <div class="content">
                     <el-radio-group v-model="liveType">
-                        <el-radio label="all">全部</el-radio>
+                        <el-radio
+                            v-for="type in leagueTypeOptions"
+                            :key="type.id"
+                            :label="type.id">{{ type.label}}</el-radio>
                     </el-radio-group>
                 </div>
             </div>
@@ -91,7 +94,7 @@ import UploadWithError from '@/components/Form/UploadWithError'
 import { isRequire } from '@/utils/validator'
 import { isEmpty, omit } from '@/utils/lodashUtil'
 import { bookMatches } from '@/api/Host/Host'
-import { getMatchScheduleByDay, getMatchList } from '@/api/competition/competition'
+import { getMatchList, getLeagues } from '@/api/competition/competition'
 import { matchTypeMap } from '@/utils/utils'
 import { Message } from 'element-ui'
 import { statusCode } from '@/utils/statusCode'
@@ -133,6 +136,13 @@ export default {
                 }
             },
             liveType: 'all',
+            leagueTypeOptions: [
+                {
+                    id: 'all',
+                    label: '全部',
+                    value: 'all'
+                }
+            ],
             category: 'football',
             errorInfo: {
                 title: {},
@@ -157,12 +167,19 @@ export default {
         }
     },
     watch: {
-        category (newVal, oldVal) {
-            if (newVal) {
-                this.form.match.value = ''
-                this.errorInfo.match = {}
-                this.fetchData()
-            }
+        category: {
+            handler () {
+                if (this.category) {
+                    this.form.match.value = ''
+                    this.errorInfo.match = {}
+                    this.getLeagues()
+                }
+                // this.fetchData()
+            },
+            immediate: true
+        },
+        liveType () {
+            this.fetchData()
         }
     },
     created () {
@@ -180,6 +197,7 @@ export default {
                 const { code, data } = await getMatchList({
                     date: dayjs(this.showTime).format('YYYY-MM-DD'),
                     leagueType: this.leagueId,
+                    leagueId: this.liveType === 'all' ? null : this.liveType,
                     playing: 1000,
                     pageNumber: 1,
                     pageSize: 2000,
@@ -210,7 +228,7 @@ export default {
             this.changeFile()
             const isCoverValidate = !!this.form.liveCover.value
             if (!isValidate || !isCoverValidate) return
-            const { code, msg, data } = await bookMatches({
+            const { code, msg } = await bookMatches({
                 matchId: this.form.match.value,
                 title: this.form.title.value,
                 cover: this.form.liveCover.value,
@@ -247,6 +265,27 @@ export default {
         },
         changeFile () {
             this.coverError = !this.form.liveCover.value
+        },
+        async getLeagues () {
+            try {
+                const { data, code } = await getLeagues(matchTypeMap[this.category])
+                if (code === statusCode.success) {
+                    data.forEach(item => {
+                        // leagueId: 4
+                        // leagueLogo: "http://zq.titan007.com/Image/league_match/images/20210621103014.png"
+                        // nameChs: "巴西甲组联赛"
+                        // nameChsShort: "巴西甲"
+                        this.leagueTypeOptions.push({
+                            ...item,
+                            id: item.leagueId,
+                            value: item.leagueId,
+                            label: item.nameChsShort
+                        })
+                    })
+                }
+            } catch (e) {
+                console.log('出错了')
+            }
         }
     }
 }
@@ -262,7 +301,13 @@ export default {
     }
     .content {
         line-height: 40px;
-        height: 40px;
+        //height: 40px;
+    }
+}
+.league-type-row {
+    width: 100% !important;
+    .content {
+        width: calc(100% - 150px);
     }
 }
 .obs {
@@ -289,6 +334,11 @@ export default {
             width: 145px;
             font-size: 16px;
             font-family: PingFang-SC-Medium;
+        }
+        .el-radio {
+            line-height: 40px;
+            width: 70px;
+            display: inline-block;
         }
     }
     .info {

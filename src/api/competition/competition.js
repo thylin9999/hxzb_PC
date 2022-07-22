@@ -154,3 +154,13 @@ export function getMatchSchedule (data) {
         data
     })
 }
+// 联赛列表
+export function getLeagues (type) {
+    return request({
+        method: 'post',
+        url: url.getLeagues,
+        data: { // 联赛类型 1足球 2篮球 3电竞 4其他
+            league_type: type
+        }
+    })
+}
