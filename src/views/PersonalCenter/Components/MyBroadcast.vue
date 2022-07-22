@@ -39,14 +39,12 @@
                 :prop="isBooked ? 'matchTime' : 'start_time'"
                 align="center"
                 label="开始时间"
-                :formatter="formatterDate"
                 min-width="180" />
             <el-table-column
                 v-if="isFinished"
                 prop="end_time"
                 align="center"
                 label="结束时间"
-                :formatter="formatterDate"
                 min-width="180" />
             <el-table-column
                 prop="announcement"
