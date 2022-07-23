@@ -1,5 +1,5 @@
 <template>
-<div class="update-password">
+<div class="update-password p-b-30">
     <HeaderTitle title="修改密码" />
     <div class="content font-16 font-regular text-333 p-t-30">
         <input-with-error

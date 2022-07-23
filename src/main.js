@@ -8,7 +8,7 @@ import bootstrap from './utils/bootstrap'
 import './utils/elements'
 import { throttle, debounce } from './utils/validator'
 import { modalMixin } from '@/mixins/modal'
-
+import { globalMixin } from '@/mixins/globalMixin'
 // 页面权限
 // 清除默认样式
 import 'normalize.css/normalize.css'
@@ -25,6 +25,7 @@ import { i18n } from './utils/lang/index'
 Vue.use(vueComTestAlvin)
 // 全局mixin
 Vue.mixin(modalMixin)
+Vue.mixin(globalMixin)
 Vue.config.productionTip = false
 // 注册全局节流指令
 Vue.directive('throttle', {

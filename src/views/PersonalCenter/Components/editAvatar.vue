@@ -1,5 +1,5 @@
 <template>
-<div class="edit-avatar">
+<div class="edit-avatar p-b-30">
     <HeaderTitle title="修改头像" />
     <div class="upload-div flex p-l-30 p-t-10">
         <div class="preview m-r-20" >

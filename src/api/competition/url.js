@@ -13,6 +13,8 @@ const url = {
 
     getMatchScheduleByDay: '/api/scheduleMatch/getScheduleByDay',
     getMatchSchedule: '/api/scheduleMatch/getSchedule', // 联赛赛程
-    getHotMatches: '/api/scheduleMatch/hotMatch' // 热门赛程
+    getHotMatches: '/api/scheduleMatch/hotMatch', // 热门赛程
+
+    getLeagues: '/api/leagues/hotLists' // 获取联赛
 }
 export default url
