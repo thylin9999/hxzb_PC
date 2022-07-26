@@ -1,22 +1,25 @@
 <template>
-<div class="full-width">
-    <div class="p-relative header flex justify-between align-center">
+<div class="full-width" :class="{'is-light-header': isLightHeader}">
+    <div class="p-relative header flex justify-between align-center" :class="{
+        'wrap-1200': isLightHeader
+    }">
         <div class="left-section flex align-center">
-            <div class="logo m-r-25">
+            <div class="logo m-r-30">
                 <img class="h-100" src="../../assets/images/common/logo.png" alt="">
             </div>
-            <ul class="menus flex align-center light-header" :class="{'light-header': isLightHeader}">
+            <ul class="menus flex align-center" :class="{'light-header': isLightHeader}">
                 <li
-                    class="pointer m-l-5 m-r-5 font-400 text-center "
+                    class="pointer m-r-25 font-400 text-center "
                     v-for="menu in menus"
                     :key="menu.id"
                     :class="{ 'is-active': currentId === menu.id}"
                     @click="changeTab(menu)"
                 >
-                    <span class="font-16">{{ menu.text }}</span>
+                    <span class="font-20">{{ menu.text }}</span>
                 </li>
             </ul>
         </div>
+        <span class="download-app pointer font-500 text-white font-20 font-medium p-absolute">下载APP</span>
         <user-infos :is-light-header="isLightHeader"/>
 <!--        <div class="p-absolute" style="left: 300px;top:50px;" @click="test">点我</div>-->
     </div>
@@ -50,19 +53,19 @@ export default {
                     text: '赛事',
                     name: 'Competition',
                     sub: 'Competition'
-                },
-                {
-                    id: 3,
-                    text: '订阅',
-                    name: 'SubscribeList',
-                    sub: 'SubscribeList'
-                },
-                {
-                    id: 4,
-                    text: '下载App',
-                    name: 'DownloadApp',
-                    sub: 'DownloadApp'
                 }
+                // {
+                //     id: 3,
+                //     text: '订阅',
+                //     name: 'SubscribeList',
+                //     sub: 'SubscribeList'
+                // },
+                // {
+                //     id: 4,
+                //     text: '下载App',
+                //     name: 'DownloadApp',
+                //     sub: 'DownloadApp'
+                // }
             ],
             currentId: 1
         }
@@ -98,24 +101,25 @@ export default {
 @import '@/theme/default-vars.scss';
 
 .full-width {
-    background-color: #0E3F6A;
     width: 100%;
+
 }
 .header {
     height: 70px;
-    width: 1200px;
     margin: auto;
     .logo {
         height: 40px;
     }
     .menus {
         li {
-            padding: 0 20px;
-            line-height: 40px;
+            width: 70px;
+            height: 32px;
+            line-height: 32px;
+            color: #333;
             &.is-active {
-                border-radius: 20px;
+                border-radius: 10px;
                 color: $text-white;
-                background-color: $background-color1;
+                background: linear-gradient(0deg, #3B5FFF, #A2B3FF);
             }
         }
         &.light-header {
@@ -131,5 +135,8 @@ export default {
             color: $text-dartK;
         }
     }
+}
+.download-app{
+    right: 200px;
 }
 </style>

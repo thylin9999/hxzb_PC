@@ -17,14 +17,21 @@
           </div>
       </div>
       <div class="bg-gray2">
-          <match-list class="m-t-n-10"/>
+          <div class="wrap-1200 p-t-25">
+              <match-list-row show-buttons class="m-t-n-10 w-100" />
+          </div>
+          <div class="banner wrap-1200 m-t-15  bg-center bg-no-repeat bg-size-100" />
           <hot-recommend class="wrap-1200" is-home/>
-          <div class="banner wrap-1200  bg-center bg-no-repeat bg-size-100" />
-          <host-rank />
+<!--          主播列表-->
+          <HomeHostSection />
+<!--          <host-rank />-->
           <host-list class="wrap-1200" is-home/>
-<!--          这里暂时先不加-->
-<!--          <video-competition />-->
-<!--          <events />-->
+          <div class="wrap-1200">
+              <MatchRecomment />
+          </div>
+          <div class="wrap-1200">
+              <events />
+          </div>
       </div>
   </div>
 </template>
@@ -32,19 +39,23 @@
 <script>
 // @ is an alias to /src
 import VideoHome from '@/components/VideoHome'
-import MatchList from '@/views/Competition/MatchList'
 import HotRecommend from '@/components/HotRecommend'
-import HostRank from '@/components/HostRank'
 import HostList from '@/views/Host/HostList'
+import MatchListRow from '@/views/Competition/MatchListRow'
+import Events from '@/views/components/Events'
+import HomeHostSection from '@/views/Host/HomeHostSection'
+import MatchRecomment from '@/views/Competition/MatchRecomment'
 import { getHotRooms } from '@/api/competition/competition'
 export default {
     name: 'Home',
     components: {
         VideoHome,
-        MatchList,
         HotRecommend,
-        HostRank,
-        HostList
+        HomeHostSection,
+        HostList,
+        MatchListRow,
+        Events,
+        MatchRecomment
     },
     data () {
         return {
@@ -88,9 +99,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
+
 .box{
+    margin-top: -70px;
+    padding-top: 70px;
   width: 100%;
-  height: 600px;
+  height: 670px;
   background: url('../assets/images/home/bg.png') no-repeat;
   background-size: 100% 100%;
 }

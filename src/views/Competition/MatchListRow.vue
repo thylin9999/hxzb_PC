@@ -1,42 +1,82 @@
 <template>
     <div v-if="matches.length" class="matches w-100 text-white flex align-center justify-between  font-regular">
-        <div class="left-list p-l-30 p-r-30 w-100 p-relative">
-            <span @click="fetchData"
-                  :class="{
-                        'is-active': leftMove
+        <div class="left-list w-100 p-relative">
+            <template v-if="showButtons">
+                <span @click="prev"
+                         :class="{
+                        'is-unactive opacity-7 not-allowed': !leftMove
                     }"
-                  class="prev  p-absolute"></span>
-            <span @click="fetchData"
-                  :class="{
-                        'is-active': rightMove
+                                  class="prev  p-absolute "></span>
+                <span @click="next"
+                      :class="{
+                        'is-unactive opacity-7 not-allowed': !rightMove
                     }"
-                  class="next  p-absolute"></span>
-            <div ref="ulBox" class="ul-box overflow-x-auto">
+                      class="next  p-absolute"></span>
+                <div class="show-more pointer font-12 h-100 p-absolute" @click="goToMore">
+                    <span class="calender d-inline-block bg-no-repeat bg-center bg-size-100"></span>
+                    <span class="more-span">更多赛程</span>
+                </div>
+            </template>
+            <div ref="ulBox"
+                 class="ul-box overflow-x-auto"
+                :class="{'has-show-button': showButtons}"
+            >
                 <ul
                     ref="matchUl"
-                    class="list  overflow-x-auto  flex  flex-no-wrap"
+                    class="list p-b-10 overflow-x-auto  flex  flex-no-wrap"
                     :style="ulStyle"
                 >
                     <li
-                        class=" match-item  p-t-20 m-r-10  bg-center bg-no-repeat bg-size-100"
+                        class=" match-item  p-t-10 "
                         v-for="match in matches"
                         :key="match.id"
                     >
-                        <div class="header p-l-20 p-b-15 p-relative font-500 flex flex-column  font-15 text-match">
-                            <CustomSpan class="match-title font-18" :content="match.leagueChsShort"/>
-                            <span class="m-t-10 font-18 font-400">{{ match.matchTime }}</span>
-                            <div class="p-absolute match-status flex align-center text-center" :class="{'is-waiting': !match.isGoing}">
-                                <span class="book-icon d-inline-block m-r-5 bg-center bg-no-repeat bg-size-100" v-if="!match.isGoing"></span>
-                                <span
-                                    v-throttle="[()=>book(match),3000]"
-                                    class=" font-12 pointer"
-                                    :class="{'text-white': match.isSubscribe, 'pointer': !match.isSubscribe }"
-                                >{{
-                                        match.isGoing ? match.matchStatusString : match.isSubscribe ? '已预约' : '预约'
-                                    }}</span>
+                        <div class="header p-b-5 p-l-10 p-r-5 p-relative font-500 flex flex-column  font-15 text-14">
+                            <div class="flex w-100 justify-between align-center">
+                                <CustomSpan class="match-title text-green font-12 text-14" :content="match.leagueChsShort"/>
+                                <span class=" font-12 font-regular  font-400">{{ match.matchTime }}</span>
                             </div>
+                            <div class="flex justify-between align-center  match-status">
+                                <el-popover
+                                    popper-class="anchor-popper"
+                                    placement="right"
+                                    width="350"
+                                    trigger="click">
+                                    <div class="anchor-list">
+                                        <p class="text-center text-14 font-12 p-t-10 p-b-10 font-300 font-regular">{{ match.anchor_number }}名主播正在播本场比赛</p>
+                                        <div class="ul-box p-b-15 p-l-20 p-r-20 flex flex-column overflow-y-auto">
+                                            <template
+                                                v-for="anchor in match.anchor_list"
+                                            >
+                                                <AnchorInfo class="m-t-15" :anchor="anchor" :key="anchor.room_id"/>
+                                            </template>
+                                        </div>
+                                    </div>
+                                    <div
+                                        slot="reference"
+                                        class="hosts font-12 text-14 pointer bg-no-repeat p-l-20"
+                                        :class="{'visibility-hidden': match.anchor_number <= 0}"
+                                    >
+                                        {{ match.anchor_number }} 位主播
+                                    </div>
+                                </el-popover>
+
+                                <div class="match-buttons text-center font-12">
+                                     <span
+                                         v-throttle="[()=>book(match),3000]"
+                                         class="font-12 status-span pointer d-inline-block w-100 h-100 text-center"
+                                         :class="{
+                                            'is-subscribe': match.isSubscribe,
+                                            'is-going': match.isGoing,
+                                         }"
+                                     >{{
+                                             match.isGoing ? match.matchStatusString : match.isSubscribe ? '已预约' : '预约'
+                                         }}</span>
+                                </div>
+                            </div>
+
                         </div>
-                        <div class="team-score p-l-20 p-r-20">
+                        <div class="team-score p-l-10 p-r-10">
                             <div class="team  flex justify-between align-center">
                                 <div class="flex align-center">
                                 <span
@@ -45,7 +85,7 @@
                                         backgroundImage: match.homeLogo ? `url(${match.homeLogo})` : `url(${matchLogo})`
                                     }"
                                 ></span>
-                                    <span class="font-18">{{ match.homeChs}}</span>
+                                    <span class="font-16 text-14 font-regular">{{ match.homeChs}}</span>
                                 </div>
                                 <span class="score">{{ match.isFuture ? '-' : match.homeScore}}</span>
                             </div>
@@ -57,26 +97,10 @@
                                         backgroundImage: match.awayLogo ? `url(${match.awayLogo})` : `url(${matchLogo})`
                                     }"
                                 ></span>
-                                    <span class="font-15">{{ match.awayChs }}</span>
+                                    <span class="font-16 text-14 font-regular">{{ match.awayChs }}</span>
                                 </div>
                                 <span class="score">{{ match.isFuture ? '-' : match.awayScore }}</span>
                             </div>
-                        </div>
-                        <div class="match-footer m-t-15 flex justify-center align-center">
-                            <div v-if="match.isGoing" class="is-going flex justify-between align-center">
-                                <span class="icon m-r-15 bg-no-repeat bg-size-100 bg-center"></span>
-                                <div class="host-list overflow-hidden flex">
-                                <span
-                                    v-for="host in match.anchor_list"
-                                    :key="host.id"
-                                    :style="{
-                                      backgroundImage: host.img ? `url(${host.img})` : 'url(' + require('../../assets/images/common/host-avatar.png') + ')'
-                                    }"
-                                    @click="viewLiveBroad(host)"
-                                    class="host border-radius-50"></span>
-                                </div>
-                            </div>
-                            <span v-else class="wait text-center font-12 d-inline-block">未开始</span>
                         </div>
                     </li>
                 </ul>
@@ -89,14 +113,22 @@
 import { getHostMatches, addSubscribeMatch } from '@/api/competition/competition'
 import dayjs from 'dayjs'
 import CustomSpan from '@/components/CustomSpan'
+import AnchorInfo from '@/views/Competition/Components/AnchorInfo'
 import { Message } from 'element-ui'
 import { mapState } from 'vuex'
 import { matchStatus } from '@/utils/utils'
 import { statusCode } from '@/utils/statusCode'
 export default {
     name: 'MatchList',
+    props: {
+        showButtons: {
+            type: Boolean,
+            default: false
+        }
+    },
     components: {
-        CustomSpan
+        CustomSpan,
+        AnchorInfo
     },
     data () {
         return {
@@ -120,7 +152,7 @@ export default {
             }
         },
         ulWidth () {
-            return this.matches.length * 250
+            return this.matches.length * 235
         },
         ulStyle () {
             return {
@@ -184,7 +216,7 @@ export default {
             if (this.leftMove) {
                 const left = this.$refs.ulBox.scrollLeft
                 this.$refs.ulBox.scrollTo({
-                    left: left - 250,
+                    left: left - 235,
                     behavior: 'smooth'
                 })
                 setTimeout(() => {
@@ -203,6 +235,11 @@ export default {
                     this.initScroll()
                 }, 300)
             }
+        },
+        goToMore () {
+            this.$router.push({
+                name: 'LiveBroad'
+            })
         }
     }
 }
@@ -211,24 +248,47 @@ export default {
 <style lang="scss" scoped>
 .left-list {
     .ul-box {
-        //width: calc(100% - 60px);
+        width: 100%;
+        &.has-show-button {
+            width: calc(100% - 50px);
+        }
     }
     .list {
         min-width: 100%;
     }
     .match-item {
-        width: 240px;
-        height: 265px;
-        background-image: url('../../assets/images/common/match_bg.png');
+        width: 235px;
+        height: 145px;
+        margin-right: 15px;
+        background-color: #fff;
+        color: #141414;
         .match-status {
-            right: 15px;
-            top: 0;
-            border: 1px solid #fff;
-            padding: 3px  6px;
-            border-radius: 4px;
-            &.is-waiting {
-                border: 1px solid #FCFFA7;
-                color: #FCFFA7;
+            line-height: 22px;
+            height: 22px;
+            .hosts{
+                background-image: url('../../assets/images/common/live.gif');
+                background-position: left center;
+                background-size: 12px 16px;
+            }
+            .match-buttons {
+                width: 60px;
+                .status-span {
+                    background: linear-gradient(0deg, #3B5FFF, #A2B3FF);
+                    color: #fff;
+                    font-weight: 300;
+                    border-radius: 3px;
+                }
+                .is-subscribe {
+                    color: #939393;
+                    border: 1px solid #939393;
+                    background: #fff;
+                }
+                .is-going {
+                    color: #4366FF;
+                    background: #fff;
+                    border: 1px solid #496AFF;
+                }
+
             }
         }
         .book-icon {
@@ -237,21 +297,18 @@ export default {
             background-image: url('../../assets/images/common/book.png');
         }
         .header {
-            width: calc(100% - 15px);
-            margin-left: 6px;
-            border-bottom: 1px solid #203C8E;
+            border-bottom: 1px solid #DEE4FF;
             .match-title {
-                width: calc(100% - 85px);
+                width: calc(100% - 115px);
                 line-height: 24px;
             }
         }
         .team-score {
             .team {
-                margin-top: 18px;
+                margin-top: 5px;
                 line-height: 33px;
                 height: 33px;
             }
-            width: calc(100% - 14px);
             margin: 0 auto;
             .score {
                 font-size: 25px;
@@ -262,63 +319,67 @@ export default {
             height: 28px;
             background-image: url('../../assets/images/common/team-flag.png');
         }
-        .match-footer {
-            .wait {
-                width: 120px;
-                padding: 7px 0;
-                margin: 0 auto;
-                border: 1px solid #fff;
-                border-radius: 15px;
-            }
-            .is-going {
-                width: calc(100% - 40px);
-                margin: 0 auto;
-                span{
-                    display: inline-block;
-                }
-                .icon {
-                    width: 25px;
-                    height: 20px;
-                    background-image: url('../../assets/images/common/living.png');
-                }
-                .host-list {
-                    width: calc(100% - 25px);
-                }
-                .host {
-                    margin: 0 3px;
-                    width: 30px;
-                    height: 30px;
-                    background-size: 100% 100%;
-                    background-repeat: no-repeat;
-                    background-position: center;
-                    background-image: url('../../assets/images/common/host-avatar.png');
-                }
-            }
-        }
     }
     .prev, .next {
         width: 27px;
-        height: 50px;
-        top: 100px;
-        cursor: pointer;
+        height: 60px;
+        top: 45px;
         display: inline-block;
         background-position: center;
         background-repeat: no-repeat;
-        background-size: 100% 100%;
+        background-size: 6px 11px;
+        background-color: #BFC3D8;
+        border-radius: 3px;
     }
     .prev {
-        left: 0;
-        background-image: url('../../assets/images/common/prev-dis.png');
+        left: -30px;
+        width: 23px;
+        height: 60px;
+        background-image: url('../../assets/images/common/prev.png');
         &.is-active {
             background-image: url('../../assets/images/common/prev.png');
         }
     }
     .next {
-        background-image: url('../../assets/images/common/next-dis.png');
-        right: 0;
+        width: 23px;
+        height: 60px;
+        background-image: url('../../assets/images/common/next.png');
+        right: -30px;
         &.is-active {
             background-image: url('../../assets/images/common/next.png');
         }
+    }
+    .show-more {
+        right: 0;
+        top: 0;
+        z-index: 5;
+        height: 145px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .calender {
+            width: 14px;
+            height: 15px;
+            background-image: url('../../assets/images/home/calender-bg.png');
+        }
+        width: 35px;
+        background-color: #fff;
+        color: #2D2D2D;
+        writing-mode: vertical-lr;
+        .more-span {
+            letter-spacing: 3px;
+        }
+    }
+}
+
+.anchor-list {
+    width: 350px;
+    height: 300px;
+    p {
+        border-bottom: 1px solid #DEE4FF;
+    }
+    .ul-box {
+        height: calc(100% - 40px);
     }
 }
 .right-button{

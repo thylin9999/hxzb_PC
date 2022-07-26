@@ -15,6 +15,7 @@ import {
     Option,
     Upload,
     Loading,
+    Popover,
     Tooltip,
     DatePicker,
     Table,
@@ -36,6 +37,7 @@ Vue.use(Select)
 Vue.use(Option)
 Vue.use(Upload)
 Vue.use(Loading)
+Vue.use(Popover)
 Vue.use(Tooltip)
 Vue.use(DatePicker)
 Vue.use(Table)

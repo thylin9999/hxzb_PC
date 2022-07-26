@@ -129,9 +129,14 @@
 .font-500 {
     font-weight: 500;
 }
-
+.font-600 {
+    font-weight: 600;
+}
 .font-400 {
     font-weight: 400;
+}
+.font-300 {
+    font-weight: 300;
 }
 
 .font-medium {
@@ -161,10 +166,26 @@
 .text-gray {
     color: $text-gray;
 }
-
+.text-gray2 {
+    color: $text-gray2;
+}
+.text-gray3 {
+    color: $text-gray3;
+}
 .text-5e {
     color: #5E5E5E;
 }
+.text-5a {
+    color: #5A5A5A;
+}
+.text-14 {
+    color: $text-black;
+}
+
+.text-green {
+    color: $text-green;
+}
+
 .text-match {
     color: $text-match;
 }
@@ -187,7 +208,7 @@
 }
 
 .visibility-hidden {
-//     visibility: ;
+    visibility: hidden;
 }
 
 .bg-center {
@@ -246,7 +267,10 @@
 .transition-3{
    transition: .3s ease;
 }
-
+.scale-9 {
+    transform: scale(0.9);
+    transform-origin: 0 50% ;
+}
 
 .m-auto {
     margin: 0 auto;

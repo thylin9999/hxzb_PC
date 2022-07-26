@@ -107,9 +107,9 @@ export default {
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
 .user-buttons {
-    color: #FCFFA7;
+    color: #fff;
     border-radius: 20px;
-    border: 1px solid #FCFFA7;
+    border: 1px solid #fff;
     width: 135px;
     line-height: 30px;
 }

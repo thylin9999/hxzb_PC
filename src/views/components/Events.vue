@@ -1,10 +1,10 @@
 <template>
-<div class="wrap-1450">
+<div class="w-100">
     <title-row
-        icon="star"
+        icon="gift-event"
         title="精彩有礼"
     />
-    <div class="w-100 events m-t-25">
+    <div class="w-100 events m-t-15">
         <ul class="flex justify-between">
             <li
                 class="event-item bg-center bg-no-repeat bg-size-100"
@@ -37,10 +37,6 @@ export default {
                 {
                     id: 2,
                     cover: require('../../assets/images/home/events/2.png')
-                },
-                {
-                    id: 3,
-                    cover: require('../../assets/images/home/events/3.png')
                 }
             ]
         }
@@ -50,8 +46,10 @@ export default {
 
 <style lang="scss" scoped>
 .event-item {
-    width: 465px;
-    height: 245px;
+    width: 595px;
+    height: 200px;
+    background-color: #C9CFED;
+    border-radius: 3px;
 }
 .events {
     padding-bottom: 55px;

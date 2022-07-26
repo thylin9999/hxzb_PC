@@ -1,12 +1,13 @@
 <template>
 <div class="hot-live" :class="{'is-not-home-box': !isHome}">
     <div class="p-relative">
-        <title-row icon="sport" title="全部直播" class="m-b-30">
+        <title-row icon="live-broad" title="全部直播" class="m-b-30">
             <more-button v-if="isHome" @click.native="goToLiveBroadCast"/>
         </title-row>
         <match-types
             class="match-types p-absolute"
-            :host-id.sync="hostId"
+            :options="types"
+            :active-id.sync="hostId"
         />
     </div>
     <div class="w-100"
@@ -73,7 +74,34 @@ export default {
                 pageNumber: 1,
                 pageSize: 20,
                 total: 0
-            }
+            },
+            types: [
+                {
+                    id: 5, // 未定
+                    title: '正在热播',
+                    key: 'living'
+                },
+                {
+                    id: 1,
+                    title: '足球热播',
+                    key: 'football'
+                },
+                {
+                    id: 2,
+                    title: '篮球热播',
+                    key: 'basketball'
+                },
+                {
+                    id: 3,
+                    title: '电竞热播',
+                    key: 'eSports'
+                },
+                {
+                    id: 4,
+                    title: '其他',
+                    key: 'other'
+                }
+            ]
         }
     },
     created () {

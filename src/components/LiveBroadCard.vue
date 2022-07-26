@@ -132,7 +132,6 @@ export default {
         .avatar{
             width: 50px;
             height: 50px;
-            //background-image: url('../assets/images/common/host-avatar.png');
         }
         div.title {
             width: calc(100% - 55px);
@@ -144,7 +143,7 @@ export default {
             .icon {
                 width: 14px;
                 height: 17px;
-                background-image: url('../assets/images/icons/hot.png');
+                background-image: url('../assets/images/icons/hot-gray.png');
             }
         }
     }
