@@ -24,28 +24,31 @@
           </div>
       </div>
     </div>
-    <div class="host flex  align-center p-t-10 p-b-10 bg-white p-l-10 p-r-15">
-        <span
-            class="avatar d-inline-block bg-center border-radius-50 bg-no-repeat bg-size-100"
-            :style="{
-                backgroundImage: info.img ? `url(${info.img})` : `url(${hostImg})`
-            }"
-        ></span>
-        <div class="title font-medium m-l-5">
-          <custom-span
-              class="font-16 font-500 text-5e"
-              :content="info.room_title"
-          />
-            <div class="name font-14 flex m-t-5 justify-between align-center">
-                <span class="">{{ info.nick }}</span>
+    <div class="host flex flex-column  align-center p-t-10 p-b-10 bg-white p-l-10 p-r-15">
+        <custom-span
+            class="font-16 w-100 font-500 text-5e"
+            :content="info.room_title"
+        />
 
-                <div class="views flex align-center">
+        <div class="title w-100 m-t-5 flex align-center justify-between font-medium m-l-5">
+           <div class="user-info flex align-center">
+             <span
+                 class="avatar d-inline-block bg-center border-radius-50 bg-no-repeat bg-size-100"
+                 :style="{
+                  backgroundImage: info.img ? `url(${info.img})` : `url(${hostImg})`
+              }"
+             ></span>
+
+             <span class="name scale-9 d-inline-block m-l-5">
+               <custom-span class="w-100" :content="info.nick" />
+             </span>
+           </div>
+          <div class="views flex align-center">
                     <span
                         class="icon bg-center bg-no-repeat d-inline-block bg-size-100"
                     ></span>
-                    <span class="m-l-5 font-15">{{ info.heat_num }}</span>
-                </div>
-            </div>
+            <span class="m-l-5 font-15">{{ info.heat_num }}</span>
+          </div>
         </div>
     </div>
 </div>
@@ -109,9 +112,9 @@ export default {
 .card {
     border-radius: 10px;
     overflow: hidden;
-    width: 284px;
+    width: 232px;
     .live-cover {
-        height: 159px;
+        height: 122px;
         background-color: #f2f2f2;
         .mask {
             background-color: rgba(0,0,0,.7);
@@ -130,16 +133,20 @@ export default {
     }
     .host {
         .avatar{
-            width: 50px;
-            height: 50px;
+            width: 20px;
+            height: 20px;
         }
         div.title {
-            width: calc(100% - 55px);
-            .name {
-                color: #A0A0A0;
-            }
+          color: #A0A0A0;
+        }
+        .user-info {
+          width: calc(100% - 70px);
+          .name {
+            width: calc(100% - 25px);
+          }
         }
         .views {
+            width: 70px;
             .icon {
                 width: 14px;
                 height: 17px;

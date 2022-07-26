@@ -12,7 +12,7 @@
             <li
                 v-for="(item, index) in list"
                 :key="item.id"
-                class="m-r-20 m-b-20"
+                class="m-r-10 m-b-20"
             >
                 <live-broad-card
                     :index="index"
@@ -76,13 +76,12 @@ export default {
 
 <style lang="scss" scoped>
 .is-in-home {
-    li:nth-child(4n) {
+    li:nth-child(5n) {
         margin-right: 0!important;
     }
 }
 .is-not-home {
     width: 100%;
-    padding: 0 50px;
 }
 @media screen and (max-width: 1350px) {
     .is-not-home {

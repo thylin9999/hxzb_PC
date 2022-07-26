@@ -164,3 +164,13 @@ export function getLeagues (type) {
         }
     })
 }
+
+export function getLeaguesByType (type) {
+    return request({
+        method: 'post',
+        url: url.getLeaguesByType,
+        data: {
+            league_type: type
+        }
+    })
+}

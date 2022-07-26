@@ -156,15 +156,15 @@ export default {
 .hot-live {
     margin-top: 40px;
     &.is-not-home-box {
-        padding: 0 50px;
+        //padding: 0 50px;
     }
 }
 .hosts{
     &.is-home {
         li {
-            margin-right: 20px;
+            margin-right: 10px;
         }
-        li:nth-child(4n) {
+        li:nth-child(5n) {
             margin-right: 0;
         }
     }

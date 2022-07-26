@@ -1,11 +1,11 @@
 <template>
-<div class="full-width" :class="{'is-light-header': isLightHeader}">
+<div class="full-width" :class="{'is-light-header': isLightHeader, 'host-page': isHost}">
     <div class="p-relative header flex justify-between align-center" :class="{
         'wrap-1200': isLightHeader
     }">
         <div class="left-section flex align-center">
-            <div class="logo m-r-30">
-                <img class="h-100" src="../../assets/images/common/logo.png" alt="">
+            <div class="logo m-r-30 flex align-center">
+                <img class="" src="../../assets/images/common/logo.png" alt="">
             </div>
             <ul class="menus flex align-center" :class="{'light-header': isLightHeader}">
                 <li
@@ -73,6 +73,9 @@ export default {
     computed: {
         isLightHeader () {
             return this.currentId === 1
+        },
+        isHost () {
+            return this.currentId === 5
         }
     },
     watch: {
@@ -108,7 +111,11 @@ export default {
     height: 70px;
     margin: auto;
     .logo {
-        height: 40px;
+        height: 70px;
+        line-height: 70px;
+        img{
+            height: 40px;
+        }
     }
     .menus {
         li {
@@ -129,14 +136,17 @@ export default {
         }
     }
 }
-.is-dark {
-    .menus {
-        li {
-            color: $text-dartK;
-        }
-    }
-}
 .download-app{
     right: 200px;
+}
+
+.host-page {
+    .left-section {
+        .logo{
+            width: 350px;
+            padding-left: 45px;
+            border-right: 1px solid #F1F2F5;
+        }
+    }
 }
 </style>

@@ -13,27 +13,34 @@
                 <span class="font-16 text-333 font-500">{{ category.label }}</span>
             </div>
         </div>
-    </div>
-    <div class="right-content p-t-20 m-l-30">
-        <div class="w-100 p-l-15 p-r-15">
-            <MatchListRow class="w-100" />
+        <div class="tree-menus p-b-25">
+            <TreeMenus />
         </div>
-        <hot-recommend class="w-100"/>
-        <host-list class=""/>
+        <div class="footer-buttons font-regular text-center m-t-25 m-b-30 font-16 font-500 text-white">
+            <span class="btn d-inline-block pointer">下载应用</span>
+            <span class="btn apply-host d-inline-block pointer m-t-10">申请直播</span>
+            <div class="info flex align-center p-l-25 p-r-25 m-t-15">
+                <span class="live-broad flex-1">直播咨询</span>
+                <span class="question flex-1">问题咨询</span>
+            </div>
+        </div>
+    </div>
+    <div class="right-content h-100 p-t-20 p-r-30 m-l-30">
+        <component :is="com" />
     </div>
 </div>
 </template>
 
 <script>
-import MatchListRow from '@/views/Competition/MatchListRow'
-import HotRecommend from '@/components/HotRecommend'
-import HostList from '@/views/Host/HostList'
+import MyLiveHost from '@/views/Host/MyLiveHost'
+import MyFavorite from '@/views/Host/Components/MyFavorite'
+import TreeMenus from '@/components/TreeMenus'
 export default {
     name: 'HostIndex',
     components: {
-        MatchListRow,
-        HotRecommend,
-        HostList
+        MyLiveHost,
+        MyFavorite,
+        TreeMenus
     },
     data () {
         return {
@@ -42,24 +49,23 @@ export default {
                 {
                     id: 1,
                     label: '全部直播',
-                    icon: 'live-broad'
+                    icon: 'live-broad',
+                    com: 'MyLiveHost'
                 },
                 {
                     id: 2,
                     label: '我的关注',
-                    icon: 'my-favorite'
-                },
-                {
-                    id: 3,
-                    label: '我的预约',
-                    icon: 'my-booked'
+                    icon: 'my-favorite',
+                    com: 'MyFavorite'
                 }
-            ]
+            ],
+            com: 'MyLiveHost'
         }
     },
     methods: {
         changeCategory (category) {
             this.categoryId = category.id
+            this.com = category.com
         }
     }
 }
@@ -68,18 +74,51 @@ export default {
 <style lang="scss" scoped>
 .left-menus {
     width: 350px;
-    padding: 25px 0 25px 45px;
+    .categories {
+        border-top: 1px solid #F1F2F5;
+        border-bottom: 1px solid #F1F2F5;
+    }
     .category {
         line-height: 44px;
+        padding: 10px 45px;
         &.is-active {
             span{
                 color: #506EFF;
             }
         }
     }
+    .tree-menus{
+        border-bottom: 1px solid #F1F2F5;
+        height: calc(100% - 310px);
+        min-height: 500px;
+        overflow-y: auto;
+    }
+    .footer-buttons {
+        .btn{
+            width: 300px;
+            height: 40px;
+            line-height: 40px;
+            background: #FB7674;
+            border-radius: 10px;
+        }
+        .apply-host {
+            background: linear-gradient(0deg, #3B5FFF, #A2B3FF);
+        }
+        .info {
+            color: #ccc;
+        }
+        .live-broad{
+            border-right: 1px solid #F1F2F5;
+        }
+    }
+
 }
 .right-content {
     width: calc(100% - 380px);
+}
+
+.live-broad-cast {
+    height: calc(100vh - 245px);
 }
 ::v-deep {
     .live-broad-cast {

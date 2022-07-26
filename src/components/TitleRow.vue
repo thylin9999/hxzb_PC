@@ -14,7 +14,7 @@ export default {
     props: {
         title: {
             type: String,
-            default: '22222'
+            default: ''
         },
         icon: {
             type: String,
