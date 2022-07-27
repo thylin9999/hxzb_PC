@@ -17,7 +17,7 @@
 
                     }"
                 ></div>
-                <span class="m-l-10 text-white" :class="{'text-white': isLightHeader}">{{nickname}}</span>
+                <span class="m-l-10 " :class="{'text-white': isLightHeader, 'text-333': !isLightHeader}">{{nickname}}</span>
             </span>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
@@ -107,7 +107,6 @@ export default {
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
 .user-buttons {
-    color: #fff;
     border-radius: 20px;
     border: 1px solid #fff;
     width: 135px;
@@ -117,10 +116,11 @@ export default {
     width: 35px;
     height: 35px;
     border-radius: 50%;
-    //background-image: url('../../assets/images/user.png');
-    //background-size: contain;
 }
 .light-background {
-    color: $text-white;
+    color: #333;
+    .user-buttons {
+        border-color: #333;
+    }
 }
 </style>

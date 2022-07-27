@@ -1,7 +1,7 @@
 <template>
 <div class="full-width" :class="{'is-light-header': isLightHeader, 'host-page': isHost}">
     <div class="p-relative header flex justify-between align-center" :class="{
-        'wrap-1200': isLightHeader
+        'wrap-1200': !isHost
     }">
         <div class="left-section flex align-center">
             <div class="logo m-r-30 flex align-center">
@@ -21,7 +21,6 @@
         </div>
         <span class="download-app pointer font-500 text-white font-20 font-medium p-absolute">下载APP</span>
         <user-infos :is-light-header="isLightHeader"/>
-<!--        <div class="p-absolute" style="left: 300px;top:50px;" @click="test">点我</div>-->
     </div>
 </div>
 </template>
@@ -71,7 +70,7 @@ export default {
         }
     },
     computed: {
-        isLightHeader () {
+        isLightHeader () { // 首页
             return this.currentId === 1
         },
         isHost () {
@@ -141,6 +140,7 @@ export default {
 }
 
 .host-page {
+    padding-right: 35px;
     .left-section {
         .logo{
             width: 350px;

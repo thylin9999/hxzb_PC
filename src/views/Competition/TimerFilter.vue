@@ -1,50 +1,38 @@
 <template>
-<div class="wrap-1200 box flex align-center bg-white overflow-hidden">
-    <ul class="tabs flex align-center justify-center">
-        <li
-            v-for="tab in tabs"
-            :key="tab.id"
-            class="flex flex-column pointer align-center m-l-15 m-r-15"
-            @click="changeTab(tab)"
-            :class="{'is-active': tab.id === currentTab}"
+<div class="w-100 box flex align-center bg-white overflow-hidden">
+    <div class="date-list w-100 h-100 p-relative">
+        <span class="prev flex align-center justify-center p-absolute text-center"
+              @click="prev"
+              :class="{
+                  'is-active': rightMove
+              }"
         >
-            <icon-png :icon="tab.id === currentTab ? tab.icon + '-active' : tab.icon" :width="26" :height="27"/>
-            <span class="tab-name m-t-5">{{ tab.title }}</span>
-        </li>
-    </ul>
-    <div class="date-list h-100 p-relative">
-        <icon-png @click.native="prev" :class="{
-            'is-active': leftMove
-        }" class="prev pointer p-absolute" :width="14" :height="25" :icon="prevIcon"/>
-        <icon-png @click.native="next" :class="{
-            'is-active': rightMove
-        }" class="next pointer p-absolute" :width="14" :height="25" :icon="nextIcon"/>
-        <div class="date-box p-l-10 h-100 overflow-x-auto" ref="ulBox">
-            <ul ref="matchUl" class="flex h-100 flex-no-wrap " :style="ulStyle">
+          <icon-png  class=" pointer" :width="6" :height="11" :icon="prevIcon"/>
+        </span>
+        <span class="next flex align-center justify-center p-absolute text-center"
+              @click="next"
+              :class="{
+                  'is-active': rightMove
+              }"
+        >
+           <icon-png  class=" pointer " :width="6" :height="11" :icon="nextIcon"/>
+        </span>
+
+        <div class="date-box h-100 overflow-x-auto" ref="ulBox">
+            <ul ref="matchUl" class="flex h-100 align-center flex-no-wrap " :style="ulStyle">
                 <li
                     v-for="date in dates"
                     :key="date.id"
                     :class="{'is-active': time === date.id}"
                     @click="changeTime(date)"
-                    class="flex h-100 flex-column m-r-10 pointer justify-center text-center date-item align-center font-18 font-regular font-400"
+                    class="flex h-100 font-400 flex-column pointer justify-center text-center date-item align-center font-regular font-400"
                 >
-                    <span>{{ date.date}}</span>
-                    <span class="m-t-5">{{ date.weekName}}</span>
+                    <span class="font-20  font-regular date">{{ date.date}}</span>
+                    <span class="m-t-5 week">{{ date.weekName}}</span>
+                    <span class="week" v-if="time === date.id">(120场)</span>
                 </li>
             </ul>
         </div>
-    </div>
-    <div class="calender p-relative h-100 flex flex-column pointer justify-center align-center">
-        <icon-png icon="icons/filter" :width="22" :height="22"/>
-        <span class="title m-t-10 font-16 font-regular font-400">筛选</span>
-        <el-date-picker
-            class="w-100 h-100 opacity-0 p-absolute time-picker"
-            v-model="showTime"
-            type="date"
-            @change="selectTime"
-            :picker-options="pickerOptions"
-            placeholder="选择日期">
-        </el-date-picker>
     </div>
 </div>
 </template>
@@ -120,7 +108,7 @@ export default {
         },
         ulStyle () {
             return {
-                width: this.dates.length * 110 + 'px'
+                width: this.dates.length * 105 + 'px'
             }
         },
         pickerOptions () {
@@ -212,35 +200,24 @@ export default {
 
 <style lang="scss" scoped>
 .box {
-    height: 80px;
+    height: 110px;
     border-radius: 3px;
 }
-.tabs {
-    width: 230px;
-    li {
-        .tab-name{
-            font-size: 20px;
-            color: #919191;
 
-        }
-        &.is-active {
-            .tab-name {
-                color: #01114B;
-            }
-        }
-    }
-
-}
 .date-list {
-    width: calc(100% - 320px);
-    padding: 0 70px 0 35px;
+    padding: 0 55px;
+    .prev, .next {
+      width: 23px;
+      height: 60px;
+      line-height: 60px;
+      top: 25px;
+      background-color: #BFC3D8;
+    }
     .prev {
-        left: 0px;
-        top: 30px;
+      left: 15px;
     }
     .next {
-        right: 30px;
-        top: 30px;
+        right: 15px;
     }
     .date-box {
         width: 100%;
@@ -254,11 +231,25 @@ export default {
    }
 
     .date-item {
-        width: 100px;
+        width: 105px;
+        height: 75px;
         color: #142563;
-        border-bottom: 3px solid transparent;
+        border-radius: 10px;
+        .date{
+          color: #232323;
+        }
+        .week {
+          color: #828282;
+          font-size: 14px;
+        }
         &.is-active,&:hover {
-            border-color: #161C94;
+          background: linear-gradient(0deg, #3B5FFF, #A2B3FF);
+          .date{
+            color: #fff;
+          }
+          .week {
+            color: #DBDBDB;
+          }
         }
     }
 }
