@@ -1,72 +1,73 @@
 <template>
-<div class="card w-100 m-b-5 rect bg-white flex align-center">
+<div class="card w-100 p-l-30 rect bg-white flex align-center">
+    <div class="left-time">
+        <span class="font-16 text-333 font-regular font-500">{{ match.matchTime | filterTime }}</span>
+    </div>
     <div class="left-info p-l-15 flex align-center justify-between">
-        <div class="flex time-and-title flex-column justify-center font-regular align-center">
-            <span class="match-time font-18 m-b-15 font-400 ">{{ match.matchTime | filterTime}}</span>
-            <custom-span
-                class="match-title font-18 text-center"
-                :content="match.leagueChsShort"
-            />
-        </div>
-        <div class="battle-info flex justify-between align-center">
+        <div class="battle-info w-100 flex justify-between align-center">
             <div class="home team flex align-center">
-                <div class="flex icon-and-name flex-column align-center justify-center">
-                    <div class="icon bg-no-repeat bg-center bg-size-100" :style="{
-                        backgroundImage: `url(${homeLogo})`
-                    }"></div>
+                <div class="flex icon-and-name  align-center justify-center">
                     <custom-span
-                        class="font-regular w-100 text-center team-name m-t-10 font-15 font-400"
+                        class="font-regular m-r-5 text-right team-name text-333  font-16 font-500"
                         :content="match.homeChs"
                     />
+                    <div class="icon bg-no-repeat bg-center " :style="{
+                        backgroundImage: `url(${homeLogo})`
+                    }"></div>
                 </div>
                 <span class=" score text-center d-inline-block">{{ match.homeScore }}</span>
             </div>
-            <span class="vs text-center font-25 d-inline-block">vs</span>
+            <span class="vs text-center font-30 d-inline-block">-</span>
             <div class="away team flex align-center">
                 <span class=" score text-center d-inline-block">{{ match.awayScore }}</span>
-                <div class="flex icon-and-name flex-column align-center justify-center">
-                    <div class="icon bg-no-repeat bg-center bg-size-100"
+                <div class="flex icon-and-name align-center justify-center">
+                    <div class="icon bg-no-repeat bg-center "
                       :style="{
                         backgroundImage: `url(${awayLogo})`
                     }"
                     ></div>
                     <custom-span
-                        class="font-regular team-name w-100 text-center m-t-10 font-16 font-400"
+                        class="font-regular team-name m-l-5 text-left font-16 font-400"
                         :content="match.awayChs"
                     />
                 </div>
             </div>
         </div>
     </div>
-    <div class="right-host p-r-20 flex justify-between">
-        <div class="hosts overflow-x-auto">
-            <ul class="flex flex-no-wrap">
-                <li
-                    v-for="host in match.anchor_list"
-                    :key="host.id"
-                    class="host-item m-r-5 flex pointer flex-column justify-center align-center"
-                    @click="goToLiveRoom(host)"
-                >
-                    <div class="icon bg-no-repeat bg-center bg-size-100"
-                        :style="{
-                            backgroundImage: `url(${host.img})`
-                        }"
-                    ></div>
-                    <CustomSpan class="font-12 text-73 m-t-10" :content="host.nick"/>
-                </li>
-            </ul>
+    <div class="right-host p-r-20 flex align-center justify-between">
+        <div class="league-name text-center">
+            <CustomSpan :content="match.leagueChsShort" class="font-12 font-500 text-gray4" />
         </div>
         <div class="button ">
             <div
-                class=" pointer is-subscribe flex align-center justify-center w-100 h-100"
+                v-if="isFutureMatch || isEnd"
+                class=" pointer match-status flex align-center justify-center w-100 h-100"
                 :class="{
                     'un-subscribe': isFutureMatch && !isSubscribe,
+                    'is-end': isEnd || isSubscribe
                 }"
                 v-throttle="[()=>subscribeMatch(),3000]">
-                <icon-png class="m-r-5" v-if="isFutureMatch" :width="20" :height="19" :icon="iconName"/>
-                <span class="font-16 font-400 font-regular ">{{ buttonString }}</span>
+                <span class="font-12 font-400 font-regular ">{{ buttonString }}</span>
             </div>
-
+            <div v-else class="hosts overflow-x-auto">
+                <ul v-if="match.anchor_list.length > 2" class="flex flex-no-wrap">
+                    <li
+                        v-for="host in match.anchor_list"
+                        :key="host.id"
+                        class="host-item m-r-5 flex pointer flex-column justify-center align-center"
+                        @click="goToLiveRoom(host)"
+                    >
+                        <div class="icon bg-no-repeat bg-center "
+                             :style="{
+                            backgroundImage: emptyLogo ? `url(${emptyLogo})` :`url(${host.img})`
+                        }"
+                        ></div>
+                    </li>
+                </ul>
+                <div class="live-broadcast text-center">
+                    <span class="font-12 font-regular font-300">直播中</span>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -75,7 +76,6 @@
 <script>
 import dayjs from 'dayjs'
 import CustomSpan from '@/components/CustomSpan'
-import IconPng from '@/components/IconPng'
 import { addSubscribeMatch } from '@/api/competition/competition'
 import { matchStatus } from '@/utils/utils'
 import { Message } from 'element-ui'
@@ -83,6 +83,11 @@ import { statusCode } from '@/utils/statusCode'
 import { mapState } from 'vuex'
 export default {
     name: 'MatchCardRect',
+    filters: {
+        filterTime (value) {
+            return dayjs(value).format('HH:mm')
+        }
+    },
     props: {
         match: {
             type: Object,
@@ -94,17 +99,11 @@ export default {
         }
     },
     components: {
-        CustomSpan,
-        IconPng
+        CustomSpan
     },
     data () {
         return {
-            emptyLogo: require('../../assets/images/common/team-flag.png')
-        }
-    },
-    filters: {
-        filterTime (value) {
-            return dayjs(value).format('HH:mm')
+            emptyLogo: require('@/assets/images/common/team-flag.png')
         }
     },
 
@@ -112,9 +111,6 @@ export default {
         ...mapState('user', ['token']),
         buttonString () {
             return this.isFutureMatch ? (this.isSubscribe ? '已预约' : '预约') : matchStatus[this.match.state]
-        },
-        iconName () {
-            return this.isFutureMatch ? (this.isSubscribe ? 'matches/appointment' : 'matches/going') : 'matches/going'
         },
         isGoing () {
             return !this.isFutureMatch && !this.isEnd
@@ -174,13 +170,16 @@ export default {
 
 <style lang="scss" scoped>
 .card {
-    height: 80px;
+    height: 70px;
     padding: 6px 0;
     border-radius: 3px;
+    border-bottom: 1px solid #DEE4FF;
+}
+.left-time {
+    width: 10%;
 }
 .left-info {
-    width: 50%;
-    border-right: 1px solid #C3C3C3;
+    width: 60%;
     .time-and-title {
         width: 100px;
     }
@@ -192,9 +191,9 @@ export default {
         color: #272727;
     }
     .battle-info {
-        width: calc(100% - 100px);
         .vs {
             width: 30px;
+            line-height: 30px;
         }
         .team {
             width: calc(50% - 15px);
@@ -208,45 +207,68 @@ export default {
             }
         }
         .icon {
-            width: 34px;
-            height: 34px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
+            background-size: contain;
         }
         .team-name {
-            color: #272727;
+            width: calc(100% - 35px);
         }
     }
 }
 .right-host {
-    width: 50%;
+    width: 30%;
+    line-height: 26px;
     .button {
-        width: 100px;
-        height: 40px;
+        width: 65px;
+    }
+    .league-name {
+        width: calc(100% - 65px);
     }
     .hosts{
-        width: calc(100% - 150px);
         margin: 0 auto;
         .host-item{
-            width: 45px;
             .icon {
-                width: 45px;
-                height: 45px;
+                width: 30px;
+                height: 30px;
                 border-radius: 50%;
+                background-size: contain;
             }
             span {
                 color: #737373;
             }
+        }
+        .live-broadcast{
+            width: 65px;
+            line-height: 26px;
+            background-color: #FB7674;
+            border-radius: 3px;
+            color: #fff;
+            background-image: url('../../../assets/images/common/live.gif');
+            background-size: 12px 16px;
+            background-position: 7px center;
+            background-repeat: no-repeat;
         }
     }
     .un-subscribe {
         background-color: #142563;
         color: #fff;
     }
-    .is-subscribe {
-        border: 2px solid #142563;
-    }
+
     .is-subscribe, .un-subscribe {
-        border-radius: 30px;
+        border-radius: 26px;
+    }
+    .match-status {
+        background: linear-gradient(0deg, #3B5FFF, #A2B3FF);
+        border-radius: 3px;
+        color: #fff;
+    }
+    .is-end {
+        border: 1px solid #939393;
+        background: transparent;
+        font-weight: 300;
+        color: #939393;
     }
 }
 </style>

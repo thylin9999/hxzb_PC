@@ -19,8 +19,8 @@
     </div>
     <div class="content flex flex-column flex m-l-10">
         <TimerFilter :time.sync="filterTime" />
-        <div class="matches w-100 bg-white m-t-15 p-t-20 p-l-30">
-            <div class="title flex align-center p-l-10">
+        <div class="matches w-100 bg-white m-t-15 p-t-20 ">
+            <div class="title flex align-center m-l-30 p-l-10">
                 <span class="date font-500 font-medium">{{ filterTime | dateFilter}}</span>
             </div>
             <div class="match-list w-100 m-t-20 overflow-y-auto"
@@ -54,8 +54,10 @@
 import TreeMenus from '@/components/TreeMenus'
 import TimerFilter from '@/views/Competition/TimerFilter'
 import MatchCardRect from '@/views/Competition/Components/MatchCardRect'
+import { getMatchList } from '@/api/competition/competition'
 import dayjs from 'dayjs'
 import { mapState } from 'vuex'
+import { statusCode } from '@/utils/statusCode'
 export default {
     name: 'Competition',
     filters: {
@@ -136,7 +138,7 @@ export default {
         },
         fetchDataParams () {
             return {
-                competitionType: this.competitionType,
+                competitionType: this.competitionTypeId,
                 filterTime: this.filterTime,
                 matchType: this.matchType,
                 statusType: this.statusType,
@@ -144,25 +146,12 @@ export default {
             }
         },
         apiParams () {
-            let playing = 3000
-            if (this.competitionType === 1) {
-                if (this.matchType === 3) {
-                    // 热门赛事
-                    playing = this.hotMatchType === 1 ? 2000 : 1000
-                } else {
-                    if (this.matchType === 4 || this.statusType === 1) {
-                        playing = 2000
-                    } else {
-                        playing = 1000
-                    }
-                }
-            }
             return {
                 pageNumber: 1,
                 pageSize: 2000,
                 leagueId: null, // 联赛id，
                 // playing: this.competitionType === 1 ? ((this.matchType === 4 || this.statusType === 1) ? 2000 : 1000) : 3000,
-                playing,
+                playing: 1000,
                 leagueType: this.matchType === 4 ? null : this.matchType, // 赛事分类，足球，篮球等
                 day: this.filterTime
             }
@@ -197,6 +186,27 @@ export default {
     methods: {
         changeCategory (type) {
             this.competitionTypeId = type.id
+        },
+        async fetchData () {
+            try {
+                const { data, code } = await getMatchList({
+                    pageNumber: 1,
+                    pageSize: 20,
+                    leagueId: null,
+                    playing: 1000,
+                    leagueType: null
+                })
+                if (code === statusCode.success) {
+                    this.list = data.list.reduce((all, item) => {
+                        all.push({
+                            ...item
+                        })
+                        return all
+                    }, [])
+                }
+            } catch (e) {
+                console.log('出错了')
+            }
         }
     }
 }
