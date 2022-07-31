@@ -1,6 +1,7 @@
 <template>
     <el-button
         class="font-16 font-400 text-center font-16 pointer"
+        :disabled="disabled"
         :loading="loading"
     >{{ title }}</el-button>
 </template>
@@ -14,6 +15,10 @@ export default {
             default: ''
         },
         loading: {
+            type: Boolean,
+            default: false
+        },
+        disabled: {
             type: Boolean,
             default: false
         }

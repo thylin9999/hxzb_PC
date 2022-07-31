@@ -16,40 +16,35 @@
         <div
             v-loading.body="isLoading"
             element-loading-background="rgba(0, 0, 0, 0.8)"
-            class="box w-100 flex align-center bg-white" :style="style">
-            <div class="left-section h-100  flex flex-column justify-center align-center">
-                <span class="font-14 font-regular"> 扫码下载app</span>
-                <div class="qrcode-box m-t-15 m-b-20">
-                    <qrcode />
-                </div>
-                <div class="logo w-100 bg-center bg-no-repeat m-t-30"></div>
-            </div>
-            <div class="right-form h-100 bg-white ">
+            class="box w-100 flex align-center bg-white p-b-30">
+            <div class="right-form w-100 h-100 bg-white ">
                 <div
-                    class="title text-center m-t-30"
+                    class="title  text-center m-t-30 bg-no-repeat bg-center bg-size-auto"
                     :class="{'m-b-15': isRegister, 'm-b-30': !isRegister}">
-                    <span class="font-regular font-500 font-18">{{ title }}</span>
                 </div>
                 <div class="form">
                     <input-with-error
                         class="m-b-20"
+                        just-bottom
                         :label="form.account.label"
                         :error-info="errorInfo.account"
-                        :icon="form.account.icon"
                         :row-info.sync="form.account"
+                        show-slot
                         @validate="validateRow"
                         :key="form.account.updateKey"
-                    />
+                    >
+                        <span class="phone-label font-16">+86</span>
+                    </input-with-error>
                     <div v-if="showCode && isRegister" class="row row-inner code-input m-b-20 flex p-relative">
-                        <div class="input-section flex align-center flex-1 p-l-15" >
-                            <svg-icon class="icon-14" icon-class="safe"></svg-icon>
+                        <div class="input-section flex align-center flex-1 " >
+<!--                            <svg-icon class="icon-14" icon-class="safe"></svg-icon>-->
                             <el-input
                                 class="input  flex-1"
                                 placeholder="请输入验证码"
                                 v-model="form.code.value"
                                 @blur="validateRow('code')"
                             />
-                            <div class="code h-100 pointer text-center" :class="{'not-allowed opacity-7': isSend}" v-if=showCode @click="getCode">
+                            <div class="code pointer text-center" :class="{'not-allowed opacity-7': isSend}" v-if=showCode @click="getCode">
                                 <span class="font-14 line-height-20 font-medium">{{ codeText }}</span>
                             </div>
                         </div>
@@ -57,16 +52,16 @@
                     </div>
                     <input-with-error
                         class="m-b-20"
+                        just-bottom
                         :label="form.password.label"
                         :error-info="errorInfo.password"
-                        :icon="form.password.icon"
                         :row-info.sync="form.password"
                         @validate="validateRow"
                         @keyUpEnter="submit"
                         :key="form.password.updateKey"
                     />
                 </div>
-                <div class="button-text font-14 line-height-20 ">
+                <div class="button-text font-12 line-height-20 ">
                     <template v-if="!isRegister">
                         <div class="flex justify-between align-center">
                             <span class="pointer" @click="changeType(1)">立即注册</span>
@@ -74,12 +69,23 @@
                         </div>
                     </template>
                     <template v-else>
-                        <span class="pointer" @click="changeType(2)">去登录</span>
+                        <span class="pointer" @click="changeType(2)">已有账号去登录</span>
                     </template>
+                </div>
+                <div class="procotol m-t-30 m-b-30 font-12 font-400">
+                    <el-checkbox v-model="agreeUs">
+                        <div>我已阅读且同意
+                            <span>《海豹用户协议》</span>
+                            和
+                            <span>《隐私政策》</span>
+                        </div>
+                    </el-checkbox>
+
                 </div>
                 <div class="submit m-t-15 text-center">
                     <submit-button
-                        class="w-100 font-16 d-inline-block text-center"
+                        class="w-100 font-20 font-400 d-inline-block text-center"
+                        :disabled="!agreeUs"
                         :title="buttonTitle" @click.native="submit"
                         :loading="isLoading"
                     />
@@ -90,7 +96,6 @@
 </template>
 <script>
 import { mapActions, mapState } from 'vuex'
-import Qrcode from '@/components/Qrcode'
 import SubmitButton from '@/components/SubmitButton'
 import InputWithError from '@/components/Form/InputWithError'
 import { isRequire, phone } from '@/utils/validator'
@@ -102,7 +107,6 @@ import { register, getCode, findBackPwd } from '@/api/user'
 export default {
     name: 'ModalLogin',
     components: {
-        Qrcode,
         SubmitButton,
         InputWithError
     },
@@ -148,7 +152,8 @@ export default {
             isResetPassword: false,
             isLoading: false,
             leftTime: 60,
-            timer: null
+            timer: null,
+            agreeUs: false
         }
     },
     computed: {
@@ -313,34 +318,33 @@ export default {
 .box {
     border-radius: 4px;
 }
-.left-section {
-    width: 230px;
-    background: linear-gradient(129deg, #F0F2FF 0%, #CCD1FF 100%);
-    .qrcode-box {
-        width: 120px;
-        height: 120px;
-    }
-    .logo{
-        background-image: url('../../assets/images/common/logo.png');
-        background-size: contain;
-        height: 40px;
-    }
-}
+
 .right-form {
-    width: calc(100% - 230px);
     padding: 0 40px;
     .title {
-        color: $text-color-73;
+        width: 187px;
+        height: 40px;
+        margin: 0 auto;
+        background-size: contain;
+        background-image: url('../../assets/images/common/logo.png');
     }
     .button-text {
-        color: $background-color1;
+        color: #717171;
+        font-weight: 300;
     }
 }
+.procotol {
+    color: #BEBEBE;
+    span {
+        color: #9DB7FF;
 
+    }
+}
 .code-input {
     .input-section {
-        background-color: $background-input;
+        //background-color: $background-input;
         height: 45px;
+        border-bottom: 1px solid #F1F1F1;
     }
     .error {
         left: 0;
@@ -349,9 +353,10 @@ export default {
     }
     .code {
         width: 100px;
-        background-color: #E67A40;
-        color: $text-white;
-        line-height: 45px;
+        background-color: #4B6EFF;
+        color: #FEFEFE;
+        line-height: 35px;
+        height: 35px;
         &.is-send{
             background-color: #eee;
         }
@@ -373,8 +378,16 @@ export default {
             font-family: PingFang-SC-Regular;
         }
     }
+    .slot-label {
+        line-height: 35px;
+        height: 35px;
+        border-right: 1px solid #F1F1F1;
+        width: 60px;
+        text-align: center;
+        color: #757575;
+    }
     .el-dialog {
-        width: 640px;
+        width: 420px;
         margin: 0!important;
         position: absolute;
         left: 50%;
@@ -385,8 +398,19 @@ export default {
         display: none;
     }
     .el-dialog__body {
-        width: 640px!important;
+        width: 420px!important;
         padding: 0!important;
+        border-radius: 3px;
+
+    }
+
+    .submit {
+        .el-button {
+            height: 50px;
+            background: linear-gradient(90deg, #425FFB 0%, #9CAEFA 100%) !important;
+            color: #CBE0FF;
+            border-radius: 3px;
+        }
     }
 }
 </style>

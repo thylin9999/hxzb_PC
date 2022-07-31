@@ -10,11 +10,12 @@
         <svg-icon class="icon-14" v-if="hasIcon" :icon-class="icon"></svg-icon>
         <el-input
             class="input  flex-1"
-            :type="inputType"
+            type="textarea"
             :placeholder="placeholder"
             v-model="rowInfo.value"
             @blur="submit"
             @change="submit"
+            resize="none"
             @keyup.enter.native="confirm"
         />
         <div class="code h-100 text-center" v-if=showCode @click="getCode">
@@ -130,12 +131,9 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
-.row.just-bottom {
-  border-bottom: 1px solid #F1F1F1;
-}
+
 .input-section {
-    //background-color: $background-input;
-    height: 45px;
+    height: 80px;
 }
 .error {
     left: 0;
@@ -152,11 +150,11 @@ export default {
     }
 }
 ::v-deep {
-    .el-input__inner {
+    .el-textarea__inner {
         border: none!important;
         background-color: transparent;
-        line-height: 45px;
-        height: 45px;
+        line-height: 20px;
+        height: 80px;
         font-size: 14px;
         font-family: PingFang-SC-Regular;
     }

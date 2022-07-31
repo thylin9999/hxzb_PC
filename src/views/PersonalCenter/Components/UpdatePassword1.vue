@@ -1,5 +1,6 @@
 <template>
 <div class="update-password p-b-30">
+    <HeaderTitle title="修改密码" />
     <div class="content font-16 font-regular text-333 p-t-30">
         <input-with-error
             class="m-b-20"
@@ -36,6 +37,7 @@
 </template>
 
 <script>
+import HeaderTitle from '@/views/PersonalCenter/Components/HeaderTitle'
 import InputWithError from '@/components/Form/InputWithError'
 import ConfirmButton from '@/components/ConfirmButton'
 import { updatePassword } from '@/api/user'
@@ -46,6 +48,7 @@ import { Message } from 'element-ui'
 export default {
     name: 'UpdatePassword',
     components: {
+        HeaderTitle,
         InputWithError,
         ConfirmButton
     },

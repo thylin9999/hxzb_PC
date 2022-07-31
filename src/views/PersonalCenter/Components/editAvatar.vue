@@ -96,19 +96,15 @@ export default {
 
 <style lang="scss" scoped>
 .upload-div{
+    height: 100px;
+    .preview{
+        width: 100px;
+        height: 100px;
+    }
+}
 
-    height: 100px;
-}
-.preview{
-    width: 100px;
-    height: 100px;
-}
 .upload-button {
     width: 200px;
     vertical-align: bottom;
-}
-.template-img{
-    //background-image: url('../../../assets/images/common/avart.png');
-    //background-size: contain;
 }
 </style>

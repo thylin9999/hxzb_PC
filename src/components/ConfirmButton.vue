@@ -28,9 +28,6 @@ export default {
 .confirm {
     background-color: $background-color1;
     min-width: 100px;
-    line-height: 30px;
-    height: 30px;
-    border-radius: 4px;
     &:not(.is-disabled):hover {
         opacity: 0.7;
     }

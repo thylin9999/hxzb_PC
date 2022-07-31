@@ -11,19 +11,19 @@
             @validate="validateRow"
             :key="form.nickname.updateKey"
         />
-        <div class="row-outer flex align-center p-l-30 m-t-20 m-b-20">
-            <span class="label">
-                性别
-            </span>
-            <div class="content">
-                <el-radio-group v-model="userInfo.sex">
-                    <el-radio :label="3">保密</el-radio>
-                    <el-radio :label="1">男</el-radio>
-                    <el-radio :label="2">女</el-radio>
-                </el-radio-group>
-            </div>
-        </div>
-        <input-with-error
+<!--        <div class="row-outer flex align-center p-l-30 m-t-20 m-b-20">-->
+<!--            <span class="label">-->
+<!--                性别-->
+<!--            </span>-->
+<!--            <div class="content">-->
+<!--                <el-radio-group v-model="userInfo.sex">-->
+<!--                    <el-radio :label="3">保密</el-radio>-->
+<!--                    <el-radio :label="1">男</el-radio>-->
+<!--                    <el-radio :label="2">女</el-radio>-->
+<!--                </el-radio-group>-->
+<!--            </div>-->
+<!--        </div>-->
+        <textarea-with-error
             class="m-b-30"
             showLabel
             :label="form.sign.label"
@@ -32,36 +32,54 @@
             @validate="validateRow"
             :key="form.sign.updateKey"
         />
-<!--        <input-with-error-->
-<!--            class="m-b-30 "-->
-<!--            showLabel-->
-<!--            :label="form.birth.label"-->
-<!--            :error-info="errorInfo.birth"-->
-<!--            :row-info.sync="form.birth"-->
-<!--            @validate="validateRow"-->
-<!--            :key="form.birth.updateKey"-->
-<!--        />-->
-        <div class="row-outer flex align-center p-l-30 m-t-20 m-b-20">
-                <span class="label">
-                    {{ form.birth.label }}
-                </span>
-            <div class="content flex-1">
-                <el-date-picker
-                    class="time-picker w-100"
-                    v-model="form.birth.value"
-                    type="date"
-                    format="yyyy-MM-dd"
-                    :picker-options="pickerOptions"
-                    placeholder="选择日期">
-                </el-date-picker>
+<!--        <div class="row-outer flex align-center p-l-30 m-t-20 m-b-20">-->
+<!--                <span class="label">-->
+<!--                    {{ form.birth.label }}-->
+<!--                </span>-->
+<!--            <div class="content flex-1">-->
+<!--                <el-date-picker-->
+<!--                    class="time-picker w-100"-->
+<!--                    v-model="form.birth.value"-->
+<!--                    type="date"-->
+<!--                    format="yyyy-MM-dd"-->
+<!--                    :picker-options="pickerOptions"-->
+<!--                    placeholder="选择日期">-->
+<!--                </el-date-picker>-->
+<!--            </div>-->
+<!--        </div>-->
+        <div class="upload-div flex p-l-30 p-t-10">
+           <span class="label">
+                头像:
+            </span>
+            <div class="flex-column p-relative">
+                <div class="preview m-r-20" >
+                    <div
+                        class="template-img border-radius-50 bg-center bg-size-100 bg-no-repeat w-100 h-100"
+                        :style="{
+                    backgroundImage: `url(${placementUrl})`
+                }"
+                        v-if="!url"></div>
+                    <el-image
+                        v-else
+                        class="w-100 h-100 border-radius-50"
+                        :src="url"
+                        fit="cover"></el-image>
+                </div>
+                <div class="upload-button m-t-10 flex flex-end flex-column">
+                    <upload-with-tip @changeFile="changeFile"/>
+                </div>
             </div>
         </div>
-        <div class="row-outer flex align-center p-l-30 m-t-20 m-b-20">
-            <span class="label">
-
-            </span>
+        <div class="update-info flex">
+            <UpdateInfo
+                type="phone"
+                :info="account"
+            />
+            <UpdateInfo class="update-pwd"/>
+        </div>
+        <div class="row-outer flex flex-end p-l-30 m-t-20 m-b-20">
             <div class="save-button font-medium font-16">
-                <submit-button class=" d-inline-block w-100 text-center  font-medium font-16" title="保存" @click.native="saveInfo"/>
+                <ConfirmButton class="w-100 h-100 d-inline-block w-100 text-center  font-medium font-16" title="保存" @click.native="saveInfo"/>
             </div>
         </div>
     </div>
@@ -70,8 +88,11 @@
 
 <script>
 import HeaderTitle from '@/views/PersonalCenter/Components/HeaderTitle'
-import SubmitButton from '@/components/SubmitButton'
+import UpdateInfo from '@/views/PersonalCenter/Components/UpdateInfo'
 import InputWithError from '@/components/Form/InputWithError'
+import UploadWithTip from '@/components/UploadWithTip'
+import TextareaWithError from '@/components/Form/TextareaWithError'
+import ConfirmButton from '@/components/ConfirmButton'
 import { mapState, mapActions } from 'vuex'
 import { editUserInfo } from '@/api/user'
 import { isRequire } from '@/utils/validator'
@@ -79,18 +100,22 @@ import { isEmpty, omit } from '@/utils/lodashUtil'
 import { statusCode } from '@/utils/statusCode'
 import { Message } from 'element-ui'
 import dayjs from 'dayjs'
+import { uploadImage } from '@/api/Common'
 export default {
     name: 'BasicInfo',
     components: {
         HeaderTitle,
-        SubmitButton,
-        InputWithError
+        InputWithError,
+        TextareaWithError,
+        UploadWithTip,
+        ConfirmButton,
+        UpdateInfo
     },
     data () {
         return {
             form: {
                 nickname: {
-                    label: '昵称',
+                    label: '我的昵称:',
                     value: '',
                     key: 'nickname',
                     validators: [isRequire('昵称')],
@@ -98,20 +123,12 @@ export default {
                     updateKey: 'nickname-false'
                 },
                 sign: {
-                    label: '签名',
+                    label: '个人简介:',
                     value: '',
                     key: 'sign',
                     validators: [],
                     validateLabel: [],
                     updateKey: 'sign-false'
-                },
-                birth: {
-                    label: '生日',
-                    value: '',
-                    key: 'birth',
-                    validators: [],
-                    validateLabel: [],
-                    updateKey: 'birth-false'
                 }
             },
             errorInfo: {
@@ -121,32 +138,32 @@ export default {
             },
             userInfo: {
                 nickname: '',
-                sex: null,
-                signature: '',
-                birthday: ''
-            }
+                signature: ''
+            },
+            file: null,
+            url: ''
         }
     },
     computed: {
-        ...mapState('user', ['nickname', 'birth', 'sign', 'gender', 'token']),
+        ...mapState('user', ['nickname', 'sign', 'account', 'token', 'avatar']),
         pickerOptions () {
             return {
                 disabledDate: date => {
                     return dayjs().isBefore(dayjs(date), 'day')
                 }
             }
+        },
+        placementUrl () {
+            return this.avatar ? this.avatar : require('../../../assets/images/common/avart.png')
         }
     },
     mounted () {
         this.userInfo = {
             nickname: this.nickname,
-            signature: this.sign,
-            birthday: this.birth,
-            sex: this.gender
+            signature: this.sign
         }
         this.form.nickname.value = this.nickname
         this.form.sign.value = this.sign
-        this.form.birth.value = this.birth
     },
     methods: {
         ...mapActions('user', ['getUserInfo']),
@@ -176,10 +193,8 @@ export default {
         finalData () {
             return {
                 'nickname': this.form.nickname.value,
-                'birth': dayjs(this.form.birth.value).format('YYYY-MM-DD'),
                 'sign': this.form.sign.value,
-                'avatar': '',
-                'gender': this.userInfo.sex
+                'avatar': this.url
             }
         },
         validate () {
@@ -205,6 +220,15 @@ export default {
         changeKey (key) {
             const flag = JSON.parse(this.form[key].updateKey.split('-')[1])
             this.form[key].updateKey = `${key}-${!flag}`
+        },
+        async changeFile (file) {
+            const formData = new FormData()
+            formData.append('file', file)
+            const { data, code, msg } = await uploadImage(formData)
+            if (code === statusCode.success) {
+                this.url = data.url
+                Message.success(msg)
+            }
         }
     }
 }
@@ -214,14 +238,36 @@ export default {
 .row-outer {
     width: 520px;
     .label {
-        width: 32px;
-        margin-right: 45px;
+        width: 90px;
+        padding-right: 10px;
+        font-size: 14px;
+        color: #727272;
     }
     .content {
         line-height: 40px;
         height: 40px;
     }
 
+}
+.upload-div{
+    height: 100px;
+    .label {
+        width: 90px;
+        padding-right: 10px;
+        text-align: right;
+        font-size: 14px;
+        color: #727272;
+    }
+    .preview{
+        width: 75px;
+        height: 75px;
+    }
+}
+.update-info {
+    margin-top: 45px;
+    .update-pwd {
+        margin-left: 35px;
+    }
 }
 ::v-deep {
     .row-outer {
@@ -230,9 +276,15 @@ export default {
             height: 40px;
         }
         .save-button {
-            width: 145px;
+            width: 138px;
+            height: 45px;
+            line-height: 45px;
+            border-radius: 3px;
             font-size: 16px;
             font-family: PingFang-SC-Medium;
+            .confirm {
+                background: linear-gradient(90deg, #3B5FFF, #A2B3FF);
+            }
         }
     }
     .info {
@@ -240,10 +292,12 @@ export default {
             max-width: 520px;
             padding-left: 30px!important;
             .label {
-                width: 32px;
+                width: 90px;
                 line-height: 40px;
-                margin-right: 45px;
-
+                padding-right: 10px;
+                text-align: right;
+                font-size: 14px;
+                color: #727272;
             }
             .input-section {
                 background-color: transparent!important;

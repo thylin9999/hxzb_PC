@@ -1,29 +1,30 @@
 <template>
-<div class="user-center wrap-1400  p-t-20">
-   <div class="p-t-10 p-b-10 p-l-15  bg-white ">
-       <person-header />
-   </div>
-    <div class="content w-100 flex justify-between m-t-15">
+<div class="user-center wrap-1400  p-t-15">
+    <div class="content h-100 w-100 flex justify-between ">
         <div class="left-section bg-white">
+            <UserHeader />
+            <div class="apply-host ">
+                <ConfirmButton class="w-100 h-100" title="申请主播" />
+            </div>
             <ul class="flex flex-column justify-center align-center p-t-30">
                 <template
                     v-for="menu in menus"
                 >
                     <li
-                        class="menu-item font-18 flex pointer align-center m-b-30 justify-center w-100"
+                        class="menu-item font-18 flex pointer align-center  justify-center w-100"
                         :class="{'is-active': menu.id === currentMenu.id }"
                         v-if="!menu.isAuthorization || (menu.isAuthorization && isAnchor)"
                         :key="menu.id"
                         @click="selectMenu(menu)"
                     >
                         <svg-icon class="icon-20" :icon-class="menu.icon"></svg-icon>
-                        <span class="m-l-10 text-333 font-regular">{{ menu.text }}</span>
+                        <span class="m-l-10 font-regular">{{ menu.text }}</span>
                     </li>
                 </template>
 
             </ul>
         </div>
-        <div class="right-info bg-white">
+        <div class="right-info bg-white p-t-25 ">
             <component :is="comName" />
         </div>
     </div>
@@ -31,7 +32,8 @@
 </template>
 
 <script>
-import PersonHeader from '@/views/PersonalCenter/PersonHeader'
+import UserHeader from '@/views/PersonalCenter/Components/UserHeader'
+import ConfirmButton from '@/components/ConfirmButton'
 import BasicInfo from '@/views/PersonalCenter/Components/BasicInfo'
 import editAvatar from '@/views/PersonalCenter/Components/editAvatar'
 import UpdatePassword from '@/views/PersonalCenter/Components/UpdatePassword'
@@ -44,14 +46,15 @@ export default {
     name: 'PersonalCenter',
     props: ['tabId'],
     components: {
-        PersonHeader,
+        UserHeader,
         BasicInfo,
         editAvatar,
         UpdatePassword,
         Feedback,
         OpenLiveBroadCast,
         BookLiveBroadCast,
-        MyBroadcast
+        MyBroadcast,
+        ConfirmButton
     },
     data () {
         return {
@@ -60,16 +63,16 @@ export default {
                     id: 1,
                     name: 'userInfo',
                     text: '基础资料',
-                    icon: 'info',
+                    icon: 'my',
                     com: 'BasicInfo'
                 },
-                {
-                    id: 2,
-                    name: 'atar',
-                    text: '修改图像',
-                    icon: 'atar',
-                    com: 'editAvatar'
-                },
+                // {
+                //     id: 2,
+                //     name: 'atar',
+                //     text: '修改图像',
+                //     icon: 'atar',
+                //     com: 'editAvatar'
+                // },
                 {
                     id: 3,
                     name: 'updatePassword',
@@ -160,25 +163,41 @@ export default {
 <style lang="scss" scoped>
 @import '@/theme/default-vars.scss';
 .user-center{
-    //height: calc(100vh - 90px);
     background-color: $background-gray2;
+    height: calc(100vh - 245px);
 }
 .content {
-    //min-height: 600px;
-    height: calc(100% - 120px);
     padding-bottom: 50px;
+    .apply-host {
+        height: 40px;
+        width: 177px;
+        margin: 14px auto;
+    }
 }
 .left-section {
     width: 270px;
     .menu-item {
-        line-height: 30px;
+        line-height: 50px;
         border-left: 5px solid transparent;
+        color: #848484;
         &.is-active {
             border-left: 5px solid $background-color1;
+            background-color: rgba(60,96,255, 0.1);
+            color: $background-color1;
         }
     }
 }
 .right-info {
     width: calc(100% - 285px);
+    padding-left: 35px;
+}
+::v-deep {
+    .apply-host {
+        span {
+            line-height: 40px;
+            background: linear-gradient(90deg, #3B5FFF, #A2B3FF);
+            border-radius: 3px;
+        }
+    }
 }
 </style>

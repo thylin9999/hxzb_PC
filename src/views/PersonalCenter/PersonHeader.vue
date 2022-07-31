@@ -32,7 +32,6 @@ export default {
 .logo {
     width: 75px;
     height: 75px;
-    //background-image: url('../../assets/images/user.png');
     border-radius: 50%;
 }
 .user-info {

@@ -1,6 +1,6 @@
 <template>
-<div class="header p-t-25 p-b-25 p-l-30">
-    <span class="font-22 font-medium text-333">{{ title }}</span>
+<div class="header  p-l-30">
+    <span class="font-24 font-medium text-333">{{ title }}</span>
 </div>
 </template>
 
@@ -18,7 +18,7 @@ export default {
 
 <style lang="scss" scoped>
 .header {
-    line-height: 30px;
-    border-bottom: 1px solid #F0F0F0;
+    line-height: 40px;
+    border-left: 2px solid #333;
 }
 </style>

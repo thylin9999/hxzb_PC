@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import {
     Pagination,
+    Checkbox,
     Empty,
     Dialog,
     Button,
@@ -23,6 +24,7 @@ import {
 } from 'element-ui'
 
 Vue.use(Pagination)
+Vue.use(Checkbox)
 Vue.use(Empty)
 Vue.use(Dialog)
 Vue.use(Button)

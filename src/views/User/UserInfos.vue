@@ -1,11 +1,11 @@
 <template>
-<div class="user font-16 font-medium light-background" :class="{'light-background': isLightHeader}">
-    <div v-if="!token" class="user-buttons font-18 font-400 text-center">
+<div class="user font-16 font-medium " :class="{'light-background': isLightHeader}">
+    <div v-if="!token" class="user-buttons font-18 font-400 text-center" :class="{'text-white': isLightHeader, 'text-333': !isLightHeader}">
         <span class="pointer" @click="openLogin">登录</span>
         <span class="">/</span>
         <span class="pointer" @click="openRegister">注册</span>
     </div>
-    <div v-else class="flex align-center">
+    <div v-else class="flex align-center" :class="{'text-white': isLightHeader, 'text-333': !isLightHeader}">
         <span class="m-r-15 pointer" v-if="isAnchor" @click="openLiveCast">开播</span>
         <el-dropdown trigger="click" @command="handleCommand">
           <span class="el-dropdown-link flex align-center">
@@ -108,7 +108,7 @@ export default {
 @import '@/theme/default-vars.scss';
 .user-buttons {
     border-radius: 20px;
-    border: 1px solid #fff;
+    border: 1px solid #333;
     width: 135px;
     line-height: 30px;
 }
@@ -120,7 +120,7 @@ export default {
 .light-background {
     color: #333;
     .user-buttons {
-        border-color: #333;
+        border-color: #fff;
     }
 }
 </style>
