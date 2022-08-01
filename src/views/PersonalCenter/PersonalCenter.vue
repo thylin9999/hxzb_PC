@@ -1,5 +1,5 @@
 <template>
-<div class="user-center wrap-1400  p-t-15">
+<div class="user-center wrap-1200  p-t-15">
     <div class="content h-100 w-100 flex justify-between ">
         <div class="left-section bg-white">
             <UserHeader />
@@ -41,6 +41,8 @@ import Feedback from '@/views/PersonalCenter/Components/Feedback'
 import OpenLiveBroadCast from '@/views/PersonalCenter/Components/OpenLiveBroadCast'
 import BookLiveBroadCast from '@/views/PersonalCenter/Components/BookLiveBroadCast'
 import MyBroadcast from '@/views/PersonalCenter/Components/MyBroadcast'
+import MyBroad from '@/views/PersonalCenter/Components/MyBroad'
+import MyFavorite from '@/views/PersonalCenter/Components/MyFavorite'
 import { mapState } from 'vuex'
 export default {
     name: 'PersonalCenter',
@@ -54,6 +56,8 @@ export default {
         OpenLiveBroadCast,
         BookLiveBroadCast,
         MyBroadcast,
+        MyBroad,
+        MyFavorite,
         ConfirmButton
     },
     data () {
@@ -66,20 +70,20 @@ export default {
                     icon: 'my',
                     com: 'BasicInfo'
                 },
-                // {
-                //     id: 2,
-                //     name: 'atar',
-                //     text: '修改图像',
-                //     icon: 'atar',
-                //     com: 'editAvatar'
-                // },
                 {
-                    id: 3,
-                    name: 'updatePassword',
-                    text: '修改密码',
-                    icon: 'lock1',
-                    com: 'updatePassword'
+                    id: 2,
+                    name: 'myFavorite',
+                    text: '我的关注',
+                    icon: 'atar',
+                    com: 'myFavorite'
                 },
+                // {
+                //     id: 3,
+                //     name: 'updatePassword',
+                //     text: '修改密码',
+                //     icon: 'lock1',
+                //     com: 'updatePassword'
+                // },
                 // {
                 //     id: 4,
                 //     name: 'feedback',
@@ -96,19 +100,19 @@ export default {
                 {
                     id: 6,
                     name: 'notify',
-                    text: '直播管理',
+                    text: '我的直播',
                     icon: 'message1',
                     isAuthorization: true,
-                    com: 'OpenLiveBroadCast'
+                    com: 'MyBroad'
                 },
-                {
-                    id: 7,
-                    name: 'bookLiveBroadCast',
-                    text: '直播预约',
-                    icon: 'message1',
-                    isAuthorization: true,
-                    com: 'BookLiveBroadCast'
-                },
+                // {
+                //     id: 7,
+                //     name: 'bookLiveBroadCast',
+                //     text: '直播预约',
+                //     icon: 'message1',
+                //     isAuthorization: true,
+                //     com: 'BookLiveBroadCast'
+                // },
                 {
                     id: 8,
                     name: 'myBroadcast',
@@ -175,7 +179,7 @@ export default {
     }
 }
 .left-section {
-    width: 270px;
+    width: 232px;
     .menu-item {
         line-height: 50px;
         border-left: 5px solid transparent;
@@ -188,7 +192,7 @@ export default {
     }
 }
 .right-info {
-    width: calc(100% - 285px);
+    width: calc(100% - 247px);
     padding-left: 35px;
 }
 ::v-deep {

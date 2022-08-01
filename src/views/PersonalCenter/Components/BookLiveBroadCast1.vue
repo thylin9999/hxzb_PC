@@ -1,6 +1,16 @@
 <template>
     <div class="live-cast p-b-30">
+        <header-title title="直播预约"/>
         <div class="content info font-16 font-regular text-333">
+            <input-with-error
+                class="m-b-20 m-t-25"
+                showLabel
+                :label="form.title.label"
+                :error-info="errorInfo.title"
+                :row-info.sync="form.title"
+                @validate="validateRow"
+                :key="form.title.updateKey"
+            />
             <div class="row-outer flex align-center p-l-30 m-t-20 m-b-20">
             <span class="label">
                 直播分类
@@ -44,6 +54,7 @@
                     </el-date-picker>
                 </div>
             </div>
+
             <SelectWithError
                 class="m-b-20 m-t-25"
                 showLabel
@@ -54,25 +65,6 @@
                 :key="form.match.updateKey"
                 :options="competitionOptions"
             />
-            <input-with-error
-                class="m-b-20 m-t-25"
-                showLabel
-                :label="form.title.label"
-                :error-info="errorInfo.title"
-                :row-info.sync="form.title"
-                @validate="validateRow"
-                :key="form.title.updateKey"
-            />
-            <textarea-with-error
-                class="m-b-20 m-t-25"
-                showLabel
-                :label="form.announcement.label"
-                :error-info="errorInfo.announcement"
-                :row-info.sync="form.announcement"
-                @validate="validateRow"
-                :key="form.announcement.updateKey"
-            />
-
             <UploadWithError
                 class="m-b-30 m-t-25"
                 showLabel
@@ -95,8 +87,8 @@
 </template>
 
 <script>
+import HeaderTitle from '@/views/PersonalCenter/Components/HeaderTitle'
 import InputWithError from '@/components/Form/InputWithError'
-import TextareaWithError from '@/components/Form/TextareaWithError'
 import SelectWithError from '@/components/Form/SelectWithError'
 import UploadWithError from '@/components/Form/UploadWithError'
 import { isRequire } from '@/utils/validator'
@@ -110,8 +102,8 @@ import dayjs from 'dayjs'
 export default {
     name: 'BookLiveBroadCast',
     components: {
+        HeaderTitle,
         InputWithError,
-        TextareaWithError,
         SelectWithError,
         UploadWithError
     },
@@ -125,14 +117,6 @@ export default {
                     validators: [isRequire('直播标题')],
                     validateLabel: ['isRequire'],
                     updateKey: 'title-false'
-                },
-                announcement: {
-                    label: '直播公告',
-                    value: null,
-                    key: 'announcement',
-                    validators: [],
-                    validateLabel: [],
-                    updateKey: 'announcement-false'
                 },
                 match: {
                     label: '直播比赛',
@@ -252,12 +236,6 @@ export default {
             })
             if (code === statusCode.success) {
                 Message.success(msg)
-                this.$router.push({
-                    name: 'PersonalCenter',
-                    params: {
-                        tabId: 8
-                    }
-                })
             } else {
                 Message.error(msg)
             }

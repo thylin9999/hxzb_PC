@@ -21,7 +21,10 @@
                 </span>
                 <input class="d-inline-block opacity-0 w-100 h-100" type="file" @change="beforeSubmit">
             </div>
-            <span class="font-12">推荐图片封面尺寸为 340 * 190</span>
+            <div class="flex flex-column m-l-15">
+                <span class="font-12">(友情提示：仅支持jpg, jpeg, png)</span>
+                <span class="font-12 m-t-10">推荐图片封面尺寸为 340 * 190</span>
+            </div>
         </div>
         <span v-if="showError" class="p-absolute error font-12 ">直播封面不能为空</span>
     </div>

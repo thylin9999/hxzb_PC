@@ -20,3 +20,18 @@
   padding: 0;
   border: none;
 }
+
+
+.confirm-button.el-button {
+  background-color: #3F62FF;
+  color: #fff;
+}
+.pretty-bg.el-button {
+  width: 120px;
+  height: 40px;
+  background: linear-gradient(90deg, #3B5FFF, #A2B3FF);
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #FFFFFF;
+}

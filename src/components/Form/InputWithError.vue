@@ -132,9 +132,12 @@ export default {
 @import '@/theme/default-vars.scss';
 .row.just-bottom {
   border-bottom: 1px solid #F1F1F1;
+  .input-section {
+    background-color: transparent;
+  }
 }
 .input-section {
-    //background-color: $background-input;
+    background-color: $background-input;
     height: 45px;
 }
 .error {

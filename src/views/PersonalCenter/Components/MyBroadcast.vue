@@ -1,15 +1,20 @@
 <template>
 <div class="my-broadcasts">
     <header-title title="我的直播"/>
-    <ul class="flex align-center m-l-30 p-t-10 p-b-10">
-        <li
-            v-for="item in menus"
-            :key="item.id"
-            class="pointer p-l-15 p-r-15 text-center item-type"
-            :class="{'is-active': item.id === currentType}"
-            @click="changeType(item)"
-        >{{ item.title }}</li>
-    </ul>
+    <div class="m-l-30 p-t-10 p-b-10 p-r-15 flex justify-between align-center">
+        <ul class="flex align-center ">
+            <li
+                v-for="item in menus"
+                :key="item.id"
+                class="pointer p-l-15 p-r-15 text-center item-type"
+                :class="{'is-active': item.id === currentType}"
+                @click="changeType(item)"
+            >{{ item.title }}</li>
+        </ul>
+        <div class="">
+            <el-button class="pretty-bg" @click="openLive">发起直播</el-button>
+        </div>
+    </div>
     <div class="table w-100 p-l-15 m-t-15 p-r-15">
         <el-table
             :key="currentType"
@@ -24,17 +29,18 @@
                 prop="id"
                 align="center"
                 label="比赛id"
-                min-width="180" />
+                min-width="120" />
             <el-table-column
                 prop="type"
                 align="center"
                 label="比赛类型"
-                min-width="180" />
+                min-width="100" />
             <el-table-column
                 prop="title"
                 align="center"
                 label="直播标题"
-                min-width="180" />
+                show-overflow-tooltip
+                min-width="120" />
             <el-table-column
                 :prop="isBooked ? 'matchTime' : 'start_time'"
                 align="center"
@@ -50,7 +56,8 @@
                 prop="announcement"
                 label="直播公告"
                 align="center"
-                min-width="150" />
+                show-tooltip-when-overflow
+                min-width="120" />
             <el-table-column
                 v-if="!isFinished"
                 prop="leagueType"
@@ -59,8 +66,8 @@
                 :min-width="isGoing ? 150 : 250" >
                 <template slot-scope="scope">
                     <template v-if="isBooked">
-                        <el-button  small @click="cancel(scope.row)">取消预约</el-button>
-                        <el-button small @click="startBroadcast(scope.row)">一键开播</el-button>
+                        <el-button class="confirm-button" small @click="beforeStartBroadcast(scope.row)">开播</el-button>
+                        <el-button  small @click="cancel(scope.row)">取消</el-button>
                     </template>
 <!--                    <el-button v-if="isFinished" small @click="cancel(scope.row)">取消预约</el-button>-->
                     <el-button v-if="isGoing" small @click="closeBroadcast(scope.row)">下播</el-button>
@@ -68,12 +75,34 @@
                 </template>
             </el-table-column>
         </el-table>
+        <div v-if="isGoing" class="obs">
+            <div class="font-medium obs font-16 obs p-b-25">
+                <div class="flex align-center" >
+                    <div class="m-r-15">
+                        OBS推流地址：{{obs.url }}
+                    </div>
+                    <el-tooltip content="复制">
+                        <i class="el-icon-copy-document pointer" @click="copyObs(obs.url)"></i>
+                    </el-tooltip>
+                </div>
+                <div class="flex align-center m-t-5">
+                    <div class="m-r-15">
+                        OBS串流秘钥：{{obs.key}}
+                    </div>
+                    <el-tooltip content="复制">
+                        <i class="el-icon-copy-document pointer" @click="copyObs(obs.key)"></i>
+                    </el-tooltip>
+                </div>
+            </div>
+        </div>
     </div>
+    <DialogOpenLiveTip :visible.sync="showOpenLive" @confirm="startBroadcast"/>
 </div>
 </template>
 
 <script>
 import HeaderTitle from '@/views/PersonalCenter/Components/HeaderTitle'
+import DialogOpenLiveTip from '@/views/PersonalCenter/Components/DialogOpenLiveTip'
 import { getBookedMatches, bookOpenBroadcast, cancelSubscribe, getMyBroadcastHistory, closeLive } from '@/api/Host/Host'
 import { matchTypes } from '@/utils/utils'
 import { statusCode } from '@/utils/statusCode'
@@ -81,7 +110,8 @@ import { Message } from 'element-ui'
 export default {
     name: 'MyBroadcast',
     components: {
-        HeaderTitle
+        HeaderTitle,
+        DialogOpenLiveTip
     },
     data () {
         return {
@@ -101,7 +131,10 @@ export default {
                     id: 2,
                     title: '已结束'
                 }
-            ]
+            ],
+            showOpenLive: false,
+            currentRow: null,
+            obs: {}
         }
     },
     created () {
@@ -195,14 +228,28 @@ export default {
                 console.log('出错了')
             }
         },
-        async startBroadcast (row) {
+        beforeStartBroadcast (row) {
+            this.showOpenLive = true
+            this.currentRow = {
+                ...row
+            }
+        },
+        async startBroadcast () {
             // 一键开播
-
+            const row = this.currentRow
             const { code } = await bookOpenBroadcast(row.id)
             if (code === statusCode.success) {
                 Message.success('开播成功')
                 this.fetchData()
             }
+        },
+        openLive () {
+            this.$router.push({
+                name: 'PersonalCenter',
+                params: {
+                    tabId: 6
+                }
+            })
         }
     }
 }
@@ -210,7 +257,8 @@ export default {
 
 <style lang="scss" scoped>
 .my-broadcasts {
-    height: 500px;
+    min-height: 500px;
+    height: 100%;
 }
 .table {
     height: calc(100% - 165px);

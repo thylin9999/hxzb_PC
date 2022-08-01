@@ -1,10 +1,16 @@
 <template>
-<div class="update-password p-b-30">
-    <HeaderTitle title="修改密码" />
-    <div class="content font-16 font-regular text-333 p-t-30">
+<el-button @click="visible = !visible">
+    <span>更改密码</span>
+    <el-dialog
+        :visible="visible"
+        show-close
+        append-to-body
+        lock-scroll
+        destroy-on-close
+        @close="close"
+    >
         <input-with-error
             class="m-b-20"
-            show-label
             :label="form.oldPassword.label"
             :error-info="errorInfo.oldPassword"
             :row-info.sync="form.oldPassword"
@@ -13,7 +19,6 @@
         />
         <input-with-error
             class="m-b-20"
-            show-label
             :label="form.newPassword.label"
             :error-info="errorInfo.newPassword"
             :row-info.sync="form.newPassword"
@@ -22,39 +27,34 @@
         />
         <input-with-error
             class="m-b-20"
-            show-label
             :label="form.password.label"
             :error-info="errorInfo.password"
             :row-info.sync="form.password"
             @validate="validateRow"
             :key="form.password.updateKey"
         />
-    </div>
-    <div class="submit-buttons p-t-20">
-        <ConfirmButton @click.native="confirm" title="保存"/>
-    </div>
-</div>
+        <div class="w-100 text-right">
+            <el-button @click="confirm">确定</el-button>
+        </div>
+    </el-dialog>
+</el-button>
 </template>
 
 <script>
-import HeaderTitle from '@/views/PersonalCenter/Components/HeaderTitle'
 import InputWithError from '@/components/Form/InputWithError'
-import ConfirmButton from '@/components/ConfirmButton'
-import { updatePassword } from '@/api/user'
 import { isRequire } from '@/utils/validator'
 import { isEmpty, omit } from '@/utils/lodashUtil'
+import { updatePassword } from '@/api/user'
 import { statusCode } from '@/utils/statusCode'
 import { Message } from 'element-ui'
 export default {
-    name: 'UpdatePassword',
+    name: 'DialogUpdatePassword',
     components: {
-        HeaderTitle,
-        InputWithError,
-        ConfirmButton
+        InputWithError
     },
-    inject: ['reload'],
     data () {
         return {
+            visible: false,
             form: {
                 password: {
                     label: '确认密码',
@@ -91,6 +91,11 @@ export default {
             }
         }
     },
+    computed: {
+        codeText () {
+            return this.isSend ? `${this.leftTime}s` : '获取验证码'
+        }
+    },
     methods: {
         async confirm () {
             const isValidate = this.validate()
@@ -109,7 +114,7 @@ export default {
                     this.reload()
                 } else {
                     console.log(data, 'data')
-                    Message.error(data.msg)
+                    Message.error(msg)
                 }
             } catch (e) {
                 console.log('出错了')
@@ -137,36 +142,53 @@ export default {
         changeKey (key) {
             const flag = JSON.parse(this.form[key].updateKey.split('-')[1])
             this.form[key].updateKey = `${key}-${!flag}`
+        },
+        close () {
+            Object.keys(this.form).forEach(key => {
+                this.form[key].value = ''
+                this.errorInfo[key] = {}
+            })
+            this.visible = false
         }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-.content, .submit-buttons{
-    width: 600px;
-}
-.submit-buttons{
-    padding-left: 155px;
-}
+@import '@/theme/default-vars.scss';
 ::v-deep {
-    .content {
-        .row-inner {
-            max-width: 540px;
-            padding-left: 30px!important;
-            .label {
-                width: 80px;
-                line-height: 40px;
-                margin-right: 45px;
-            }
-            .input-section {
-                background-color: transparent!important;
-                border: 1px solid #E2E1E1;
-                border-radius: 2px;
-            }
-            .error{
-                left: 155px;
-            }
+    .el-dialog {
+        width: 558px;
+        .el-dialog__body {
+            padding: 40px 45px 30px;
+        }
+    }
+    .code-input {
+        .el-input__inner {
+            background-color: transparent;
+            border: none;
+        }
+    }
+}
+.code-input {
+    .input-section {
+        background-color: $background-input;
+        height: 45px;
+        //border-bottom: 1px solid #F1F1F1;
+    }
+    .error {
+        left: 0;
+        top: 100%;
+        color: $text-error;
+    }
+    .code {
+        width: 100px;
+        background-color: #4B6EFF;
+        color: #FEFEFE;
+        line-height: 35px;
+        height: 35px;
+        &.is-send{
+            background-color: #eee;
         }
     }
 }

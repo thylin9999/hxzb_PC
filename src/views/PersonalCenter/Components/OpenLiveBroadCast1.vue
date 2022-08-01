@@ -1,7 +1,16 @@
 <template>
 <div class="live-cast p-b-30">
+    <header-title title="直播管理"/>
     <div class="content info font-16 font-regular text-333">
-
+        <input-with-error
+            class="m-b-20 m-t-25"
+            showLabel
+            :label="form.title.label"
+            :error-info="errorInfo.title"
+            :row-info.sync="form.title"
+            @validate="validateRow"
+            :key="form.title.updateKey"
+        />
         <div class="row-outer flex align-center p-l-30 m-t-20 m-b-20">
             <span class="label">
                 直播分类
@@ -19,7 +28,7 @@
         </div>
         <div class="row-outer league-type-row flex align-center p-l-30 m-t-20 m-b-20" >
             <span class="label">
-                联赛
+                直播类型
             </span>
             <div class="content">
                 <el-radio-group v-model="liveType" @change="changeLeagueType">
@@ -41,24 +50,6 @@
             :key="form.match.updateKey"
             :options="competitionOptions"
         />
-        <input-with-error
-            class="m-b-20 m-t-25"
-            showLabel
-            :label="form.title.label"
-            :error-info="errorInfo.title"
-            :row-info.sync="form.title"
-            @validate="validateRow"
-            :key="form.title.updateKey"
-        />
-        <textarea-with-error
-            class="m-b-20 m-t-25"
-            showLabel
-            :label="form.announcement.label"
-            :error-info="errorInfo.announcement"
-            :row-info.sync="form.announcement"
-            @validate="validateRow"
-            :key="form.announcement.updateKey"
-        />
         <UploadWithError
             class="m-b-30 m-t-25"
             showLabel
@@ -79,27 +70,19 @@
 
             </div>
         </div>
-        <div v-else class="font-medium font-16 obs m-l-30 p-b-25">
-            <div class="flex align-center">
-                <div class="m-r-15">
-                    OBS推流地址：{{obs.url }}
-                </div>
-                <el-tooltip content="复制">
-                    <i class="el-icon-copy-document pointer" @click="copyObs(obs.url)"></i>
-                </el-tooltip>
-            </div>
-            <div class="flex align-center">
-                <div class="m-r-15">
-                    OBS串流秘钥：{{obs.key}}
-                </div>
-                <el-tooltip content="复制">
-                    <i class="el-icon-copy-document pointer" @click="copyObs(obs.key)"></i>
-                </el-tooltip>
-            </div>
+        <div v-else class="font-medium font-16 obs p-b-25">
+            <div>OBS推流地址：{{obs.url }}</div>
+            <div>OBS串流秘钥：{{obs.key}}</div>
         </div>
-        <div class="row-outer flex flex-end p-l-30 m-b-20">
+        <div class="row-outer flex align-center p-l-30 m-b-20">
+            <span class="label">
+
+            </span>
             <div class="save-button font-medium font-16">
-                <ConfirmButton class="w-100 h-100 font-16 pointer" @click.native="closeLive" :title="buttonString"/>
+                <span
+                    class="font-16 p-t-5 p-b-5 p-l-10 p-r-10 pointer"
+                    @click="beforeSubmit"
+                >{{ buttonString }}</span>
             </div>
         </div>
     </div>
@@ -107,11 +90,11 @@
 </template>
 
 <script>
+import HeaderTitle from '@/views/PersonalCenter/Components/HeaderTitle'
 import InputWithError from '@/components/Form/InputWithError'
-import TextareaWithError from '@/components/Form/TextareaWithError'
 import SelectWithError from '@/components/Form/SelectWithError'
 import UploadWithError from '@/components/Form/UploadWithError'
-import { isRequire, Copy } from '@/utils/validator'
+import { isRequire } from '@/utils/validator'
 import { isEmpty, omit } from '@/utils/lodashUtil'
 import { startLive, getOBSAddress, closeLive } from '@/api/Host/Host'
 import { getLeagues, getMatchList } from '@/api/competition/competition'
@@ -119,16 +102,14 @@ import { Message } from 'element-ui'
 import { statusCode } from '@/utils/statusCode'
 import { mapState } from 'vuex'
 import dayjs from 'dayjs'
-import ConfirmButton from '@/components/ConfirmButton'
 export default {
     name: 'OpenLiveBroadCast',
     inject: ['reload'],
     components: {
-        TextareaWithError,
+        HeaderTitle,
         InputWithError,
         SelectWithError,
-        UploadWithError,
-        ConfirmButton
+        UploadWithError
     },
     data () {
         return {
@@ -148,14 +129,6 @@ export default {
                     validators: [],
                     validateLabel: ['isRequire'],
                     updateKey: 'match-false'
-                },
-                announcement: {
-                    label: '直播公告',
-                    value: null,
-                    key: 'announcement',
-                    validators: [],
-                    validateLabel: [],
-                    updateKey: 'announcement-false'
                 },
                 liveCover: {
                     label: '直播封面',
@@ -191,7 +164,7 @@ export default {
             return [1, 2].includes(this.category)
         },
         buttonString () {
-            return this.openBroadcastSuccess ? '结束直播' : '立即开播'
+            return this.openBroadcastSuccess ? '结束直播' : '直播开播'
         },
         categoryOptions () {
             return this.broadcastTypes.filter(x => {
@@ -314,12 +287,6 @@ export default {
                 Message.success('开播成功')
                 this.openBroadcastSuccess = true
                 console.log(data, 'data')
-                this.$router.push({
-                    name: 'PersonalCenter',
-                    params: {
-                        tabId: 8
-                    }
-                })
             }
         },
         changeFile () {
@@ -381,9 +348,6 @@ export default {
             } catch (e) {
                 console.log('出错了')
             }
-        },
-        copyObs (value) {
-            Copy(value)
         }
     }
 }
@@ -409,23 +373,17 @@ export default {
     }
 }
 .obs {
+    margin-left: 155px;
     line-height: 25px;
 }
 .save-button {
-    //span {
-    //    background-color: $background-color1;
-    //    color: $text-white;
-    //    border-radius: 4px;
-    //    &:hover {
-    //        opacity: 0.7;
-    //    }
-    //}
-    width: 138px;
-    height: 47px;
-    .confirm {
-        background: linear-gradient(90deg, #3B5FFF, #A2B3FF);
-        line-height: 47px;
-        border-radius: 3px;
+    span {
+        background-color: $background-color1;
+        color: $text-white;
+        border-radius: 4px;
+        &:hover {
+            opacity: 0.7;
+        }
     }
 }
 ::v-deep {

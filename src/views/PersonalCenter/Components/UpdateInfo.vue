@@ -12,13 +12,19 @@
             <span>{{ value }}</span>
         </div>
     </div>
-    <span class="submit-button m-t-20 pointer font-18 text-333 font-300 d-inline-block text-center" @click="updateOperate">{{ tip }}</span>
+    <component class="submit-button m-t-20 pointer font-18 text-333 font-300 d-inline-block text-center p-0" :is="comName"></component>
 </div>
 </template>
 
 <script>
+import DialogUpdatePassword from '@/views/PersonalCenter/Components/DialogUpdatePassword'
+import DialogUpdatePhone from '@/views/PersonalCenter/Components/DialogUpdatePhone'
 export default {
     name: 'UpdateInfo',
+    components: {
+        DialogUpdatePassword,
+        DialogUpdatePhone
+    },
     props: {
         type: {
             type: String,
@@ -29,9 +35,16 @@ export default {
             default: ''
         }
     },
+    data () {
+        return {
+        }
+    },
     computed: {
         tip () {
             return this.type === 'phone' ? '更改手机号' : '更改密码'
+        },
+        comName () {
+            return this.type === 'phone' ? 'DialogUpdatePhone' : 'DialogUpdatePassword'
         },
         title () {
             return this.type === 'phone' ? '我的手机' : '我的密码'
